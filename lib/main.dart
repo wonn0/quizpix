@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/q_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,7 +56,11 @@ class MyApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0)
             )
           ) 
-        ) 
+        ), 
+        //icon
+        iconTheme: const IconThemeData(
+          size: 20.0
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -128,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            OutlinedButton(onPressed: () {}, child: const Text('asd')),
+            QButton(onPress: () {}, label: 'button test'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
