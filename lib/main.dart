@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/widgets/scan_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -133,7 +134,27 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            QButton(onPress: () {}, label: 'button test'),
+            // scan button samples:
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: true,
+            // ),
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: false,
+            // ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
