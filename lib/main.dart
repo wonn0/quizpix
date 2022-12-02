@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/widgets/stat_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        backgroundColor: const Color(0xfff5f5f5),
         //color palette
         colorScheme: const ColorScheme.light().copyWith(
           //primary orange
@@ -133,7 +135,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            QButton(onPress: () {}, label: 'button test', icon: null),
+            const StatCard(
+              type: 'quiz', 
+              value: 150,
+            ),
+            // const StatCard(
+            //   type: 'score', 
+            //   value: 150,
+            // ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
