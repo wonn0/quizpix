@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            QButton(onPress: () {}, label: 'button test'),
+            QButton(onPress: () {}, label: 'button test', icon: null),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
