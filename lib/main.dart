@@ -155,6 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
             //   onPress: () {},
             //   isLeft: false,
             // ),
+            // button sample
+            //QButton(onPress: () {}, label: 'button test', icon: null),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
