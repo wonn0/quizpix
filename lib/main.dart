@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/q_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,16 +14,53 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        //color palette
+        colorScheme: const ColorScheme.light().copyWith(
+          //primary orange
+          primary: const Color(0xfff69036),
+          onPrimary: const Color(0xffffffff),
+          //accent purple
+          secondary: const Color(0xff6d5271),
+          onSecondary: const Color(0xffffffff),
+          //accent orange
+          tertiary: const Color(0xfffebd54),
+        ),
+        //default text
+        fontFamily: 'Futura',
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            fontSize: 40.0, 
+            fontWeight: FontWeight.w700,
+          ),
+          headline2: TextStyle(fontSize: 30.0),
+          bodyText1: TextStyle(fontSize: 16.0),
+          subtitle1: TextStyle(fontSize: 12.0),
+        ), 
+        //button themes
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0)
+            ),
+          )
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(50),
+            side: const BorderSide(
+              color: Color(0xfff69036),
+              width: 5,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0)
+            )
+          ) 
+        ), 
+        //icon
+        iconTheme: const IconThemeData(
+          size: 20.0
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -95,9 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            QButton(onPress: () {}, label: 'button test'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
