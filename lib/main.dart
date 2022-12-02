@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
+
 import 'package:quizpix/widgets/stat_card.dart';
+import 'package:quizpix/widgets/scan_button.dart';
+import 'package:quizpix/widgets/q_text_field.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -31,38 +35,31 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Futura',
         textTheme: const TextTheme(
           headline1: TextStyle(
-            fontSize: 40.0, 
+            fontSize: 40.0,
             fontWeight: FontWeight.w700,
           ),
           headline2: TextStyle(fontSize: 30.0),
           bodyText1: TextStyle(fontSize: 16.0),
           subtitle1: TextStyle(fontSize: 12.0),
-        ), 
+        ),
         //button themes
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0)
-            ),
-          )
-        ),
+            style: ElevatedButton.styleFrom(
+          minimumSize: const Size.fromHeight(50),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        )),
         outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size.fromHeight(50),
-            side: const BorderSide(
-              color: Color(0xfff69036),
-              width: 5,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0)
-            )
-          ) 
-        ), 
+            style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+                side: const BorderSide(
+                  color: Color(0xfff69036),
+                  width: 5,
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0)))),
         //icon
-        iconTheme: const IconThemeData(
-          size: 20.0
-        ),
+        iconTheme: const IconThemeData(size: 20.0),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -143,10 +140,34 @@ class _MyHomePageState extends State<MyHomePage> {
             //   type: 'score', 
             //   value: 150,
             // ),
+            // scan button samples:
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: true,
+            // ),
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: false,
+            // ),
+            // button sample
+            //QButton(onPress: () {}, label: 'button test', icon: null),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            const QTextField(label: "Email Address"),
           ],
         ),
       ),
