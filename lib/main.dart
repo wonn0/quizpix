@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/q_text_field.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,20 +28,19 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Futura',
         textTheme: const TextTheme(
           headline1: TextStyle(
-            fontSize: 40.0, 
+            fontSize: 40.0,
             fontWeight: FontWeight.w700,
           ),
           headline2: TextStyle(fontSize: 30.0),
           bodyText1: TextStyle(fontSize: 16.0),
           subtitle1: TextStyle(fontSize: 12.0),
-        ), 
+        ),
         //button theme
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(50),
-            shape: const StadiumBorder(),
-          )
-        ),
+            style: ElevatedButton.styleFrom(
+          minimumSize: const Size.fromHeight(50),
+          shape: const StadiumBorder(),
+        )),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -120,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            const QTextField(label: "Email Address"),
           ],
         ),
       ),
