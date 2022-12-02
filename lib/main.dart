@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
-import 'package:quizpix/widgets/scan_button.dart';
 
+import 'package:quizpix/widgets/stat_card.dart';
+import 'package:quizpix/widgets/scan_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        backgroundColor: const Color(0xfff5f5f5),
         //color palette
         colorScheme: const ColorScheme.light().copyWith(
           //primary orange
@@ -129,6 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const StatCard(
+              type: 'quiz', 
+              value: 150,
+            ),
+            // const StatCard(
+            //   type: 'score', 
+            //   value: 150,
+            // ),
             // scan button samples:
             // ScanButton(
             //   label: 'Image',
