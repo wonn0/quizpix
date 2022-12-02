@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/widgets/scan_button.dart';
+
 import 'package:quizpix/widgets/q_text_field.dart';
 
 void main() {
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: const ColorScheme.light().copyWith(
           //primary orange
           primary: const Color(0xfff69036),
+          onPrimary: const Color(0xffffffff),
           //accent purple
           secondary: const Color(0xff6d5271),
           onSecondary: const Color(0xffffffff),
@@ -35,12 +39,24 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(fontSize: 16.0),
           subtitle1: TextStyle(fontSize: 12.0),
         ),
-        //button theme
+        //button themes
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
           minimumSize: const Size.fromHeight(50),
-          shape: const StadiumBorder(),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         )),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+                side: const BorderSide(
+                  color: Color(0xfff69036),
+                  width: 5,
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0)))),
+        //icon
+        iconTheme: const IconThemeData(size: 20.0),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -113,9 +129,29 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            // scan button samples:
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: true,
+            // ),
+            // ScanButton(
+            //   label: 'Image',
+            //   icon: Icon(
+            //     Icons.camera_alt,
+            //     size: 50.0,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   onPress: () {},
+            //   isLeft: false,
+            // ),
+            // button sample
+            //QButton(onPress: () {}, label: 'button test', icon: null),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
