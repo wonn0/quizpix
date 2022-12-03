@@ -18,6 +18,7 @@ class _QButtonOutlineState extends State<QButtonOutline> {
       child: Text(
         style: Theme.of(context).textTheme.bodyText1?.merge(TextStyle(
           color: Theme.of(context).colorScheme.primary,
+          fontWeight: FontWeight.w700,
         )),
         widget.label,
       ),

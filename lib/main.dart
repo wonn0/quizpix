@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/q_dropdown_button.dart';
 import 'package:quizpix/widgets/search_bar.dart';
@@ -135,10 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // const StatCard(
-            //   type: 'quiz',
-            //   value: 150,
-            // ),
+            const StatCard(
+              type: 'quiz',
+              value: 150,
+            ),
             // const StatCard(
             //   type: 'score',
             //   value: 150,
@@ -154,18 +155,19 @@ class _MyHomePageState extends State<MyHomePage> {
             //   onPress: () {},
             //   isLeft: true,
             // ),
-            // ScanButton(
-            //   label: 'Image',
-            //   icon: Icon(
-            //     Icons.camera_alt,
-            //     size: 50.0,
-            //     color: Theme.of(context).colorScheme.primary,
-            //   ),
-            //   onPress: () {},
-            //   isLeft: false,
-            // ),
+            ScanButton(
+              label: 'Image',
+              icon: Icon(
+                Icons.camera_alt,
+                size: 50.0,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onPress: () {},
+              isLeft: false,
+            ),
             // button sample
-            //QButton(onPress: () {}, label: 'button test', icon: null),
+            QButton(onPress: () {}, label: 'button test', icon: null),
+            QButton(onPress: () {}, label: 'button test', icon:const Icon(Icons.access_alarm)),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
@@ -180,6 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
             //   onPress: () {},
             // ),
             QDropdownButton(isSort: true),
+            QuizItem(author: 'a', title: 's', onPress: () {}),
+            QButtonOutline(onPress: () {}, label: 'button test'),
           ],
         ),
       ),

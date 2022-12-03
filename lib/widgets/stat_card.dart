@@ -13,11 +13,11 @@ class StatCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade300,
-            spreadRadius: 1,
-            blurRadius: 15
-          )
+            blurRadius: 4,
+            offset: const Offset(4, 8), // Shadow position
+          ),
         ],
-        color: const Color(0xfffafafa),
+        color: const Color(0xfff6f6f6),
       ),
       padding: const EdgeInsets.all(16.0),
       width: 150.0,
