@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
 
@@ -132,10 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const StatCard(
-              type: 'quiz',
-              value: 150,
-            ),
+            // const StatCard(
+            //   type: 'quiz',
+            //   value: 150,
+            // ),
             // const StatCard(
             //   type: 'score',
             //   value: 150,
@@ -167,7 +168,13 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            ProCard(),
+            // QTextField(label: "Email Address");
+            // ProCard(),
+            HomeButton(
+              isFree: true,
+              isActive: false,
+              onPress: () {},
+            ),
           ],
         ),
       ),
