@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/search_bar.dart';
@@ -168,9 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            // QTextField(label: "Email Address"),
+            // QTextField(label: "Email Address");
             // ProCard(),
-            SearchBar(),
+            // SearchBar(),
+            HomeButton(
+              isFree: true,
+              isActive: false,
+              onPress: () {},
+            ),
           ],
         ),
       ),
