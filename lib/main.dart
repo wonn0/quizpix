@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/widgets/home_button.dart';
+import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
+import 'package:quizpix/widgets/q_dropdown_button.dart';
+import 'package:quizpix/widgets/search_bar.dart';
 import 'package:quizpix/widgets/stat_card.dart';
 import 'package:quizpix/widgets/scan_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -132,12 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const StatCard(
-              type: 'quiz', 
-              value: 150,
-            ),
             // const StatCard(
-            //   type: 'score', 
+            //   type: 'quiz',
+            //   value: 150,
+            // ),
+            // const StatCard(
+            //   type: 'score',
             //   value: 150,
             // ),
             // scan button samples:
@@ -168,7 +171,15 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
             const QTextField(label: "Email Address"),
-            const QuizItem(),
+            // QTextField(label: "Email Address");
+            // ProCard(),
+            // SearchBar(),
+            // HomeButton(
+            //   isFree: true,
+            //   isActive: false,
+            //   onPress: () {},
+            // ),
+            QDropdownButton(isSort: true),
           ],
         ),
       ),
