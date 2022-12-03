@@ -10,6 +10,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController conpasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,79 +22,122 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          padding:
-              EdgeInsets.only(left: 20.0, top: 16.0, right: 20.0, bottom: 32.0),
           decoration: BoxDecoration(
             color: const Color(0xfff5f5f5),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: BoxConstraints(),
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 30.0,
-                    color: const Color(0xff6d5271),
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      padding: EdgeInsets.only(
+                          left: 20.0, top: 16.0, right: 0.0, bottom: 0.0),
+                      constraints: BoxConstraints(),
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 30.0,
+                        color: const Color(0xff6d5271),
+                      ),
+                      onPressed: () {},
+                    ),
                   ),
-                  onPressed: () {},
-                ),
-              ),
-              Spacer(flex: 2),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Image.asset('assets/images/quizpix_logo.png'),
-              ),
-              Spacer(flex: 2),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xfff69036),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+                    child: Image.asset('assets/images/quizpix_logo.png'),
                   ),
-                ),
-              ),
-              Spacer(flex: 1),
-              QTextField(label: "Email Address"),
-              Spacer(flex: 1),
-              QTextField(label: "Username"),
-              Spacer(flex: 1),
-              QTextField(label: "Password"),
-              Spacer(flex: 1),
-              QTextField(label: "Confirm Password"),
-              Spacer(flex: 1),
-              RichText(
-                textAlign: TextAlign.center,
-                text: const TextSpan(
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0x996d5271),
-                    letterSpacing: 0.2,
-                    wordSpacing: 0.5,
-                    height: 2,
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xfff69036),
+                      ),
+                    ),
                   ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    child: QTextField(
+                      label: "Email Address",
+                      textController: emailController,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    child: QTextField(
+                      label: "Username",
+                      textController: usernameController,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    child: QTextField(
+                      label: "Password",
+                      textController: passwordController,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    child: QTextField(
+                      label: "Confirm Password",
+                      textController: conpasswordController,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0x996d5271),
+                          letterSpacing: 0.2,
+                          wordSpacing: 0.5,
+                          height: 2,
+                        ),
+                        children: [
+                          TextSpan(text: 'By signing up, you agree to the '),
+                          TextSpan(
+                              text: 'Terms & Conditions ',
+                              style: TextStyle(color: Color(0xff6d5271))),
+                          TextSpan(text: 'and '),
+                          TextSpan(
+                              text: 'Privacy Policy',
+                              style: TextStyle(color: Color(0xff6d5271))),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextSpan(text: 'By signing up, you agree to the '),
-                    TextSpan(
-                        text: 'Terms & Conditions ',
-                        style: TextStyle(color: Color(0xff6d5271))),
-                    TextSpan(text: 'and '),
-                    TextSpan(
-                        text: 'Privacy Policy',
-                        style: TextStyle(color: Color(0xff6d5271))),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
+                      child: QButton(
+                          label: "Complete Registration", onPress: () {}),
+                    ),
                   ],
                 ),
               ),
-              Spacer(flex: 2),
-              QButton(label: "Complete Registration", onPress: () {}),
             ],
+            // padding: EdgeInsets.only(
+            //     left: 20.0, top: 16.0, right: 20.0, bottom: 32.0),
           ),
         ),
       ),
