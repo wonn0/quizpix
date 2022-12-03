@@ -29,7 +29,7 @@ class HomeButton extends StatelessWidget {
     if (y) {
       return const Color(0xfff69036);
     }
-    return const Color(0xff909090);
+    return const Color(0xffd3d3d3);
   }
 
   @override
