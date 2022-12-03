@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class QuizItem extends StatefulWidget {
-  const QuizItem({super.key});
+  const QuizItem({super.key, required this.author, required this.title, required this.onPress});
+
+  final String author;
+  final String title;
+  final Function() onPress;
 
   @override
   State<QuizItem> createState() => _QuizItemState();
@@ -27,7 +31,7 @@ class _QuizItemState extends State<QuizItem> {
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: InkWell(
-            onTap: () {},
+            onTap: widget.onPress,
             borderRadius: BorderRadius.circular(8.0),          
             child: Container(
               padding: const EdgeInsets.all(8.0),
@@ -65,13 +69,13 @@ class _QuizItemState extends State<QuizItem> {
                             style: Theme.of(context).textTheme.bodyText1!.merge(TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                             )),
-                            'Power of Love'
+                            widget.title
                           ),
                           Text(
                             style: Theme.of(context).textTheme.subtitle1!.merge(const TextStyle(
                               color: Color(0x996d5271)
                             )),
-                            'Quiz Maker: Robert'
+                            'Quiz Maker: ${widget.author}'
                           ),
                         ],
                       ),
