@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class QTextField extends StatelessWidget {
-  const QTextField({super.key, required this.label});
+  const QTextField(
+      {super.key, required this.label, required this.textController});
 
   final String label;
+  final TextEditingController textController;
 
   IconData iconPicker(String txt) {
     switch (txt) {
@@ -48,6 +50,7 @@ class QTextField extends StatelessWidget {
           Expanded(
             child: TextField(
               maxLines: 1,
+              controller: textController,
               style: const TextStyle(
                 color: Color(0xff909090),
                 fontSize: 16.0,
