@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/samples/questions.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
+import 'package:quizpix/widgets/question_list.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/q_dropdown_button.dart';
@@ -140,9 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const StatCard(
-              type: 'quiz',
-              value: 150,
+            QuestionList(
+              questions: questions,
             ),
             // const StatCard(
             //   type: 'score',
