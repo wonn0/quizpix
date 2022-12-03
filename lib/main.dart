@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
-
+import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/stat_card.dart';
 import 'package:quizpix/widgets/scan_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
@@ -168,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
             const QTextField(label: "Email Address"),
+            const QuizItem(),
           ],
         ),
       ),
