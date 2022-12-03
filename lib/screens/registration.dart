@@ -22,8 +22,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xfff5f5f5),
+          decoration: const BoxDecoration(
+            color: Color(0xfff5f5f5),
           ),
           child: CustomScrollView(
             slivers: [
@@ -32,69 +32,69 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 20.0, top: 16.0, right: 0.0, bottom: 0.0),
-                      constraints: BoxConstraints(),
-                      icon: Icon(
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(
                         Icons.arrow_back,
                         size: 30.0,
-                        color: const Color(0xff6d5271),
+                        color: Color(0xff6d5271),
                       ),
                       onPressed: () {},
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40.0, vertical: 40.0),
                     child: Image.asset('assets/images/quizpix_logo.png'),
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 20.0),
-                    child: Text(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: const Text(
                       "Sign Up",
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xfff69036),
+                        color: Color(0xfff69036),
                       ),
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Email Address",
                       textController: emailController,
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Username",
                       textController: usernameController,
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Password",
                       textController: passwordController,
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Confirm Password",
                       textController: conpasswordController,
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, top: 12.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: const TextSpan(
@@ -127,7 +127,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
                       child: QButton(
                           label: "Complete Registration", onPress: () {}),
@@ -136,8 +136,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
             ],
-            // padding: EdgeInsets.only(
-            //     left: 20.0, top: 16.0, right: 20.0, bottom: 32.0),
           ),
         ),
       ),
