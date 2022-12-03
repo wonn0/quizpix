@@ -3,6 +3,7 @@ import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
+import 'package:quizpix/widgets/q_icon_button.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/q_dropdown_button.dart';
 import 'package:quizpix/widgets/search_bar.dart';
@@ -167,7 +168,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // button sample
             QButton(onPress: () {}, label: 'button test', icon: null),
-            QButton(onPress: () {}, label: 'button test', icon:const Icon(Icons.access_alarm)),
+            QButton(
+                onPress: () {},
+                label: 'button test',
+                icon: const Icon(Icons.access_alarm)),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
@@ -184,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
             QDropdownButton(isSort: true),
             QuizItem(author: 'a', title: 's', onPress: () {}),
             QButtonOutline(onPress: () {}, label: 'button test'),
+            QIconButton(onPress: () {}, icon: Icons.download),
           ],
         ),
       ),
