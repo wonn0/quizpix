@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/widgets/search_bar.dart';
 
 import 'package:quizpix/widgets/stat_card.dart';
 import 'package:quizpix/widgets/scan_button.dart';
@@ -170,6 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // QTextField(label: "Email Address");
             // ProCard(),
+            // SearchBar(),
             HomeButton(
               isFree: true,
               isActive: false,
