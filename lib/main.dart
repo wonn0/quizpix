@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
         iconTheme: const IconThemeData(size: 20.0),
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const RegistrationScreen(),
+      home: const LoginScreen(),
     );
   }
 }
