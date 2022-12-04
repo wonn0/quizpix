@@ -3,6 +3,7 @@ import 'package:quizpix/samples/questions.dart';
 import 'package:quizpix/screens/home_tab.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
+import 'package:quizpix/screens/scan_confirmation.dart';
 import 'package:quizpix/screens/scan_tab.dart';
 import 'package:quizpix/screens/home_controller.dart';
 import 'package:quizpix/widgets/home_button.dart';
