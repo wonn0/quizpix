@@ -4,6 +4,7 @@ import 'package:quizpix/screens/home_tab.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
 import 'package:quizpix/screens/scan_tab.dart';
+import 'package:quizpix/screens/home_controller.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
@@ -29,6 +30,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/register': (context) => const RegistrationScreen(),
+        '/home': (context) => const HomeController(),
+      },
       theme: ThemeData(
         backgroundColor: const Color(0xfff5f5f5),
         //color palette
@@ -73,9 +80,6 @@ class MyApp extends StatelessWidget {
         //icon
         iconTheme: const IconThemeData(size: 20.0),
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: const LoginScreen(),
-      home: const HomeTab(),
     );
   }
 }

@@ -88,7 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 20.0),
-                      child: QButton(label: "Login", onPress: () {}),
+                      child: QButton(label: "Login", onPress: () {
+                        Navigator.pushNamed(context, '/home');
+                      }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -121,7 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
-                      child: QButtonOutline(label: "Sign Up", onPress: () {}),
+                      child: QButtonOutline(label: "Sign Up", onPress: () {
+                        Navigator.pushNamed(context, '/register');
+                      }),
                     ),
                   ],
                 ),
