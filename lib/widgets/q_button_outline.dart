@@ -13,13 +13,19 @@ class QButtonOutline extends StatefulWidget {
 class _QButtonOutlineState extends State<QButtonOutline> {
   @override
   Widget build(BuildContext context) {
-      return OutlinedButton(
-      onPressed: widget.onPress, 
+    return OutlinedButton(
+      onPressed: widget.onPress,
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(
+          width: 2.0,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
       child: Text(
         style: Theme.of(context).textTheme.bodyText1?.merge(TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.w700,
-        )),
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w700,
+            )),
         widget.label,
       ),
     );
