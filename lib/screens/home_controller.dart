@@ -12,7 +12,7 @@ class HomeController extends StatefulWidget {
 }
 
 class _HomeControllerState extends State<HomeController> {
-  int currentIndex = 0;
+  int currentIndex = 1;
 
   static const List<Widget> homeOptions = <Widget>[
     ProfileTab(),
@@ -28,7 +28,7 @@ class _HomeControllerState extends State<HomeController> {
         bottomNavigationBar: Container(
             height: 60.0,
             margin:
-                const EdgeInsets.only(bottom: 12.0, left: 16.0, right: 16.0),
+                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
             decoration: BoxDecoration(
               color: const Color(0xfff6f6f6),
               borderRadius: BorderRadius.circular(50.0),
@@ -38,6 +38,7 @@ class _HomeControllerState extends State<HomeController> {
                 children: [
                   IconButton(
                       enableFeedback: false,
+                      splashRadius: 20.0,
                       onPressed: () {
                         setState(() {
                           currentIndex = 0;
@@ -51,6 +52,7 @@ class _HomeControllerState extends State<HomeController> {
                               color: Color(0xffd3d3d3), size: 30.0)),
                   IconButton(
                       enableFeedback: false,
+                      splashRadius: 20.0,
                       onPressed: () {
                         setState(() {
                           currentIndex = 1;
@@ -64,6 +66,7 @@ class _HomeControllerState extends State<HomeController> {
                               color: Color(0xffd3d3d3), size: 30.0)),
                   IconButton(
                       enableFeedback: false,
+                      splashRadius: 20.0,
                       onPressed: () {
                         setState(() {
                           currentIndex = 2;

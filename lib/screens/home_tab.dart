@@ -15,13 +15,16 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  bool isActiveFree = true;
+  bool isActivePremium = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16.0),
+          // padding: const EdgeInsets.all(16.0),
           child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,13 +34,24 @@ class _HomeTabState extends State<HomeTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      HomeButton(isFree: true, isActive: true, onPress: () {}),
-                      HomeButton(isFree: false, isActive: false, onPress: () {}),
+                      HomeButton(isFree: true, isActive: isActiveFree, onPress: () {
+                        setState(() {
+                          isActiveFree = true;
+                          isActivePremium = false;
+                        });
+                      }),
+                      const SizedBox(width: 16.0),
+                      HomeButton(isFree: false, isActive: isActivePremium, onPress: () {
+                        setState(() {
+                          isActiveFree = false;
+                          isActivePremium = true;
+                        });
+                      }),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Text(
                     style: Theme.of(context).textTheme.headline3!.merge(TextStyle(
                       fontWeight: FontWeight.w700,
@@ -47,11 +61,11 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: const SearchBar(),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -65,24 +79,26 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ),
                       const QDropdownButton(isSort: true),
-                      const SizedBox(width: 10.0),
+                      const SizedBox(width: 16.0),
                       const QDropdownButton(isSort: false)
                     ],
                   ),
                 ),
                 const SizedBox(width: 12.0),
                 Expanded(
-                  child: ListView.separated(
+                  child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: items.length,
                     itemBuilder: (context, index) {
-                      return QuizItem(
-                        author: items[index].author,
-                        title: items[index].title,
-                        onPress: () {},
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: QuizItem(
+                          author: items[index].author,
+                          title: items[index].title,
+                          onPress: () {},
+                        )
                       );
                     },
-                    separatorBuilder: (context, index) => const SizedBox(height: 10.0),
                   )
                 ),
               ],
