@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/samples/questions.dart';
+import 'package:quizpix/screens/home_tab.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
 import 'package:quizpix/screens/scan_confirmation.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
           headline2: TextStyle(fontSize: 30.0),
+          headline3: TextStyle(fontSize: 20.0),
           bodyText1: TextStyle(fontSize: 16.0),
           subtitle1: TextStyle(fontSize: 12.0),
         ),
@@ -75,6 +77,7 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const LoginScreen(),
       // home: const ScanTab(),
+      // home: const HomeTab(),
       home: const ScanConfirmation(
           text: "The quick brown fox jumps over the lazy dog"),
     );
