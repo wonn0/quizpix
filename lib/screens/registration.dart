@@ -40,7 +40,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         size: 30.0,
                         color: Color(0xff6d5271),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                   Padding(
@@ -130,7 +132,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
                       child: QButton(
-                          label: "Complete Registration", onPress: () {}),
+                          label: "Complete Registration", onPress: () {
+                            Navigator.pushNamed(context, '/');
+                          }),
                     ),
                   ],
                 ),

@@ -24,6 +24,7 @@ class _ScanButtonState extends State<ScanButton> {
       return Container(
           margin: const EdgeInsets.only(left: 80.0),
           child: Material(
+            color: Colors.transparent,
               child: Ink(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(

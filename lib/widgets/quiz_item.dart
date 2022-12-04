@@ -25,6 +25,7 @@ class _QuizItemState extends State<QuizItem> {
         ]
       ),
       child: Material(
+        color: Colors.transparent,
         child: Ink(
           decoration: BoxDecoration(
             color: const Color(0xfff6f6f6),

@@ -27,7 +27,7 @@ class ScanTab extends StatelessWidget {
         child: Container(
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Color(0xfff5f5f5),
+            color: Color(0xfffafafa),
           ),
           child: Column(
             children: [
@@ -86,25 +86,6 @@ class ScanTab extends StatelessWidget {
                   },
                   isLeft: false),
               const Spacer(flex: 1),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(
-                    left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
-                decoration: const BoxDecoration(
-                  color: Color(0xfff69036),
-                ),
-                child: Container(
-                  height: 52.0,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: const Text(
-                    "Insert tab buttons here",
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
