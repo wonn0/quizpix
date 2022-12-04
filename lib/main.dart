@@ -76,10 +76,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const LoginScreen(),
-      // home: const ScanTab(),
+      home: const ScanTab(),
       // home: const HomeTab(),
-      home: const ScanConfirmation(
-          text: "The quick brown fox jumps over the lazy dog"),
+      // home: const ScanConfirmation(
+      //     text: "The quick brown fox jumps over the lazy dog"),
     );
   }
 }

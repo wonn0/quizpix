@@ -1,8 +1,23 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:quizpix/widgets/scan_button.dart';
 
 class ScanTab extends StatelessWidget {
   const ScanTab({super.key});
+
+  Future scanCamera() async {
+    try {
+      final XFile? image =
+          await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) {
+        return;
+      }
+    } on PlatformException {
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +81,9 @@ class ScanTab extends StatelessWidget {
                     size: 50.0,
                     color: Color(0xfff69036),
                   ),
-                  onPress: () {},
+                  onPress: () {
+                    scanCamera();
+                  },
                   isLeft: false),
               const Spacer(flex: 1),
               Container(
