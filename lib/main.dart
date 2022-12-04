@@ -3,6 +3,7 @@ import 'package:quizpix/samples/questions.dart';
 import 'package:quizpix/screens/home_tab.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
+import 'package:quizpix/screens/scan_confirmation.dart';
 import 'package:quizpix/screens/scan_tab.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
@@ -75,7 +76,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const LoginScreen(),
-      home: const HomeTab(),
+      // home: const ScanTab(),
+      // home: const HomeTab(),
+      home: const ScanConfirmation(
+          text: "The quick brown fox jumps over the lazy dog"),
     );
   }
 }
