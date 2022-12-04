@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizpix/samples/questions.dart';
 import 'package:quizpix/screens/login.dart';
 import 'package:quizpix/screens/registration.dart';
+import 'package:quizpix/screens/scan_tab.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
@@ -71,7 +72,8 @@ class MyApp extends StatelessWidget {
         iconTheme: const IconThemeData(size: 20.0),
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const LoginScreen(),
+      // home: const LoginScreen(),
+      home: const ScanTab(),
     );
   }
 }
