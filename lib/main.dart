@@ -6,6 +6,7 @@ import 'package:quizpix/screens/registration.dart';
 import 'package:quizpix/screens/scan_confirmation.dart';
 import 'package:quizpix/screens/scan_tab.dart';
 import 'package:quizpix/screens/home_controller.dart';
+import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/register': (context) => const RegistrationScreen(),
         '/home': (context) => const HomeController(),
+        '/view-quiz': (context) => const ViewQuiz(),
       },
       theme: ThemeData(
         backgroundColor: const Color(0xfff5f5f5),

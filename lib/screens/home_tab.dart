@@ -95,7 +95,9 @@ class _HomeTabState extends State<HomeTab> {
                         child: QuizItem(
                           author: items[index].author,
                           title: items[index].title,
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.pushNamed(context, '/view-quiz');
+                          },
                         )
                       );
                     },
