@@ -9,35 +9,41 @@ class QuestionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 4.0,
-        ),
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      padding: const EdgeInsets.all(8.0),
-      child: Expanded(
+    // return Expanded(
+    //     child: Column(
+    //   children: [
+    //     ListView.builder(
+    //       shrinkWrap: true,
+    //       physics: const NeverScrollableScrollPhysics(),
+    //       itemCount: questions.length,
+    //       itemBuilder: (context, index) {
+    //         return QuestionItem(
+    //             index: index,
+    //             type: questions[index].type,
+    //             question: questions[index].question,
+    //             answer: questions[index].answer,
+    //             choices: questions[index].choices!);
+    //       },
+    //     )
+    //   ],
+    // ));
+    return Expanded(
         child: Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: questions.length,
-              itemBuilder: (context, index) {
-                return QuestionItem(
-                  index: index, 
-                  type: questions[index].type, 
-                  question: questions[index].question, 
-                  answer: questions[index].answer, 
-                  choices: questions[index].choices!
-                );
-              },
-            )
-          ],
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: questions.length,
+          itemBuilder: (context, index) {
+            return QuestionItem(
+                index: index,
+                type: questions[index].type,
+                question: questions[index].question,
+                answer: questions[index].answer,
+                choices: questions[index].choices!);
+          },
         )
-      ),
-    );
+      ],
+    ));
   }
 }

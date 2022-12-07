@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/view_quiz.dart';
 //widgets
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/q_dropdown_button.dart';
@@ -6,6 +7,7 @@ import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/search_bar.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
+import 'package:quizpix/samples/questions.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -109,7 +111,18 @@ class _HomeTabState extends State<HomeTab> {
                         child: QuizItem(
                           author: items[index].author,
                           title: items[index].title,
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewQuiz(
+                                  author: items[index].author,
+                                  title: items[index].title,
+                                  questions: questions,
+                                ),
+                              ),
+                            );
+                          },
                         ));
                   },
                 )),
