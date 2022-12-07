@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/register': (context) => const RegistrationScreen(),
         '/home': (context) => const HomeController(),
-        '/view-quiz': (context) => const ViewQuiz(),
+        // '/view-quiz': (context) => const ViewQuiz(),
       },
       theme: ThemeData(
         backgroundColor: const Color(0xfff5f5f5),
