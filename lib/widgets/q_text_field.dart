@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 
-class QTextField extends StatelessWidget {
+class QTextField extends StatefulWidget {
   const QTextField(
       {super.key, required this.label, required this.textController});
 
   final String label;
   final TextEditingController textController;
+
+  @override
+  State<QTextField> createState() => _QTextFieldState();
+}
+
+class _QTextFieldState extends State<QTextField> {
+  bool isVisible = true;
+
+  bool isPassword(String txt) {
+    switch (txt) {
+      case "Password":
+      case "Confirm Password":
+      case "New Password":
+        return true;
+      default:
+        return false;
+    }
+  }
 
   IconData iconPicker(String txt) {
     switch (txt) {
@@ -39,18 +57,11 @@ class QTextField extends StatelessWidget {
       width: double.infinity,
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
-              iconPicker(label),
-              size: 30.0,
-              color: const Color(0xff909090),
-            ),
-          ),
           Expanded(
             child: TextField(
               maxLines: 1,
-              controller: textController,
+              obscureText: isPassword(widget.label) && !isVisible,
+              controller: widget.textController,
               style: const TextStyle(
                 color: Color(0xff909090),
                 fontSize: 16.0,
@@ -67,11 +78,41 @@ class QTextField extends StatelessWidget {
                     color: Color(0xffd3d3d3),
                   ),
                 ),
-                contentPadding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
-                labelText: label,
+                contentPadding: const EdgeInsets.only(right: 4.0),
+                labelText: widget.label,
                 labelStyle: const TextStyle(
                   color: Color(0xff909090),
                 ),
+                icon: IconButton(
+                  onPressed: null,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    iconPicker(widget.label),
+                    size: 30.0,
+                    color: const Color(0xff909090),
+                  ),
+                ),
+                suffixIcon: isPassword(widget.label)
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isVisible = !isVisible;
+                          });
+                        },
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(
+                          maxHeight: 16.0,
+                        ),
+                        icon: Icon(
+                          isVisible
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 16.0,
+                          color: const Color(0xff909090),
+                        ),
+                      )
+                    : const SizedBox(height: 16.0),
               ),
             ),
           ),

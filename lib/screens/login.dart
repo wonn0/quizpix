@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 20.0, right: 20.0),
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Email Address",
                       textController: emailController,
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 20.0, right: 20.0),
+                        left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
                       label: "Password",
                       textController: passwordController,
@@ -88,9 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 20.0),
-                      child: QButton(label: "Login", onPress: () {
-                        Navigator.pushNamed(context, '/home');
-                      }),
+                      child: QButton(
+                          label: "Login",
+                          onPress: () {
+                            Navigator.pushNamed(context, '/home');
+                          }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -123,9 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
-                      child: QButtonOutline(label: "Sign Up", onPress: () {
-                        Navigator.pushNamed(context, '/register');
-                      }),
+                      child: QButtonOutline(
+                          label: "Sign Up",
+                          onPress: () {
+                            Navigator.pushNamed(context, '/register');
+                          }),
                     ),
                   ],
                 ),
