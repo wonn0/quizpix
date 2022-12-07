@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "7118703995",
+    "project_id": "quizpix-demo",
+    "storage_bucket": "quizpix-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7118703995:android:e00a93ab28ee4e9f3241de",
+        "android_client_info": {
+          "package_name": "com.example.quizpix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7118703995-2rdfmc3sik66pk6b1b6v46qe12d7nfia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnP08KJdN45u_Ou6d9V3gA379I9dKGr9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7118703995-2rdfmc3sik66pk6b1b6v46qe12d7nfia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
