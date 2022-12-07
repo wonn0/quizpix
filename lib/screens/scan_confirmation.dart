@@ -100,12 +100,19 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                       child: Row(
                         children: [
                           Expanded(
-                            child:
-                                QButtonOutline(label: "Cancel", onPress: () {}),
+                            child: QButtonOutline(
+                                label: "Cancel",
+                                onPress: () {
+                                  Navigator.pushNamed(context, '/home');
+                                }),
                           ),
                           const SizedBox(width: 20.0),
                           Expanded(
-                            child: QButton(label: "Generate", onPress: () {}),
+                            child: QButton(
+                                label: "Generate",
+                                onPress: () {
+                                  Navigator.pushNamed(context, '/home');
+                                }),
                           ),
                         ],
                       ),
