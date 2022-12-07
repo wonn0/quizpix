@@ -46,8 +46,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40.0, vertical: 40.0),
+                    padding: const EdgeInsets.only(
+                        left: 40.0, top: 28.0, right: 40.0, bottom: 28.0),
                     child: Image.asset('assets/images/quizpix_logo.png'),
                   ),
                   Container(
@@ -72,7 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 12.0, right: 20.0),
+                        left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "Username",
                       textController: usernameController,
@@ -80,7 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 12.0, right: 20.0),
+                        left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "Password",
                       textController: passwordController,
@@ -88,7 +88,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 12.0, right: 20.0),
+                        left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "Confirm Password",
                       textController: conpasswordController,
@@ -132,7 +132,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
                       child: QButton(
-                          label: "Complete Registration", onPress: () {
+                          label: "Complete Registration",
+                          onPress: () {
                             Navigator.pushNamed(context, '/');
                           }),
                     ),

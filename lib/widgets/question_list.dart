@@ -9,41 +9,27 @@ class QuestionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Expanded(
-    //     child: Column(
-    //   children: [
-    //     ListView.builder(
-    //       shrinkWrap: true,
-    //       physics: const NeverScrollableScrollPhysics(),
-    //       itemCount: questions.length,
-    //       itemBuilder: (context, index) {
-    //         return QuestionItem(
-    //             index: index,
-    //             type: questions[index].type,
-    //             question: questions[index].question,
-    //             answer: questions[index].answer,
-    //             choices: questions[index].choices!);
-    //       },
-    //     )
-    //   ],
-    // ));
-    return Expanded(
-        child: Column(
+    return Row(
       children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: questions.length,
-          itemBuilder: (context, index) {
-            return QuestionItem(
-                index: index,
-                type: questions[index].type,
-                question: questions[index].question,
-                answer: questions[index].answer,
-                choices: questions[index].choices!);
-          },
-        )
+        Expanded(
+            child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: questions.length,
+              itemBuilder: (context, index) {
+                return QuestionItem(
+                    index: index,
+                    type: questions[index].type,
+                    question: questions[index].question,
+                    answer: questions[index].answer,
+                    choices: questions[index].choices!);
+              },
+            )
+          ],
+        ))
       ],
-    ));
+    );
   }
 }
