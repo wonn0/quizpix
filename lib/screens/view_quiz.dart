@@ -50,7 +50,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                     },
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Container(
                   height: 160.0,
                   width: 160.0,
@@ -61,66 +61,66 @@ class _ViewQuizState extends State<ViewQuiz> {
                   ),
                   child: Image.asset('assets/images/book1.jpg'),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
                     widget.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
-                      color: const Color(0xfff69036),
+                      color: Color(0xfff69036),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
                     "Quiz Maker: ${widget.author}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      color: const Color(0xff6d5271),
+                      color: Color(0xff6d5271),
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: QButton(
                     label: "Play Quiz",
                     onPress: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.play_circle_outlined,
                       size: 30.0,
-                      color: const Color(0xffffffff),
+                      color: Color(0xffffffff),
                     ),
                   ),
                 ),
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: QButton(
                     label: "Share Quiz",
                     onPress: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.share,
                       size: 30.0,
-                      color: const Color(0xffffffff),
+                      color: Color(0xffffffff),
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Questions",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
-                          color: const Color(0xfff69036),
+                          color: Color(0xfff69036),
                         ),
                       ),
                       Row(
@@ -129,7 +129,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                             onPress: () {},
                             icon: Icons.download,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8.0,
                           ),
                           QIconButton(
@@ -147,7 +147,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                   child: Container(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 12.0, right: 20.0, bottom: 20.0),
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         minHeight: 200.0,
                       ),
                       decoration: BoxDecoration(

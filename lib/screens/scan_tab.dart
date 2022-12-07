@@ -24,7 +24,7 @@ class ScanTab extends StatefulWidget {
 
 class _ScanTabState extends State<ScanTab> {
   String _text = '';
-  late PickedFile _image;
+  late XFile _image;
   final picker = ImagePicker();
   bool _load = false;
 
@@ -142,7 +142,8 @@ class _ScanTabState extends State<ScanTab> {
   }
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
         _image = pickedFile;
