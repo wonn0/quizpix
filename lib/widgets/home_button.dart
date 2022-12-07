@@ -34,38 +34,40 @@ class HomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 72.0,
-      width: 156.0,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            offset: const Offset(4.0, 4.0),
-            spreadRadius: 1,
-            blurRadius: 12,
+    return GestureDetector(
+        onTap: onPress,
+        child: Container(
+          height: 72.0,
+          width: 156.0,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade300,
+                offset: const Offset(4.0, 4.0),
+                spreadRadius: 1,
+                blurRadius: 12,
+              ),
+            ],
+            color: const Color(0xfffafafa),
           ),
-        ],
-        color: const Color(0xfffafafa),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 4.0),
-            child: Icon(
-              iconPicker(isFree),
-              size: 30.0,
-              color: colorPicker(isActive),
-            ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(top: 12.0, bottom: 4.0),
+                child: Icon(
+                  iconPicker(isFree),
+                  size: 30.0,
+                  color: colorPicker(isActive),
+                ),
+              ),
+              Text(
+                textPicker(isFree),
+                style: TextStyle(
+                  color: colorPicker(isActive),
+                ),
+              ),
+            ],
           ),
-          Text(
-            textPicker(isFree),
-            style: TextStyle(
-              color: colorPicker(isActive),
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

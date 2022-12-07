@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/quiz_generated.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 
@@ -111,7 +112,9 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                             child: QButton(
                                 label: "Generate",
                                 onPress: () {
-                                  Navigator.pushNamed(context, '/home');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const QuizGenerated()));
                                 }),
                           ),
                         ],
