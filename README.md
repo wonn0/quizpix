@@ -1,2 +1,1 @@
-# quizpix
-QuizPix Mobile Application
+# OCR Camera

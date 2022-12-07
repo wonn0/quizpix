@@ -19,8 +19,8 @@ class _QuizItemState extends State<QuizItem> {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade300,
-            blurRadius: 8,
-            offset: const Offset(4, 4), // Shadow position
+            blurRadius: 4,
+            offset: const Offset(4, 8), // Shadow position
           ),
         ]
       ),
