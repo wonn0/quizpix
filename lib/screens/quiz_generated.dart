@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/samples/answers.dart';
 import 'package:quizpix/screens/view_quiz.dart';
+import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
@@ -76,7 +78,11 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                   ),
                   const SizedBox(height: 16.0),
                   QButton(
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ViewResults(
+                              questions: questions, answers: answers)));
+                    },
                     label: 'Play Quiz',
                     icon: const Icon(Icons.gamepad_outlined),
                   ),
@@ -85,7 +91,7 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                     onPress: () {
                       Navigator.pushNamed(context, '/home');
                     },
-                    label: 'Scan Another',
+                    label: 'Back to Scan',
                     icon: const Icon(Icons.camera_enhance_outlined),
                   )
                 ],
