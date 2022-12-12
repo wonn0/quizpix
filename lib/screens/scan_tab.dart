@@ -25,6 +25,7 @@ class ScanTab extends StatefulWidget {
 class _ScanTabState extends State<ScanTab> {
   String _text = '';
   late XFile _image;
+  late List<XFile> _images;
   final picker = ImagePicker();
   bool _load = false;
 
@@ -80,7 +81,9 @@ class _ScanTabState extends State<ScanTab> {
                     size: 50.0,
                     color: Color(0xfff69036),
                   ),
-                  onPress: () {},
+                  onPress: () {
+                    getImages();
+                  },
                   isLeft: true),
               const Spacer(flex: 1),
               ScanButton(
@@ -91,7 +94,7 @@ class _ScanTabState extends State<ScanTab> {
                     color: Color(0xfff69036),
                   ),
                   onPress: () {
-                    getImage();
+                    getCamera();
                   },
                   isLeft: false),
               const Spacer(flex: 1),
@@ -114,7 +117,50 @@ class _ScanTabState extends State<ScanTab> {
     );
   }
 
-  Future scanText() async {
+  Future scanTextFromImages() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    for (final img in _images) {
+      final FirebaseVisionImage visionImage =
+          FirebaseVisionImage.fromFile(File(img.path));
+      final TextRecognizer textRecognizer =
+          FirebaseVision.instance.textRecognizer();
+      final VisionText visionText =
+          await textRecognizer.processImage(visionImage);
+
+      for (TextBlock block in visionText.blocks) {
+        for (TextLine line in block.lines) {
+          _text += line.text + '\n';
+        }
+      }
+    }
+
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
+  }
+
+  Future getImages() async {
+    final List<XFile>? pickedFiles = await picker.pickMultiImage();
+    setState(() {
+      if (pickedFiles != null) {
+        _images = pickedFiles;
+        _load = false;
+        scanTextFromImages();
+      } else {
+        print('No image selected');
+      }
+    });
+  }
+
+  Future scanTextFromCamera() async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -141,14 +187,14 @@ class _ScanTabState extends State<ScanTab> {
         MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
   }
 
-  Future getImage() async {
+  Future getCamera() async {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
         _image = pickedFile;
         _load = false;
-        scanText();
+        scanTextFromCamera();
       } else {
         print('No image selected');
       }
