@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/samples/answers.dart';
 import 'package:quizpix/screens/view_quiz.dart';
+import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/samples/items.dart';
 import 'package:quizpix/samples/questions.dart';
@@ -72,10 +74,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 QButton(
                   onPress: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ViewQuiz(
-                            author: items[0].author,
-                            title: items[0].title,
-                            questions: questions)));
+                        builder: (context) => ViewResults(
+                              questions: questions,
+                              answers: answers,
+                            )));
                   },
                   label: 'View Results',
                   icon: const Icon(Icons.visibility_outlined),

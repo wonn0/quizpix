@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/screens/quiz_generated.dart';
+import 'package:quizpix/screens/result_screen.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/q_button.dart';
 //samples
@@ -49,7 +50,14 @@ class _PlayQuizState extends State<PlayQuiz> {
                 width: 150,
                 height: 120,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResultScreen(
+                                result: 'win',
+                                total: 20,
+                                score: 15,
+                              )));
+                    },
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 8.0,
@@ -70,9 +78,15 @@ class _PlayQuizState extends State<PlayQuiz> {
               Container(
                 width: 150,
                 height: 120,
-                
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResultScreen(
+                                result: 'lose',
+                                total: 20,
+                                score: 10,
+                              )));
+                    },
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 8.0,
