@@ -4,8 +4,9 @@ import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 
 class ScanConfirmation extends StatefulWidget {
-  const ScanConfirmation({super.key, this.text});
+  const ScanConfirmation({super.key, this.title, this.text});
 
+  final String? title;
   final String? text;
 
   @override
@@ -35,12 +36,12 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
             slivers: [
               SliverList(
                 delegate: SliverChildListDelegate([
-                  const Padding(
-                    padding: EdgeInsets.only(
+                  Padding(
+                    padding: const EdgeInsets.only(
                         left: 20.0, top: 40.0, right: 20.0, bottom: 40.0),
                     child: Text(
-                      "Finalize your reading material",
-                      style: TextStyle(
+                      widget.title ?? "Finalize your reading material",
+                      style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w700,
                         color: Color(0xfff69036),

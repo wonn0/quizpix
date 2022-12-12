@@ -71,7 +71,11 @@ class _ScanTabState extends State<ScanTab> {
                     size: 50.0,
                     color: Color(0xfff69036),
                   ),
-                  onPress: () {},
+                  onPress: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ScanConfirmation(
+                            title: "Input your reading material")));
+                  },
                   isLeft: false),
               const Spacer(flex: 1),
               ScanButton(
