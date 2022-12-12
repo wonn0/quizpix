@@ -132,7 +132,7 @@ class _ScanTabState extends State<ScanTab> {
 
     for (TextBlock block in visionText.blocks) {
       for (TextLine line in block.lines) {
-        _text += line.text + '\n';
+        _text += line.text! + '\n';
       }
     }
 
