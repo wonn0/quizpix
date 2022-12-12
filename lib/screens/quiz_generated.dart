@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/samples/answers.dart';
+import 'package:quizpix/screens/play_quiz.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
