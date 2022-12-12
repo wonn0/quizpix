@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/play_quiz.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/q_button.dart';
 //samples
@@ -76,7 +77,10 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                   ),
                   const SizedBox(height: 16.0),
                   QButton(
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PlayQuiz()));
+                    },
                     label: 'Play Quiz',
                     icon: const Icon(Icons.gamepad_outlined),
                   ),
