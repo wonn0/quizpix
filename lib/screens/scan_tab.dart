@@ -150,7 +150,7 @@ class _ScanTabState extends State<ScanTab> {
   Future getImages() async {
     final List<XFile>? pickedFiles = await picker.pickMultiImage();
     setState(() {
-      if (pickedFiles != null) {
+      if (pickedFiles != null && pickedFiles.isNotEmpty) {
         _images = pickedFiles;
         _load = false;
         scanTextFromImages();
