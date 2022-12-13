@@ -8,6 +8,8 @@ import 'package:quizpix/widgets/search_bar.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
 import 'package:quizpix/samples/questions.dart';
+//models
+import 'package:quizpix/models/item.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -19,6 +21,34 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   bool isActiveFree = true;
   bool isActivePremium = false;
+
+  List<Item> currItems = items;
+  TextEditingController searchController = TextEditingController();
+
+  void filterItems() {
+    List<Item> results = [];
+    if (searchController.text.isEmpty) {
+      results = items;
+    } else {
+      // Inside todosList, it will check for the todoText and check if it contains the enteredKeyword, then convert it to List since results is a List type
+      results = items
+          .where((item) => item.title
+              .toLowerCase()
+              .contains(searchController.text.toLowerCase()))
+          .toList();
+    }
+
+    setState(() {
+      currItems = results;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    searchController.addListener(filterItems);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +106,7 @@ class _HomeTabState extends State<HomeTab> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8.0),
-                    child: const SearchBar(),
+                    child: SearchBar(controller: searchController),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -106,21 +136,21 @@ class _HomeTabState extends State<HomeTab> {
                   Expanded(
                       child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: items.length,
+                    itemCount: currItems.length,
                     itemBuilder: (context, index) {
                       return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           child: QuizItem(
-                            author: items[index].author,
-                            title: items[index].title,
+                            author: currItems[index].author,
+                            title: currItems[index].title,
                             onPress: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ViewQuiz(
-                                    author: items[index].author,
-                                    title: items[index].title,
+                                    author: currItems[index].author,
+                                    title: currItems[index].title,
                                     questions: questions,
                                   ),
                                 ),

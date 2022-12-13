@@ -7,24 +7,24 @@ List<Item> items = [
     'Book One'
   ),
   const Item(
-    'Ron Alunan',
-    'Book One'
+    'Aaron Alcuitas',
+    'Book Two'
   ),
   const Item(
-    'Matthew Alunan',
-    'Book One'
+    'Aloysius Matthew Beronque',
+    'Book Three'
   ),
   const Item(
-    'Ron Matthew',
-    'Book One'
+    'Jerico Jan Adaya',
+    'Book Four'
   ),
   const Item(
-    'Aloysius Matthew',
-    'Book One'
+    'Jillian Joy Tenerife',
+    'Book Five'
   ),
   const Item(
-    'Ron Aaron',
-    'Book One'
+    'Garfield Greg Lim',
+    'Book Six'
   ),
   const Item(
     'Aaron Matthew',
