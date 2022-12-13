@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+class SearchBar extends StatefulWidget {
+  const SearchBar({super.key, required this.controller});
 
+  final TextEditingController controller;
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,6 +24,7 @@ class SearchBar extends StatelessWidget {
       ),
       child: TextField(
         maxLines: 1,
+        controller: widget.controller,
         style: const TextStyle(
           color: Color(0xff909090),
           fontSize: 16.0,
