@@ -39,9 +39,9 @@ class QuestionItem extends StatelessWidget {
         return const Color(0xfff69036);
       } else {
         if ((selAnswer != answer)) {
-          return const Color(0xff86dc3d);
+          return const Color(0xffd0342c);
         }
-        return const Color(0xffd0342c);
+        return const Color(0xff86dc3d);
       }
     }
   }
@@ -146,7 +146,7 @@ class QuestionItem extends StatelessWidget {
                             .merge(TextStyle(
                               color: getColor(3, null, answer, selAnswer),
                             )),
-                        'Answer: $answer'),
+                        'Answer: ${selAnswer ?? answer}'),
                   ],
                 )))
       ],
