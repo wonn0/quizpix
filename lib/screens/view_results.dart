@@ -47,8 +47,8 @@ class _ViewResultsState extends State<ViewResults> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                       left: 20.0, top: 28.0, right: 20.0, bottom: 28.0),
                   child: Text(
                     "Review Your Answers",
