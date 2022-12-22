@@ -8,7 +8,7 @@ class EditDialog extends StatefulWidget {
       required this.type,
       required this.question,
       required this.answer,
-      required this.choices,
+      this.choices,
       required this.updateTemp,
       required this.questionController,
       this.answerController,
@@ -41,53 +41,80 @@ class _EditDialogState extends State<EditDialog> {
   void initState() {
     super.initState();
 
-    answerInd = widget.choices!.indexWhere((choice) => choice == widget.answer);
     widget.questionController.text = widget.question;
-    widget.choiceAController!.text = widget.choices![0];
-    widget.choiceBController!.text = widget.choices![1];
-    widget.choiceCController!.text = widget.choices![2];
-    widget.choiceDController!.text = widget.choices![3];
+    if (widget.type == 1) {
+      answerInd =
+          widget.choices!.indexWhere((choice) => choice == widget.answer);
+      widget.choiceAController!.text = widget.choices![0];
+      widget.choiceBController!.text = widget.choices![1];
+      widget.choiceCController!.text = widget.choices![2];
+      widget.choiceDController!.text = widget.choices![3];
+    } else if (widget.type == 2) {
+      answerInd = widget.answer == 'true' ? 1 : 0;
+    }
   }
 
   bool validateInput() {
-    bool inputIsValid = true;
-    if (widget.questionController.text.trim().isEmpty ||
-        widget.choiceAController!.text.trim().isEmpty ||
-        widget.choiceBController!.text.trim().isEmpty ||
-        widget.choiceCController!.text.trim().isEmpty ||
-        widget.choiceDController!.text.trim().isEmpty) {
-      inputIsValid = false;
+    if (widget.type == 1) {
+      if ((widget.questionController.text.trim() == widget.question) &&
+          (widget.choiceAController!.text.trim() == widget.choices![0]) &&
+          (widget.choiceBController!.text.trim() == widget.choices![1]) &&
+          (widget.choiceCController!.text.trim() == widget.choices![2]) &&
+          (widget.choiceDController!.text.trim() == widget.choices![3]) &&
+          (answerInd ==
+              widget.choices!
+                  .indexWhere((choice) => choice == widget.answer))) {
+        return false;
+      }
+      if (widget.questionController.text.trim().isEmpty ||
+          widget.choiceAController!.text.trim().isEmpty ||
+          widget.choiceBController!.text.trim().isEmpty ||
+          widget.choiceCController!.text.trim().isEmpty ||
+          widget.choiceDController!.text.trim().isEmpty) {
+        return false;
+      }
+      if ((widget.choiceAController!.text.trim() ==
+              widget.choiceBController!.text.trim()) ||
+          (widget.choiceAController!.text.trim() ==
+              widget.choiceCController!.text.trim()) ||
+          (widget.choiceAController!.text.trim() ==
+              widget.choiceDController!.text.trim()) ||
+          (widget.choiceBController!.text.trim() ==
+              widget.choiceCController!.text.trim()) ||
+          (widget.choiceBController!.text.trim() ==
+              widget.choiceDController!.text.trim()) ||
+          (widget.choiceCController!.text.trim() ==
+              widget.choiceDController!.text.trim())) {
+        return false;
+      }
+    } else if (widget.type == 2) {
+      int initAnswerInd = widget.answer == 'true' ? 1 : 0;
+      if (widget.questionController.text.trim().isEmpty ||
+          (widget.questionController.text.trim() == widget.question &&
+              answerInd == initAnswerInd)) {
+        return false;
+      }
     }
-    if ((widget.choiceAController!.text.trim() ==
-            widget.choiceBController!.text.trim()) ||
-        (widget.choiceAController!.text.trim() ==
-            widget.choiceCController!.text.trim()) ||
-        (widget.choiceAController!.text.trim() ==
-            widget.choiceDController!.text.trim()) ||
-        (widget.choiceBController!.text.trim() ==
-            widget.choiceCController!.text.trim()) ||
-        (widget.choiceBController!.text.trim() ==
-            widget.choiceDController!.text.trim()) ||
-        (widget.choiceCController!.text.trim() ==
-            widget.choiceDController!.text.trim())) {
-      inputIsValid = false;
-    }
-    return inputIsValid;
+
+    return true;
   }
 
   String getNewAnswer() {
-    switch (answerInd) {
-      case 0:
-        return widget.choiceAController!.text;
-      case 1:
-        return widget.choiceBController!.text;
-      case 2:
-        return widget.choiceCController!.text;
-      case 3:
-        return widget.choiceDController!.text;
-      default:
-        return widget.choiceAController!.text;
+    if (widget.type == 1) {
+      switch (answerInd) {
+        case 0:
+          return widget.choiceAController!.text;
+        case 1:
+          return widget.choiceBController!.text;
+        case 2:
+          return widget.choiceCController!.text;
+        case 3:
+          return widget.choiceDController!.text;
+        default:
+          return widget.choiceAController!.text;
+      }
     }
+    return "";
   }
 
   @override
@@ -369,6 +396,179 @@ class _EditDialogState extends State<EditDialog> {
                     widget.choiceCController!.text,
                     widget.choiceDController!.text
                   ],
+                );
+                Navigator.of(context).pop();
+                widget.updateTemp(newQuestion, widget.index);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(32, 32),
+              backgroundColor: const Color(0xfff69036),
+              elevation: 4.0,
+            ),
+            child: const Text('Save', style: TextStyle(fontSize: 16.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(32, 32),
+              backgroundColor: const Color(0xff6d5271),
+              elevation: 4.0,
+            ),
+            child: const Text('Cancel', style: TextStyle(fontSize: 16.0)),
+          ),
+        ],
+      );
+    } else if (widget.type == 2) {
+      return AlertDialog(
+        titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
+        contentPadding: const EdgeInsets.only(
+            left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
+        actionsPadding: const EdgeInsets.only(right: 20.0, bottom: 8.0),
+        title: const Text(
+          'Edit Question',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            color: Color(0xfff69036),
+          ),
+        ),
+        content: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overscroll) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: const Text(
+                    'Question',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      color: Color(0xfff69036),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: widget.questionController,
+                  style: const TextStyle(
+                    color: Color(0xff6d5271),
+                    fontSize: 16.0,
+                  ),
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff6d5271),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff6d5271),
+                      ),
+                    ),
+                    filled: false,
+                    labelText: 'Question',
+                    hintText: 'Please enter a valid question',
+                    labelStyle: TextStyle(
+                      color: Color(0xff909090),
+                    ),
+                    hintStyle: TextStyle(
+                      color: Color(0xff909090),
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: const Text(
+                    'Choices & Answer',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      color: Color(0xfff69036),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        Radio<int>(
+                          value: 1,
+                          groupValue: answerInd,
+                          fillColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          focusColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (value) {
+                            setState(() {
+                              answerInd = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 8.0),
+                        const Text('True',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<int>(
+                          value: 0,
+                          groupValue: answerInd,
+                          fillColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          focusColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (value) {
+                            setState(() {
+                              answerInd = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 8.0),
+                        const Text('False',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8.0),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              if (validateInput()) {
+                Question newQuestion = Question(
+                  widget.type,
+                  widget.questionController.text,
+                  answerInd == 1 ? 'true' : 'false',
+                  [],
                 );
                 Navigator.of(context).pop();
                 widget.updateTemp(newQuestion, widget.index);
