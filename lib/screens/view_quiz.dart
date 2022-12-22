@@ -143,7 +143,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                                 ),
                               );
                             },
-                            icon: Icons.edit_outlined,
+                            icon: Icons.edit,
                           ),
                         ],
                       ),

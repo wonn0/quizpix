@@ -12,6 +12,21 @@ class EditQuestions extends StatefulWidget {
 }
 
 class _EditQuestionsState extends State<EditQuestions> {
+  final List<Question> tempQuestions = <Question>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    tempQuestions.addAll(widget.questions);
+  }
+
+  void updateTemp(Question newQuestion, int index) {
+    setState(() {
+      tempQuestions[index] = newQuestion;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,14 +89,15 @@ class _EditQuestionsState extends State<EditQuestions> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: widget.questions.length,
+                      itemCount: tempQuestions.length,
                       itemBuilder: (context, index) {
                         return EditQuestionItem(
                           index: index,
-                          type: widget.questions[index].type,
-                          question: widget.questions[index].question,
-                          answer: widget.questions[index].answer,
-                          choices: widget.questions[index].choices!,
+                          type: tempQuestions[index].type,
+                          question: tempQuestions[index].question,
+                          answer: tempQuestions[index].answer,
+                          choices: tempQuestions[index].choices!,
+                          updateTemp: updateTemp,
                         );
                       },
                     )),
@@ -89,6 +105,20 @@ class _EditQuestionsState extends State<EditQuestions> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        label: const Text(
+          'Add Question',
+          style: TextStyle(
+            fontSize: 16,
+            letterSpacing: 1.0,
+          ),
+        ),
+        icon: const Icon(Icons.add),
+        backgroundColor: const Color(0xfff69036),
       ),
     );
   }

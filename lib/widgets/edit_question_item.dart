@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/constants/choices.dart';
+import 'package:quizpix/widgets/edit_dialog.dart';
+import 'package:quizpix/models/question.dart';
 
 class EditQuestionItem extends StatefulWidget {
   const EditQuestionItem({
@@ -9,6 +11,7 @@ class EditQuestionItem extends StatefulWidget {
     required this.question,
     required this.answer,
     required this.choices,
+    required this.updateTemp,
   });
 
   final int index;
@@ -16,12 +19,40 @@ class EditQuestionItem extends StatefulWidget {
   final String question;
   final String answer;
   final List<String>? choices;
+  final Function(Question, int) updateTemp;
 
   @override
   State<EditQuestionItem> createState() => _EditQuestionItemState();
 }
 
 class _EditQuestionItemState extends State<EditQuestionItem> {
+  final TextEditingController questionController = TextEditingController();
+  final TextEditingController answerController = TextEditingController();
+  final TextEditingController choiceAController = TextEditingController();
+  final TextEditingController choiceBController = TextEditingController();
+  final TextEditingController choiceCController = TextEditingController();
+  final TextEditingController choiceDController = TextEditingController();
+
+  Future<dynamic> displayEditOneDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return EditDialog(
+            index: widget.index,
+            type: widget.type,
+            question: widget.question,
+            answer: widget.answer,
+            choices: widget.choices,
+            questionController: questionController,
+            choiceAController: choiceAController,
+            choiceBController: choiceBController,
+            choiceCController: choiceCController,
+            choiceDController: choiceDController,
+            updateTemp: widget.updateTemp,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.type == 1) {
@@ -45,15 +76,31 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                 color: Color(0xff909090),
                               )),
                           '${widget.index + 1}. ${widget.question}'),
-                      IconButton(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        constraints: const BoxConstraints(),
-                        icon: const Icon(
-                          Icons.edit_outlined,
-                          size: 30.0,
-                          color: Color(0xfff69036),
-                        ),
-                        onPressed: () {},
+                      Row(
+                        children: [
+                          IconButton(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              size: 30.0,
+                              color: Color(0xfff69036),
+                            ),
+                            onPressed: () {
+                              displayEditOneDialog(context);
+                            },
+                          ),
+                          IconButton(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              size: 31.0,
+                              color: Color(0xff6d5271),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -110,15 +157,31 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                             color: Color(0xff909090),
                           )),
                       '${widget.index + 1}. ${widget.question}'),
-                  IconButton(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    constraints: const BoxConstraints(),
-                    icon: const Icon(
-                      Icons.edit_outlined,
-                      size: 30.0,
-                      color: Color(0xfff69036),
-                    ),
-                    onPressed: () {},
+                  Row(
+                    children: [
+                      IconButton(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        constraints: const BoxConstraints(),
+                        icon: const Icon(
+                          Icons.edit_outlined,
+                          size: 30.0,
+                          color: Color(0xfff69036),
+                        ),
+                        onPressed: () {
+                          displayEditOneDialog(context);
+                        },
+                      ),
+                      IconButton(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        constraints: const BoxConstraints(),
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          size: 31.0,
+                          color: Color(0xff6d5271),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -171,15 +234,31 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                   color: Color(0xff909090),
                                 )),
                             '${widget.index + 1}. ${widget.question}'),
-                        IconButton(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(
-                            Icons.edit_outlined,
-                            size: 30.0,
-                            color: Color(0xfff69036),
-                          ),
-                          onPressed: () {},
+                        Row(
+                          children: [
+                            IconButton(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              constraints: const BoxConstraints(),
+                              icon: const Icon(
+                                Icons.edit_outlined,
+                                size: 30.0,
+                                color: Color(0xfff69036),
+                              ),
+                              onPressed: () {
+                                displayEditOneDialog(context);
+                              },
+                            ),
+                            IconButton(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              constraints: const BoxConstraints(),
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                size: 31.0,
+                                color: Color(0xff6d5271),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ],
                         ),
                       ],
                     ),
