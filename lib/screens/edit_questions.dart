@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/models/question.dart';
+import 'package:quizpix/widgets/edit_dialog.dart';
 import 'package:quizpix/widgets/edit_question_item.dart';
 
 class EditQuestions extends StatefulWidget {
@@ -13,6 +14,12 @@ class EditQuestions extends StatefulWidget {
 
 class _EditQuestionsState extends State<EditQuestions> {
   final List<Question> tempQuestions = <Question>[];
+  final TextEditingController questionController = TextEditingController();
+  final TextEditingController answerController = TextEditingController();
+  final TextEditingController choiceAController = TextEditingController();
+  final TextEditingController choiceBController = TextEditingController();
+  final TextEditingController choiceCController = TextEditingController();
+  final TextEditingController choiceDController = TextEditingController();
 
   @override
   void initState() {
@@ -21,9 +28,35 @@ class _EditQuestionsState extends State<EditQuestions> {
     tempQuestions.addAll(widget.questions);
   }
 
+  Future<dynamic> displayAddDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return EditDialog(
+            index: tempQuestions.length,
+            type: 1,
+            question: "",
+            answer: "",
+            choices: const ['', '', '', ''],
+            questionController: questionController,
+            answerController: answerController,
+            choiceAController: choiceAController,
+            choiceBController: choiceBController,
+            choiceCController: choiceCController,
+            choiceDController: choiceDController,
+            updateTemp: updateTemp,
+            updateType: (int x) {},
+          );
+        });
+  }
+
   void updateTemp(Question newQuestion, int index) {
     setState(() {
-      tempQuestions[index] = newQuestion;
+      if (index == tempQuestions.length) {
+        tempQuestions.add(newQuestion);
+      } else {
+        tempQuestions[index] = newQuestion;
+      }
     });
   }
 
@@ -85,7 +118,7 @@ class _EditQuestionsState extends State<EditQuestions> {
                 ),
                 Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 0.0, right: 20.0, bottom: 36.0),
+                        left: 20.0, top: 0.0, right: 20.0, bottom: 60.0),
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -108,7 +141,7 @@ class _EditQuestionsState extends State<EditQuestions> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Add your onPressed code here!
+          displayAddDialog(context);
         },
         label: const Text(
           'Add Question',

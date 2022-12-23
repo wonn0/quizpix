@@ -101,6 +101,9 @@ class _EditDialogState extends State<EditDialog> {
               widget.type == type)) {
         return false;
       }
+      if (answerInd != 0 && answerInd != 1) {
+        return false;
+      }
     } else {
       if (widget.questionController.text.trim().isEmpty ||
           widget.answerController.text.trim().isEmpty) {
@@ -499,7 +502,7 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () {
               if (validateInput()) {
                 Question newQuestion = Question(
-                  widget.type,
+                  type!,
                   widget.questionController.text.trim(),
                   getNewAnswer(),
                   [
@@ -775,7 +778,7 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () {
               if (validateInput()) {
                 Question newQuestion = Question(
-                  widget.type,
+                  type!,
                   widget.questionController.text.trim(),
                   answerInd == 1 ? 'true' : 'false',
                   [],
@@ -1015,7 +1018,7 @@ class _EditDialogState extends State<EditDialog> {
           onPressed: () {
             if (validateInput()) {
               Question newQuestion = Question(
-                widget.type,
+                type!,
                 widget.questionController.text.trim(),
                 widget.answerController.text.trim(),
                 [],
