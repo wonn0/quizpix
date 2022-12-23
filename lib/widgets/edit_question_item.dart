@@ -68,6 +68,22 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
         });
   }
 
+  Future<dynamic> displayEditThreeDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return EditDialog(
+            index: widget.index,
+            type: widget.type,
+            question: widget.question,
+            answer: widget.answer,
+            questionController: questionController,
+            answerController: answerController,
+            updateTemp: widget.updateTemp,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.type == 1) {
@@ -260,7 +276,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                 color: Color(0xfff69036),
                               ),
                               onPressed: () {
-                                displayEditOneDialog(context);
+                                displayEditThreeDialog(context);
                               },
                             ),
                             IconButton(

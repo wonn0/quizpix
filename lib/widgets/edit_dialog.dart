@@ -50,7 +50,9 @@ class _EditDialogState extends State<EditDialog> {
       widget.choiceCController!.text = widget.choices![2];
       widget.choiceDController!.text = widget.choices![3];
     } else if (widget.type == 2) {
-      answerInd = widget.answer == 'true' ? 1 : 0;
+      answerInd = widget.answer == 'false' ? 0 : 1;
+    } else {
+      widget.answerController!.text = widget.answer;
     }
   }
 
@@ -94,6 +96,15 @@ class _EditDialogState extends State<EditDialog> {
               answerInd == initAnswerInd)) {
         return false;
       }
+    } else {
+      if (widget.questionController.text.trim().isEmpty ||
+          widget.answerController!.text.trim().isEmpty) {
+        return false;
+      }
+      if ((widget.questionController.text.trim() == widget.question) &&
+          (widget.answerController!.text.trim() == widget.answer)) {
+        return false;
+      }
     }
 
     return true;
@@ -103,15 +114,15 @@ class _EditDialogState extends State<EditDialog> {
     if (widget.type == 1) {
       switch (answerInd) {
         case 0:
-          return widget.choiceAController!.text;
+          return widget.choiceAController!.text.trim();
         case 1:
-          return widget.choiceBController!.text;
+          return widget.choiceBController!.text.trim();
         case 2:
-          return widget.choiceCController!.text;
+          return widget.choiceCController!.text.trim();
         case 3:
-          return widget.choiceDController!.text;
+          return widget.choiceDController!.text.trim();
         default:
-          return widget.choiceAController!.text;
+          return widget.choiceAController!.text.trim();
       }
     }
     return "";
@@ -388,13 +399,13 @@ class _EditDialogState extends State<EditDialog> {
               if (validateInput()) {
                 Question newQuestion = Question(
                   widget.type,
-                  widget.questionController.text,
+                  widget.questionController.text.trim(),
                   getNewAnswer(),
                   [
-                    widget.choiceAController!.text,
-                    widget.choiceBController!.text,
-                    widget.choiceCController!.text,
-                    widget.choiceDController!.text
+                    widget.choiceAController!.text.trim(),
+                    widget.choiceBController!.text.trim(),
+                    widget.choiceCController!.text.trim(),
+                    widget.choiceDController!.text.trim()
                   ],
                 );
                 Navigator.of(context).pop();
@@ -566,7 +577,7 @@ class _EditDialogState extends State<EditDialog> {
               if (validateInput()) {
                 Question newQuestion = Question(
                   widget.type,
-                  widget.questionController.text,
+                  widget.questionController.text.trim(),
                   answerInd == 1 ? 'true' : 'false',
                   [],
                 );
@@ -596,58 +607,132 @@ class _EditDialogState extends State<EditDialog> {
       );
     }
     return AlertDialog(
-      titlePadding: EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
-      contentPadding:
-          EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
-      actionsPadding: EdgeInsets.only(right: 20.0, bottom: 8.0),
-      title: Text(
-        'Add To-Do',
+      titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
+      contentPadding: const EdgeInsets.only(
+          left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
+      actionsPadding: const EdgeInsets.only(right: 20.0, bottom: 8.0),
+      title: const Text(
+        'Edit Question',
         style: TextStyle(
-          fontFamily: 'Ubuntu',
-          fontWeight: FontWeight.w600,
-          fontSize: 24,
-          color: Colors.teal,
+          fontWeight: FontWeight.w700,
+          fontSize: 30,
+          color: Color(0xfff69036),
         ),
       ),
-      content: TextField(
-        controller: widget.answerController,
-        style: TextStyle(
-          color: Colors.teal,
-        ),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.teal,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.teal,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          labelText: 'New To-Do',
-          hintText: 'Enter To-Do here',
-          labelStyle: TextStyle(
-            color: Colors.teal[200],
-          ),
-          hintStyle: TextStyle(
-            color: Colors.teal[200],
+      content: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (overscroll) {
+          overscroll.disallowIndicator();
+          return true;
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: const Text(
+                  'Question',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Color(0xfff69036),
+                  ),
+                ),
+              ),
+              TextField(
+                controller: widget.questionController,
+                style: const TextStyle(
+                  color: Color(0xff6d5271),
+                  fontSize: 16.0,
+                ),
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff6d5271),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff6d5271),
+                    ),
+                  ),
+                  filled: false,
+                  labelText: 'Question',
+                  hintText: 'Please enter a valid question',
+                  labelStyle: TextStyle(
+                    color: Color(0xff909090),
+                  ),
+                  hintStyle: TextStyle(
+                    color: Color(0xff909090),
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                child: const Text(
+                  'Answer',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Color(0xfff69036),
+                  ),
+                ),
+              ),
+              TextField(
+                controller: widget.answerController,
+                style: const TextStyle(
+                  color: Color(0xff6d5271),
+                  fontSize: 16.0,
+                ),
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff6d5271),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff6d5271),
+                    ),
+                  ),
+                  filled: false,
+                  labelText: 'Answer',
+                  hintText: 'Please enter a valid answer',
+                  labelStyle: TextStyle(
+                    color: Color(0xff909090),
+                  ),
+                  hintStyle: TextStyle(
+                    color: Color(0xff909090),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8.0),
+            ],
           ),
         ),
       ),
       actions: [
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            if (validateInput()) {
+              Question newQuestion = Question(
+                widget.type,
+                widget.questionController.text.trim(),
+                widget.answerController!.text.trim(),
+                [],
+              );
+              Navigator.of(context).pop();
+              widget.updateTemp(newQuestion, widget.index);
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(32, 32),
             backgroundColor: const Color(0xfff69036),
-            elevation: 6.0,
+            elevation: 4.0,
           ),
-          child: const Text('Save'),
+          child: const Text('Save', style: TextStyle(fontSize: 16.0)),
         ),
         ElevatedButton(
           onPressed: () {
@@ -656,9 +741,9 @@ class _EditDialogState extends State<EditDialog> {
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(32, 32),
             backgroundColor: const Color(0xff6d5271),
-            elevation: 6.0,
+            elevation: 4.0,
           ),
-          child: const Text('Cancel'),
+          child: const Text('Cancel', style: TextStyle(fontSize: 16.0)),
         ),
       ],
     );
