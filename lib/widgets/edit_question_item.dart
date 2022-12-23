@@ -18,7 +18,7 @@ class EditQuestionItem extends StatefulWidget {
   final int type;
   final String question;
   final String answer;
-  final List<String>? choices;
+  final List<String> choices;
   final Function(Question, int) updateTemp;
 
   @override
@@ -26,6 +26,7 @@ class EditQuestionItem extends StatefulWidget {
 }
 
 class _EditQuestionItemState extends State<EditQuestionItem> {
+  int type = 1;
   final TextEditingController questionController = TextEditingController();
   final TextEditingController answerController = TextEditingController();
   final TextEditingController choiceAController = TextEditingController();
@@ -33,60 +34,44 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
   final TextEditingController choiceCController = TextEditingController();
   final TextEditingController choiceDController = TextEditingController();
 
-  Future<dynamic> displayEditOneDialog(BuildContext context) async {
+  @override
+  void initState() {
+    super.initState();
+
+    type = widget.type;
+  }
+
+  void updateType(int newType) {
+    setState(() {
+      type = newType;
+    });
+  }
+
+  Future<dynamic> displayEditDialog(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return EditDialog(
             index: widget.index,
-            type: widget.type,
+            type: type,
             question: widget.question,
             answer: widget.answer,
             choices: widget.choices,
             questionController: questionController,
+            answerController: answerController,
             choiceAController: choiceAController,
             choiceBController: choiceBController,
             choiceCController: choiceCController,
             choiceDController: choiceDController,
             updateTemp: widget.updateTemp,
-          );
-        });
-  }
-
-  Future<dynamic> displayEditTwoDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return EditDialog(
-            index: widget.index,
-            type: widget.type,
-            question: widget.question,
-            answer: widget.answer,
-            questionController: questionController,
-            updateTemp: widget.updateTemp,
-          );
-        });
-  }
-
-  Future<dynamic> displayEditThreeDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return EditDialog(
-            index: widget.index,
-            type: widget.type,
-            question: widget.question,
-            answer: widget.answer,
-            questionController: questionController,
-            answerController: answerController,
-            updateTemp: widget.updateTemp,
+            updateType: updateType,
           );
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == 1) {
+    if (type == 1) {
       return Row(
         children: [
           Expanded(
@@ -118,7 +103,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                               color: Color(0xfff69036),
                             ),
                             onPressed: () {
-                              displayEditOneDialog(context);
+                              displayEditDialog(context);
                             },
                           ),
                           IconButton(
@@ -140,7 +125,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                   Expanded(
                       child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.choices!.length,
+                    itemCount: widget.choices.length,
                     itemBuilder: (context, index) {
                       return Text(
                           style: Theme.of(context)
@@ -149,7 +134,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                               .merge(const TextStyle(
                                 color: Color(0xff909090),
                               )),
-                          '${choicesMap[index + 1]}. ${widget.choices![index]}');
+                          '${choicesMap[index + 1]}. ${widget.choices[index]}');
                     },
                   )),
 
@@ -160,7 +145,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                           .merge(const TextStyle(
                             color: Color(0xfff69036),
                           )),
-                      'Answer: ${choicesMap[widget.choices!.indexWhere((choice) => choice == widget.answer) + 1]}. ${widget.answer}'),
+                      'Answer: ${choicesMap[widget.choices.indexWhere((choice) => choice == widget.answer) + 1]}. ${widget.answer}'),
                 ],
               ),
             ),
@@ -169,7 +154,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
       );
     }
 
-    if (widget.type == 2) {
+    if (type == 2) {
       return Row(
         children: [
           Expanded(
@@ -199,7 +184,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                           color: Color(0xfff69036),
                         ),
                         onPressed: () {
-                          displayEditTwoDialog(context);
+                          displayEditDialog(context);
                         },
                       ),
                       IconButton(
@@ -276,7 +261,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                 color: Color(0xfff69036),
                               ),
                               onPressed: () {
-                                displayEditThreeDialog(context);
+                                displayEditDialog(context);
                               },
                             ),
                             IconButton(

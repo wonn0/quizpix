@@ -8,101 +8,107 @@ class EditDialog extends StatefulWidget {
       required this.type,
       required this.question,
       required this.answer,
-      this.choices,
+      required this.choices,
       required this.updateTemp,
+      required this.updateType,
       required this.questionController,
-      this.answerController,
-      this.choiceAController,
-      this.choiceBController,
-      this.choiceCController,
-      this.choiceDController});
+      required this.answerController,
+      required this.choiceAController,
+      required this.choiceBController,
+      required this.choiceCController,
+      required this.choiceDController});
 
   final int index;
   final int type;
   final String question;
   final String answer;
-  final List<String>? choices;
+  final List<String> choices;
   final Function(Question, int) updateTemp;
+  final Function(int) updateType;
   final TextEditingController questionController;
-  final TextEditingController? answerController;
-  final TextEditingController? choiceAController;
-  final TextEditingController? choiceBController;
-  final TextEditingController? choiceCController;
-  final TextEditingController? choiceDController;
+  final TextEditingController answerController;
+  final TextEditingController choiceAController;
+  final TextEditingController choiceBController;
+  final TextEditingController choiceCController;
+  final TextEditingController choiceDController;
 
   @override
   State<EditDialog> createState() => _EditDialogState();
 }
 
 class _EditDialogState extends State<EditDialog> {
+  int? type = 1;
   int? answerInd = 0;
 
   @override
   void initState() {
     super.initState();
 
+    type = widget.type;
     widget.questionController.text = widget.question;
     if (widget.type == 1) {
       answerInd =
-          widget.choices!.indexWhere((choice) => choice == widget.answer);
-      widget.choiceAController!.text = widget.choices![0];
-      widget.choiceBController!.text = widget.choices![1];
-      widget.choiceCController!.text = widget.choices![2];
-      widget.choiceDController!.text = widget.choices![3];
+          widget.choices.indexWhere((choice) => choice == widget.answer);
+      widget.choiceAController.text = widget.choices[0];
+      widget.choiceBController.text = widget.choices[1];
+      widget.choiceCController.text = widget.choices[2];
+      widget.choiceDController.text = widget.choices[3];
     } else if (widget.type == 2) {
       answerInd = widget.answer == 'false' ? 0 : 1;
     } else {
-      widget.answerController!.text = widget.answer;
+      widget.answerController.text = widget.answer;
     }
   }
 
   bool validateInput() {
-    if (widget.type == 1) {
-      if ((widget.questionController.text.trim() == widget.question) &&
-          (widget.choiceAController!.text.trim() == widget.choices![0]) &&
-          (widget.choiceBController!.text.trim() == widget.choices![1]) &&
-          (widget.choiceCController!.text.trim() == widget.choices![2]) &&
-          (widget.choiceDController!.text.trim() == widget.choices![3]) &&
+    if (type == 1) {
+      if ((widget.type == type) &&
+          (widget.questionController.text.trim() == widget.question) &&
+          (widget.choiceAController.text.trim() == widget.choices[0]) &&
+          (widget.choiceBController.text.trim() == widget.choices[1]) &&
+          (widget.choiceCController.text.trim() == widget.choices[2]) &&
+          (widget.choiceDController.text.trim() == widget.choices[3]) &&
           (answerInd ==
-              widget.choices!
-                  .indexWhere((choice) => choice == widget.answer))) {
+              widget.choices.indexWhere((choice) => choice == widget.answer))) {
         return false;
       }
       if (widget.questionController.text.trim().isEmpty ||
-          widget.choiceAController!.text.trim().isEmpty ||
-          widget.choiceBController!.text.trim().isEmpty ||
-          widget.choiceCController!.text.trim().isEmpty ||
-          widget.choiceDController!.text.trim().isEmpty) {
+          widget.choiceAController.text.trim().isEmpty ||
+          widget.choiceBController.text.trim().isEmpty ||
+          widget.choiceCController.text.trim().isEmpty ||
+          widget.choiceDController.text.trim().isEmpty) {
         return false;
       }
-      if ((widget.choiceAController!.text.trim() ==
-              widget.choiceBController!.text.trim()) ||
-          (widget.choiceAController!.text.trim() ==
-              widget.choiceCController!.text.trim()) ||
-          (widget.choiceAController!.text.trim() ==
-              widget.choiceDController!.text.trim()) ||
-          (widget.choiceBController!.text.trim() ==
-              widget.choiceCController!.text.trim()) ||
-          (widget.choiceBController!.text.trim() ==
-              widget.choiceDController!.text.trim()) ||
-          (widget.choiceCController!.text.trim() ==
-              widget.choiceDController!.text.trim())) {
+      if ((widget.choiceAController.text.trim() ==
+              widget.choiceBController.text.trim()) ||
+          (widget.choiceAController.text.trim() ==
+              widget.choiceCController.text.trim()) ||
+          (widget.choiceAController.text.trim() ==
+              widget.choiceDController.text.trim()) ||
+          (widget.choiceBController.text.trim() ==
+              widget.choiceCController.text.trim()) ||
+          (widget.choiceBController.text.trim() ==
+              widget.choiceDController.text.trim()) ||
+          (widget.choiceCController.text.trim() ==
+              widget.choiceDController.text.trim())) {
         return false;
       }
-    } else if (widget.type == 2) {
+    } else if (type == 2) {
       int initAnswerInd = widget.answer == 'true' ? 1 : 0;
       if (widget.questionController.text.trim().isEmpty ||
           (widget.questionController.text.trim() == widget.question &&
-              answerInd == initAnswerInd)) {
+              answerInd == initAnswerInd &&
+              widget.type == type)) {
         return false;
       }
     } else {
       if (widget.questionController.text.trim().isEmpty ||
-          widget.answerController!.text.trim().isEmpty) {
+          widget.answerController.text.trim().isEmpty) {
         return false;
       }
-      if ((widget.questionController.text.trim() == widget.question) &&
-          (widget.answerController!.text.trim() == widget.answer)) {
+      if ((widget.type == type) &&
+          (widget.questionController.text.trim() == widget.question) &&
+          (widget.answerController.text.trim() == widget.answer)) {
         return false;
       }
     }
@@ -111,18 +117,18 @@ class _EditDialogState extends State<EditDialog> {
   }
 
   String getNewAnswer() {
-    if (widget.type == 1) {
+    if (type == 1) {
       switch (answerInd) {
         case 0:
-          return widget.choiceAController!.text.trim();
+          return widget.choiceAController.text.trim();
         case 1:
-          return widget.choiceBController!.text.trim();
+          return widget.choiceBController.text.trim();
         case 2:
-          return widget.choiceCController!.text.trim();
+          return widget.choiceCController.text.trim();
         case 3:
-          return widget.choiceDController!.text.trim();
+          return widget.choiceDController.text.trim();
         default:
-          return widget.choiceAController!.text.trim();
+          return widget.choiceAController.text.trim();
       }
     }
     return "";
@@ -130,7 +136,7 @@ class _EditDialogState extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == 1) {
+    if (type == 1) {
       return AlertDialog(
         titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
         contentPadding: const EdgeInsets.only(
@@ -156,6 +162,101 @@ class _EditDialogState extends State<EditDialog> {
                 Container(
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.only(bottom: 16.0),
+                  child: const Text(
+                    'Type',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      color: Color(0xfff69036),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 1,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('MC',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 2,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('T/F',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 3,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('Classic',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: const Text(
                     'Question',
                     style: TextStyle(
@@ -402,14 +503,17 @@ class _EditDialogState extends State<EditDialog> {
                   widget.questionController.text.trim(),
                   getNewAnswer(),
                   [
-                    widget.choiceAController!.text.trim(),
-                    widget.choiceBController!.text.trim(),
-                    widget.choiceCController!.text.trim(),
-                    widget.choiceDController!.text.trim()
+                    widget.choiceAController.text.trim(),
+                    widget.choiceBController.text.trim(),
+                    widget.choiceCController.text.trim(),
+                    widget.choiceDController.text.trim()
                   ],
                 );
                 Navigator.of(context).pop();
                 widget.updateTemp(newQuestion, widget.index);
+                if (type != widget.type) {
+                  widget.updateType(type!);
+                }
               }
             },
             style: ElevatedButton.styleFrom(
@@ -432,7 +536,7 @@ class _EditDialogState extends State<EditDialog> {
           ),
         ],
       );
-    } else if (widget.type == 2) {
+    } else if (type == 2) {
       return AlertDialog(
         titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
         contentPadding: const EdgeInsets.only(
@@ -458,6 +562,101 @@ class _EditDialogState extends State<EditDialog> {
                 Container(
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.only(bottom: 16.0),
+                  child: const Text(
+                    'Type',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      color: Color(0xfff69036),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 1,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('MC',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 2,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('T/F',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<int>(
+                            value: 3,
+                            groupValue: type,
+                            fillColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            focusColor: MaterialStateColor.resolveWith(
+                                (states) => const Color(0xff6d5271)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                                horizontal: -4, vertical: -4),
+                            onChanged: (value) {
+                              setState(() {
+                                type = value;
+                              });
+                            }),
+                        const SizedBox(width: 8.0),
+                        const Text('Classic',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff6d5271),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: const Text(
                     'Question',
                     style: TextStyle(
@@ -583,6 +782,9 @@ class _EditDialogState extends State<EditDialog> {
                 );
                 Navigator.of(context).pop();
                 widget.updateTemp(newQuestion, widget.index);
+                if (type != widget.type) {
+                  widget.updateType(type!);
+                }
               }
             },
             style: ElevatedButton.styleFrom(
@@ -631,6 +833,101 @@ class _EditDialogState extends State<EditDialog> {
               Container(
                 alignment: Alignment.topLeft,
                 padding: const EdgeInsets.only(bottom: 16.0),
+                child: const Text(
+                  'Type',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Color(0xfff69036),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      Radio<int>(
+                          value: 1,
+                          groupValue: type,
+                          fillColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          focusColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (value) {
+                            setState(() {
+                              type = value;
+                            });
+                          }),
+                      const SizedBox(width: 8.0),
+                      const Text('MC',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xff6d5271),
+                          )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<int>(
+                          value: 2,
+                          groupValue: type,
+                          fillColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          focusColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (value) {
+                            setState(() {
+                              type = value;
+                            });
+                          }),
+                      const SizedBox(width: 8.0),
+                      const Text('T/F',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xff6d5271),
+                          )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<int>(
+                          value: 3,
+                          groupValue: type,
+                          fillColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          focusColor: MaterialStateColor.resolveWith(
+                              (states) => const Color(0xff6d5271)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity:
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          onChanged: (value) {
+                            setState(() {
+                              type = value;
+                            });
+                          }),
+                      const SizedBox(width: 8.0),
+                      const Text('Classic',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xff6d5271),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                 child: const Text(
                   'Question',
                   style: TextStyle(
@@ -720,11 +1017,14 @@ class _EditDialogState extends State<EditDialog> {
               Question newQuestion = Question(
                 widget.type,
                 widget.questionController.text.trim(),
-                widget.answerController!.text.trim(),
+                widget.answerController.text.trim(),
                 [],
               );
               Navigator.of(context).pop();
               widget.updateTemp(newQuestion, widget.index);
+              if (type != widget.type) {
+                widget.updateType(type!);
+              }
             }
           },
           style: ElevatedButton.styleFrom(
