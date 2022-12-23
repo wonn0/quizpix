@@ -46,6 +46,7 @@ class _EditDialogState extends State<EditDialog> {
 
     type = widget.type;
     widget.questionController.text = widget.question;
+    widget.answerController.text = widget.answer;
     if (widget.type == 1) {
       answerInd =
           widget.choices.indexWhere((choice) => choice == widget.answer);
@@ -55,8 +56,6 @@ class _EditDialogState extends State<EditDialog> {
       widget.choiceDController.text = widget.choices[3];
     } else if (widget.type == 2) {
       answerInd = widget.answer == 'false' ? 0 : 1;
-    } else {
-      widget.answerController.text = widget.answer;
     }
   }
 

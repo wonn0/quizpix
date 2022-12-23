@@ -19,7 +19,7 @@ class EditQuestionItem extends StatefulWidget {
   final String question;
   final String answer;
   final List<String> choices;
-  final Function(Question, int) updateTemp;
+  final Function(Question?, int) updateTemp;
 
   @override
   State<EditQuestionItem> createState() => _EditQuestionItemState();
@@ -39,6 +39,14 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
     super.initState();
 
     type = widget.type;
+  }
+
+  @override
+  void didUpdateWidget(EditQuestionItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.type != oldWidget.type) {
+      type = widget.type;
+    }
   }
 
   void updateType(int newType) {
@@ -65,6 +73,60 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
             choiceDController: choiceDController,
             updateTemp: widget.updateTemp,
             updateType: updateType,
+          );
+        });
+  }
+
+  Future<dynamic> displayDeleteDialog(BuildContext context, int index) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            titlePadding:
+                const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
+            actionsPadding:
+                const EdgeInsets.only(top: 8.0, right: 20.0, bottom: 8.0),
+            title: RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: Color(0xfff69036),
+                ),
+                children: [
+                  const TextSpan(text: 'Delete '),
+                  TextSpan(
+                      text: 'Question ${index + 1}',
+                      style: const TextStyle(color: Color(0xff6d5271))),
+                  const TextSpan(text: '?'),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  widget.updateTemp(null, index);
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  backgroundColor: const Color(0xfff69036),
+                  elevation: 6.0,
+                ),
+                child: const Text('Delete', style: TextStyle(fontSize: 16.0)),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  backgroundColor: const Color(0xff6d5271),
+                  elevation: 6.0,
+                ),
+                child: const Text('Cancel', style: TextStyle(fontSize: 16.0)),
+              ),
+            ],
           );
         });
   }
@@ -114,7 +176,9 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                               size: 31.0,
                               color: Color(0xff6d5271),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              displayDeleteDialog(context, widget.index);
+                            },
                           ),
                         ],
                       ),
@@ -195,7 +259,9 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                           size: 31.0,
                           color: Color(0xff6d5271),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          displayDeleteDialog(context, widget.index);
+                        },
                       ),
                     ],
                   ),
@@ -272,7 +338,9 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                 size: 31.0,
                                 color: Color(0xff6d5271),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                displayDeleteDialog(context, widget.index);
+                              },
                             ),
                           ],
                         ),
