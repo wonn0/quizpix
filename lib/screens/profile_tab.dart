@@ -34,7 +34,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       Container(
                         height: 180.0,
                         width: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             alignment: Alignment.topCenter,
                             image: AssetImage('assets/images/user1.jpg'),
@@ -47,23 +47,23 @@ class _ProfileTabState extends State<ProfileTab> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(30.0, 30.0),
+                            minimumSize: const Size(30.0, 30.0),
                             backgroundColor: const Color(0xffd3d3d3),
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.edit_outlined,
                             size: 16.0,
-                            color: const Color(0xff909090),
+                            color: Color(0xff909090),
                           ),
                         ),
                       ),
                       Container(
                         height: 80.0,
                         width: double.infinity,
-                        margin: EdgeInsets.only(left: 40.0, top: 120.0),
+                        margin: const EdgeInsets.only(left: 40.0, top: 120.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(80),
                             bottomLeft: Radius.circular(80),
                           ),
@@ -78,24 +78,24 @@ class _ProfileTabState extends State<ProfileTab> {
                           color: const Color(0xfffafafa),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 32.0),
+                          padding: const EdgeInsets.only(left: 32.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 widget.username,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.w700,
-                                  color: const Color(0xfff69036),
+                                  color: Color(0xfff69036),
                                 ),
                               ),
                               Text(
                                 widget.title,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
-                                  color: const Color(0x996d5271),
+                                  color: Color(0x996d5271),
                                 ),
                               ),
                             ],
@@ -105,42 +105,42 @@ class _ProfileTabState extends State<ProfileTab> {
                     ],
                   ),
                 ),
-                Spacer(flex: 2),
+                const Spacer(flex: 2),
                 Container(
                   alignment: Alignment.topLeft,
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Text(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: const Text(
                     "Statistics",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w700,
-                      color: const Color(0xfff69036),
+                      color: Color(0xfff69036),
                     ),
                   ),
                 ),
-                Spacer(flex: 1),
+                const Spacer(flex: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: const [
                     StatCard(type: 'quiz', value: 5),
                     StatCard(type: 'score', value: 144),
                   ],
                 ),
-                Spacer(flex: 2),
-                Padding(
+                const Spacer(flex: 2),
+                const Padding(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: ProCard(),
                 ),
-                Spacer(flex: 2),
+                const Spacer(flex: 2),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: QButtonOutline(
                       label: "Sign Out",
                       onPress: () {
                         Navigator.pushNamed(context, '/');
                       }),
                 ),
-                Spacer(flex: 2),
+                const Spacer(flex: 2),
               ],
             ),
           ),

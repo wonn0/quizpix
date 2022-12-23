@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/edit_questions.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
 import 'package:quizpix/widgets/question_list.dart';
@@ -133,8 +134,16 @@ class _ViewQuizState extends State<ViewQuiz> {
                             width: 8.0,
                           ),
                           QIconButton(
-                            onPress: () {},
-                            icon: Icons.edit_outlined,
+                            onPress: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditQuestions(
+                                      questions: widget.questions),
+                                ),
+                              );
+                            },
+                            icon: Icons.edit,
                           ),
                         ],
                       ),

@@ -106,8 +106,8 @@ class _QTextFieldState extends State<QTextField> {
                         ),
                         icon: Icon(
                           isVisible
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                           size: 16.0,
                           color: const Color(0xff909090),
                         ),
