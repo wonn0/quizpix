@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/edit_profile.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/stat_card.dart';
@@ -14,6 +15,12 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController usertitleController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController newpasswordController = TextEditingController();
+  final TextEditingController conpasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +52,21 @@ class _ProfileTabState extends State<ProfileTab> {
                       Container(
                         alignment: Alignment.topRight,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfile(
+                                    usernameController: usernameController,
+                                    usertitleController: usertitleController,
+                                    passwordController: passwordController,
+                                    newpasswordController:
+                                        newpasswordController,
+                                    conpasswordController:
+                                        conpasswordController),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(30.0, 30.0),
                             backgroundColor: const Color(0xffd3d3d3),
