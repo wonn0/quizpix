@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/screens/payment_method.dart';
 import 'package:quizpix/widgets/q_button.dart';
 
 class ProCard extends StatelessWidget {
@@ -71,7 +72,16 @@ class ProCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          QButton(label: "Become a PRO", onPress: () {}),
+          QButton(
+              label: "Become a PRO",
+              onPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PaymentMethod(),
+                  ),
+                );
+              }),
         ],
       ),
     );
