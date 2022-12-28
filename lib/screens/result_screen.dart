@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/samples/answers.dart';
+import 'package:quizpix/screens/play_quiz.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
@@ -84,7 +85,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 QButton(
-                  onPress: () {},
+                  onPress: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const PlayQuiz()));
+                  },
                   label: 'Try Again',
                   icon: const Icon(Icons.replay),
                 ),
