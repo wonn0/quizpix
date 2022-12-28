@@ -58,6 +58,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
   Future<dynamic> displayEditDialog(BuildContext context) async {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return EditDialog(
             index: widget.index,
@@ -80,6 +81,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
   Future<dynamic> displayDeleteDialog(BuildContext context, int index) async {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             titlePadding:

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizpix/samples/answers.dart';
 import 'package:quizpix/screens/play_quiz.dart';
 import 'package:quizpix/screens/view_quiz.dart';
-import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
@@ -80,11 +78,8 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                   const SizedBox(height: 16.0),
                   QButton(
                     onPress: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => ViewResults(
-                      //         questions: questions, answers: answers)));
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PlayQuiz()));
+                          builder: (context) => const PlayQuiz()));
                     },
                     label: 'Play Quiz',
                     icon: const Icon(Icons.gamepad_outlined),

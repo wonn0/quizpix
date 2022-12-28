@@ -31,6 +31,7 @@ class _EditQuestionsState extends State<EditQuestions> {
   Future<dynamic> displayAddDialog(BuildContext context) async {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return EditDialog(
             index: tempQuestions.length,
