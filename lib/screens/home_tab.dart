@@ -53,9 +53,13 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
-        child: SizedBox(
+        child: Container(
           width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color(0xfffafafa),
+          ),
           // padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
