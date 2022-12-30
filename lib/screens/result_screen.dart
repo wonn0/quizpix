@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:quizpix/samples/answers.dart';
-import 'package:quizpix/screens/play_question.dart';
-import 'package:quizpix/screens/view_quiz.dart';
+import 'package:quizpix/models/question.dart';
+import 'package:quizpix/screens/game_controller.dart';
 import 'package:quizpix/screens/view_results.dart';
 import 'package:quizpix/widgets/q_button.dart';
-import 'package:quizpix/samples/items.dart';
-import 'package:quizpix/samples/questions.dart';
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen(
-      {super.key,
-      required this.result,
-      required this.total,
-      required this.score});
+  const ResultScreen({
+    super.key,
+    required this.isWin,
+    required this.total,
+    required this.score,
+    required this.questions,
+    required this.randQuestions,
+    required this.answers,
+  });
 
-  final String result;
+  final bool isWin;
   final int total;
   final int score;
+  final List<Question> questions;
+  final List<Question> randQuestions;
+  final List<String> answers;
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -35,7 +39,7 @@ class _ResultScreenState extends State<ResultScreen> {
           children: [
             const Spacer(flex: 1),
             Text(
-              widget.result == 'win' ? "Victory!" : "Defeat...",
+              widget.isWin == true ? "Victory!" : "Defeat...",
               style: const TextStyle(
                 fontSize: 40.0,
                 fontWeight: FontWeight.w700,
@@ -46,7 +50,7 @@ class _ResultScreenState extends State<ResultScreen> {
             Stack(children: [
               Image(
                 fit: BoxFit.fitHeight,
-                image: AssetImage(widget.result == 'win'
+                image: AssetImage(widget.isWin == true
                     ? 'assets/images/8601.jpg'
                     : 'assets/images/6397869.jpg'),
               ),
@@ -76,8 +80,8 @@ class _ResultScreenState extends State<ResultScreen> {
                   onPress: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ViewResults(
-                              questions: questions,
-                              answers: answers,
+                              questions: widget.randQuestions,
+                              answers: widget.answers,
                             )));
                   },
                   label: 'View Results',
@@ -85,7 +89,15 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 QButton(
-                  onPress: () {},
+                  onPress: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => GameController(
+                          questions: widget.questions,
+                        ),
+                      ),
+                    );
+                  },
                   label: 'Try Again',
                   icon: const Icon(Icons.replay),
                 ),
