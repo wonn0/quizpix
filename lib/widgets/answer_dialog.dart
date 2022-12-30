@@ -4,15 +4,26 @@ class AnswerDialog extends StatefulWidget {
   const AnswerDialog({
     super.key,
     required this.answerController,
+    required this.correctAnswer,
+    required this.onAnswer,
   });
 
   final TextEditingController answerController;
+  final String correctAnswer;
+  final Function(String, String) onAnswer;
 
   @override
   State<AnswerDialog> createState() => _AnswerDialogState();
 }
 
 class _AnswerDialogState extends State<AnswerDialog> {
+  @override
+  void initState() {
+    super.initState();
+
+    widget.answerController.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -68,13 +79,16 @@ class _AnswerDialogState extends State<AnswerDialog> {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onAnswer(widget.answerController.text, widget.correctAnswer);
+          },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(32, 32),
             backgroundColor: const Color(0xfff69036),
             elevation: 4.0,
           ),
-          child: const Text('Save', style: TextStyle(fontSize: 16.0)),
+          child: const Text('Submit', style: TextStyle(fontSize: 16.0)),
         ),
         ElevatedButton(
           onPressed: () {

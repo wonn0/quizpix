@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/screens/edit_questions.dart';
+import 'package:quizpix/screens/game_controller.dart';
 import 'package:quizpix/screens/play_question.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
@@ -93,8 +94,8 @@ class _ViewQuizState extends State<ViewQuiz> {
                     onPress: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const PlayQuestion(
-                            type: 1,
+                          builder: (context) => GameController(
+                            questions: widget.questions,
                           ),
                         ),
                       );

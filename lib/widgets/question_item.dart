@@ -27,10 +27,12 @@ class QuestionItem extends StatelessWidget {
         }
         return const Color(0xff909090);
       } else {
-        if ((choice == selAnswer) && (selAnswer != answer)) {
-          return const Color(0xffd0342c);
-        } else if (choice == answer) {
+        if ((selAnswer == answer) && (choice == answer)) {
           return const Color(0xff86dc3d);
+        } else if ((selAnswer != answer) && (choice == answer)) {
+          return const Color(0xfff69036);
+        } else if ((selAnswer != answer) && (choice == selAnswer)) {
+          return const Color(0xffd0342c);
         }
         return const Color(0xff909090);
       }
@@ -38,12 +40,24 @@ class QuestionItem extends StatelessWidget {
       if (selAnswer == null) {
         return const Color(0xfff69036);
       } else {
-        if ((selAnswer != answer)) {
+        if ((selAnswer.trim().toLowerCase() != answer.trim().toLowerCase())) {
           return const Color(0xffd0342c);
         }
         return const Color(0xff86dc3d);
       }
     }
+  }
+
+  Widget getCorrectAnswer(BuildContext context) {
+    if (selAnswer != null &&
+        (selAnswer!.trim().toLowerCase() != answer.trim().toLowerCase())) {
+      return Text(
+          style: Theme.of(context).textTheme.bodyText1!.merge(const TextStyle(
+                color: Color(0xfff69036),
+              )),
+          'Correct answer: $answer');
+    }
+    return Container();
   }
 
   @override
@@ -147,6 +161,7 @@ class QuestionItem extends StatelessWidget {
                               color: getColor(3, null, answer, selAnswer),
                             )),
                         'Answer: ${selAnswer ?? answer}'),
+                    getCorrectAnswer(context),
                   ],
                 )))
       ],
