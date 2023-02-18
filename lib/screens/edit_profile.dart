@@ -27,6 +27,52 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   XFile? _image;
   final picker = ImagePicker();
+  String? errorCode;
+
+  String showErrorText(String errorCode) {
+    switch (errorCode) {
+      case "noPassword":
+        return "Please fill 'Password' field to change password";
+      case "noNewPassword":
+        return "Please fill 'New Password' field to change password";
+      case "noConPassword":
+        return "Please fill 'Confirm Password' field to change password";
+      case "wrongNewPass":
+        return "New passwords don't match";
+      default:
+        return "Please try again";
+    }
+  }
+
+  bool verifyEditProfile() {
+    if (widget.passwordController.text.isNotEmpty ||
+        widget.newpasswordController.text.isNotEmpty ||
+        widget.conpasswordController.text.isNotEmpty) {
+      if (widget.passwordController.text.isEmpty) {
+        setState(() {
+          errorCode = "noPassword";
+        });
+        return false;
+      } else if (widget.newpasswordController.text.isEmpty) {
+        setState(() {
+          errorCode = "noNewPassword";
+        });
+        return false;
+      } else if (widget.conpasswordController.text.isEmpty) {
+        setState(() {
+          errorCode = "noConPassword";
+        });
+        return false;
+      } else if (widget.newpasswordController.text !=
+          widget.conpasswordController.text) {
+        setState(() {
+          errorCode = "wrongNewPass";
+        });
+        return false;
+      }
+    }
+    return true;
+  }
 
   Future getImage() async {
     final XFile? pickedFile =
@@ -66,6 +112,11 @@ class _EditProfileState extends State<EditProfile> {
                         color: Color(0xff6d5271),
                       ),
                       onPressed: () {
+                        widget.usernameController.text = "";
+                        widget.usertitleController.text = "";
+                        widget.passwordController.text = "";
+                        widget.newpasswordController.text = "";
+                        widget.conpasswordController.text = "";
                         Navigator.pop(context);
                       },
                     ),
@@ -199,12 +250,29 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: errorCode == null
+                          ? Container()
+                          : Text(
+                              showErrorText(errorCode!),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xffd0342c),
+                                letterSpacing: 0.2,
+                                wordSpacing: 0.5,
+                              ),
+                            ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
+                          left: 20.0, top: 4.0, right: 20.0, bottom: 32.0),
                       child: QButton(
                           label: "Update Profile",
                           onPress: () {
-                            // Navigator.pop(context);
+                            if (verifyEditProfile()) {
+                              // Navigator.pop(context);
+                            }
                           }),
                     ),
                   ],
