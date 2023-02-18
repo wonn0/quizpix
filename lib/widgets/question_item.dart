@@ -52,7 +52,7 @@ class QuestionItem extends StatelessWidget {
     if (selAnswer != null &&
         (selAnswer!.trim().toLowerCase() != answer.trim().toLowerCase())) {
       return Text(
-          style: Theme.of(context).textTheme.bodyText1!.merge(const TextStyle(
+          style: Theme.of(context).textTheme.bodyLarge!.merge(const TextStyle(
                 color: Color(0xfff69036),
               )),
           'Correct answer: $answer');
@@ -75,7 +75,7 @@ class QuestionItem extends StatelessWidget {
                   Text(
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .merge(const TextStyle(
                             color: Color(0xff909090),
                           )),
@@ -89,7 +89,7 @@ class QuestionItem extends StatelessWidget {
                       return Text(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .merge(TextStyle(
                                 color: getColor(
                                     1, choices![index], answer, selAnswer),
@@ -116,18 +116,18 @@ class QuestionItem extends StatelessWidget {
               Text(
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .merge(const TextStyle(
                         color: Color(0xff909090),
                       )),
                   '${index + 1}. $question'),
               Text(
-                  style: Theme.of(context).textTheme.bodyText1!.merge(TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
                         color: getColor(2, 'true', answer, selAnswer),
                       )),
                   'a. True'),
               Text(
-                  style: Theme.of(context).textTheme.bodyText1!.merge(TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
                         color: getColor(2, 'false', answer, selAnswer),
                       )),
                   'b. False'),
@@ -148,7 +148,7 @@ class QuestionItem extends StatelessWidget {
                     Text(
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .merge(const TextStyle(
                               color: Color(0xff909090),
                             )),
@@ -156,7 +156,7 @@ class QuestionItem extends StatelessWidget {
                     Text(
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .merge(TextStyle(
                               color: getColor(3, null, answer, selAnswer),
                             )),

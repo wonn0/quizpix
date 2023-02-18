@@ -24,7 +24,7 @@ class _ScanButtonState extends State<ScanButton> {
       return Container(
           margin: const EdgeInsets.only(left: 80.0),
           child: Material(
-            color: Colors.transparent,
+              color: Colors.transparent,
               child: Ink(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
@@ -62,7 +62,7 @@ class _ScanButtonState extends State<ScanButton> {
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline2
+                                        .displayMedium
                                         ?.merge(const TextStyle(
                                           color: Color(0xffffffff),
                                         )),
@@ -103,7 +103,7 @@ class _ScanButtonState extends State<ScanButton> {
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline2
+                                      .displayMedium
                                       ?.merge(const TextStyle(
                                         color: Color(0xffffffff),
                                       )),

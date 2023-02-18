@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quizpix/screens/scan_confirmation.dart';
 import 'package:quizpix/widgets/scan_button.dart';
@@ -8,8 +7,6 @@ import 'package:quizpix/widgets/scan_button.dart';
 import 'dart:io';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 main() async {
   runApp(const MaterialApp(home: ScanTab()));
@@ -19,7 +16,7 @@ class ScanTab extends StatefulWidget {
   const ScanTab({super.key});
 
   @override
-  _ScanTabState createState() => _ScanTabState();
+  State<ScanTab> createState() => _ScanTabState();
 }
 
 class _ScanTabState extends State<ScanTab> {
@@ -108,16 +105,13 @@ class _ScanTabState extends State<ScanTab> {
                         isLeft: false),
                     const Spacer(flex: 1),
                     _load == true
-                        ? Container(
+                        ? SizedBox(
                             height: double.infinity,
                             width: double.infinity,
-                            child: _image != null
-                                ? Image.file(
-                                    File(_image.path),
-                                    fit: BoxFit.fitWidth,
-                                  )
-                                : Container(),
-                          )
+                            child: Image.file(
+                              File(_image.path),
+                              fit: BoxFit.fitWidth,
+                            ))
                         : Container()
                   ],
                 ),
@@ -130,10 +124,12 @@ class _ScanTabState extends State<ScanTab> {
   }
 
   Future scanTextFromImages() async {
+    final navigator = Navigator.of(context);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -149,34 +145,36 @@ class _ScanTabState extends State<ScanTab> {
 
       for (TextBlock block in visionText.blocks) {
         for (TextLine line in block.lines) {
-          _text += line.text + '\n';
+          _text += '${line.text}\n';
         }
       }
     }
 
-    Navigator.of(context).pop();
-    Navigator.of(context).push(
+    navigator.pop();
+    navigator.push(
         MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
   }
 
   Future getImages() async {
-    final List<XFile>? pickedFiles = await picker.pickMultiImage();
+    final List<XFile> pickedFiles = await picker.pickMultiImage();
     setState(() {
-      if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      if (pickedFiles.isNotEmpty) {
         _images = pickedFiles;
         _load = false;
         scanTextFromImages();
       } else {
-        print('No image selected');
+        //print('No image selected');
       }
     });
   }
 
   Future scanTextFromCamera() async {
+    final navigator = Navigator.of(context);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -190,12 +188,12 @@ class _ScanTabState extends State<ScanTab> {
 
     for (TextBlock block in visionText.blocks) {
       for (TextLine line in block.lines) {
-        _text += line.text! + '\n';
+        _text += '${line.text!}\n';
       }
     }
 
-    Navigator.of(context).pop();
-    Navigator.of(context).push(
+    navigator.pop();
+    navigator.push(
         MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
   }
 
@@ -208,7 +206,7 @@ class _ScanTabState extends State<ScanTab> {
         _load = false;
         scanTextFromCamera();
       } else {
-        print('No image selected');
+        //print('No image selected');
       }
     });
   }
