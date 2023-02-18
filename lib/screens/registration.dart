@@ -14,6 +14,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController conpasswordController = TextEditingController();
+  String? errorCode;
+
+  String showErrorText(String errorCode) {
+    switch (errorCode) {
+      case "emptyField":
+        return "Please fill up all fields!";
+      case "invalidEmail":
+        return "Please use a valid email address";
+      case "wrongPass":
+        return "Passwords don't match";
+      default:
+        return "Please try again";
+    }
+  }
+
+  bool verifyRegistration() {
+    if (emailController.text.isEmpty ||
+        usernameController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        conpasswordController.text.isEmpty) {
+      setState(() {
+        errorCode = "emptyField";
+      });
+      return false;
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(emailController.text)) {
+      setState(() {
+        errorCode = "invalidEmail";
+      });
+      return false;
+    } else if (passwordController.text != conpasswordController.text) {
+      setState(() {
+        errorCode = "wrongPass";
+      });
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,12 +168,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: errorCode == null
+                          ? Container()
+                          : Text(
+                              showErrorText(errorCode!),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xffd0342c),
+                                letterSpacing: 0.2,
+                                wordSpacing: 0.5,
+                              ),
+                            ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
+                          left: 20.0, top: 4.0, right: 20.0, bottom: 32.0),
                       child: QButton(
                           label: "Complete Registration",
                           onPress: () {
-                            Navigator.pushNamed(context, '/');
+                            if (verifyRegistration()) {
+                              Navigator.pushNamed(context, '/');
+                            }
                           }),
                     ),
                   ],
