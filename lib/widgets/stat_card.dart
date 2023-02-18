@@ -26,34 +26,33 @@ class StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            style: Theme.of(context).textTheme.bodyText1!.merge(TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              fontWeight: FontWeight.w700,
-            )),
-            type == 'quiz' ? 'Quizzes Made' : 'Total Score'
-          ),
+              style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.w700,
+                  )),
+              type == 'quiz' ? 'Quizzes Made' : 'Total Score'),
           Flexible(
             flex: 1,
             child: Container(
               alignment: Alignment.center,
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    size: 30.0,
-                    color: Theme.of(context).colorScheme.primary,
-                    type == 'quiz' ? Icons.quiz : Icons.star,
-                  ),
-                  const SizedBox(width: 4.0),
-                  Text(
-                    style: Theme.of(context).textTheme.headline2!.merge(TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w700,
-                    )),
-                    "$value"
-                  ),
-                ]
-              ),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(
+                  size: 30.0,
+                  color: Theme.of(context).colorScheme.primary,
+                  type == 'quiz' ? Icons.quiz : Icons.star,
+                ),
+                const SizedBox(width: 4.0),
+                Text(
+                    style: Theme.of(context)
+                        .textTheme
+                        .displayMedium!
+                        .merge(TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w700,
+                        )),
+                    "$value"),
+              ]),
             ),
           )
         ],

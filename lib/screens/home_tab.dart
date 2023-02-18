@@ -100,7 +100,7 @@ class _HomeTabState extends State<HomeTab> {
                     child: Text(
                         style: Theme.of(context)
                             .textTheme
-                            .headline3!
+                            .displaySmall!
                             .merge(TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).colorScheme.primary,
@@ -122,7 +122,7 @@ class _HomeTabState extends State<HomeTab> {
                           child: Text(
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline3!
+                                  .displaySmall!
                                   .merge(TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:

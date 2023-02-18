@@ -22,7 +22,7 @@ class _QButtonOutlineState extends State<QButtonOutline> {
         ),
       ),
       child: Text(
-        style: Theme.of(context).textTheme.bodyText1?.merge(TextStyle(
+        style: Theme.of(context).textTheme.bodyLarge?.merge(TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w700,
             )),

@@ -151,7 +151,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                       Text(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .merge(const TextStyle(
                                 color: Color(0xff909090),
                               )),
@@ -196,7 +196,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                       return Text(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .merge(const TextStyle(
                                 color: Color(0xff909090),
                               )),
@@ -207,7 +207,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                   Text(
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .merge(const TextStyle(
                             color: Color(0xfff69036),
                           )),
@@ -234,7 +234,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                   Text(
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .merge(const TextStyle(
                             color: Color(0xff909090),
                           )),
@@ -272,7 +272,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
               Text(
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .merge(const TextStyle(
                         color: Color(0xff909090),
                       )),
@@ -280,7 +280,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
               Text(
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .merge(const TextStyle(
                         color: Color(0xff909090),
                       )),
@@ -288,7 +288,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
               Text(
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .merge(const TextStyle(
                         color: Color(0xfff69036),
                       )),
@@ -313,7 +313,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                         Text(
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .merge(const TextStyle(
                                   color: Color(0xff909090),
                                 )),
@@ -351,7 +351,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                     Text(
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .merge(const TextStyle(
                               color: Color(0xfff69036),
                             )),

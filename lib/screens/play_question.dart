@@ -37,7 +37,7 @@ class _PlayQuestionState extends State<PlayQuestion> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ItemDialog(
+        return const ItemDialog(
           boQuantity: 1,
           reQuantity: 1,
           frQuantity: 1,
