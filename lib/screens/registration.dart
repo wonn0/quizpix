@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
+import 'package:http/http.dart' as http;
+
+import '../env.sample.dart';
+import '../models/user.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -52,6 +58,55 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return false;
     }
     return true;
+  }
+
+  // Future<http.Response> createProduct(String name, double price) async {
+  //   final response = await http.post(
+  //     Uri.parse('https://example.com/products'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, dynamic>{
+  //       'name': name,
+  //       'price': price,
+  //     }),
+  //   );
+
+  //   return response;
+  // }
+  Future<User> createUser(User user) async {
+    print(jsonEncode(<String, dynamic>{
+      'username': user.username,
+      'password': user.password,
+      'email': user.email,
+      'title': user.title,
+      'profile_picture': null,
+      'is_active': true,
+      'quizzes_made': 0,
+      'total_score': 0,
+      'status': 'regular',
+    }));
+    final response = await http.post(Uri.parse('${Env.URL_PREFIX}/users/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'username': user.username,
+          'password': user.password,
+          'email': user.email,
+          'title': user.title,
+          'profile_picture': null,
+          'is_active': true,
+          'quizzes_made': 0,
+          'total_score': 0,
+          'status': 'regular',
+        }));
+    if (response.statusCode == 201) {
+      final userJson = jsonDecode(response.body);
+      return User.fromJson(userJson);
+    } else {
+      throw Exception('Failed to create user.');
+    }
   }
 
   @override
@@ -189,7 +244,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           label: "Complete Registration",
                           onPress: () {
                             if (verifyRegistration()) {
-                              Navigator.pushNamed(context, '/');
+                              User user = User(
+                                  null,
+                                  usernameController.text,
+                                  passwordController.text,
+                                  emailController.text,
+                                  'QuizPix Player',
+                                  null,
+                                  true,
+                                  0,
+                                  0,
+                                  'regular');
+                              createUser(user).then((response) {
+                                // print(response.statusCode);
+                                Navigator.pushNamed(context, '/');
+                              });
                             }
                           }),
                     ),
