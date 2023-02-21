@@ -39,6 +39,7 @@ dependencies:
   firebase_ml_vision: ^0.9.10
   clipboard: ^0.1.2+8
   http: ^0.13.3
+  fluttertoast: ^8.1.1
 
   # Firebase Database
   cloud_firestore: ^4.2.0

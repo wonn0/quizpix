@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
+import 'package:quizpix/widgets/q_toast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,33 +13,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? errorCode;
-
-  String showErrorText(String errorCode) {
-    switch (errorCode) {
-      case "emptyField":
-        return "Please fill up all fields!";
-      case "invalidEmail":
-        return "Please use a valid email address";
-      default:
-        return "Please try again";
-    }
-  }
 
   bool verifyLogin() {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      setState(() {
-        errorCode = "emptyField";
-      });
-      return false;
-    } else if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(emailController.text)) {
-      setState(() {
-        errorCode = "invalidEmail";
-      });
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+      showQToast("Please fill up all fields", true);
       return false;
     }
     return true;
@@ -78,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(
                         left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
-                      label: "Email Address",
-                      textController: emailController,
+                      label: "Username",
+                      textController: usernameController,
                     ),
                   ),
                   Padding(
@@ -115,23 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: errorCode == null
-                          ? Container()
-                          : Text(
-                              showErrorText(errorCode!),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xffd0342c),
-                                letterSpacing: 0.2,
-                                wordSpacing: 0.5,
-                              ),
-                            ),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 4.0, right: 20.0, bottom: 20.0),
+                          left: 20.0, top: 20.0, right: 20.0, bottom: 20.0),
                       child: QButton(
                           label: "Login",
                           onPress: () {

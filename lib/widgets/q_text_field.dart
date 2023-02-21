@@ -12,7 +12,7 @@ class QTextField extends StatefulWidget {
 }
 
 class _QTextFieldState extends State<QTextField> {
-  bool isVisible = true;
+  bool isVisible = false;
 
   bool isPassword(String txt) {
     switch (txt) {
