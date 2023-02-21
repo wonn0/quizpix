@@ -16,6 +16,23 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+Future<Token> login(String username, String password) async {
+  final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'username': username,
+        'password': password,
+      }));
+  if (response.statusCode == 201) {
+    final tokenJson = jsonDecode(response.body);
+    return Token.fromJson(tokenJson);
+  } else {
+    throw Exception('Failed to create user.');
+  }
+}
+
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
