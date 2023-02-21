@@ -42,32 +42,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return true;
   }
 
-  // Future<http.Response> createProduct(String name, double price) async {
-  //   final response = await http.post(
-  //     Uri.parse('https://example.com/products'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       'name': name,
-  //       'price': price,
-  //     }),
-  //   );
-
-  //   return response;
-  // }
   Future<User> createUser(User user) async {
-    print(jsonEncode(<String, dynamic>{
-      'username': user.username,
-      'password': user.password,
-      'email': user.email,
-      'title': user.title,
-      'profile_picture': null,
-      'is_active': true,
-      'quizzes_made': 0,
-      'total_score': 0,
-      'status': 'regular',
-    }));
     showDialog(
       context: context,
       builder: (BuildContext context) {
