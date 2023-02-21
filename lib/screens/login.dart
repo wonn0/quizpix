@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
+import 'package:http/http.dart' as http;
+
+import '../env.sample.dart';
+import '../models/token.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? errorCode;
 
@@ -27,20 +33,32 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool verifyLogin() {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
       setState(() {
         errorCode = "emptyField";
       });
       return false;
-    } else if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(emailController.text)) {
-      setState(() {
-        errorCode = "invalidEmail";
-      });
-      return false;
     }
     return true;
+  }
+    
+  Future<Token> login(String username, String password) async {
+    final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'username': username,
+          'password': password,
+        }));
+    if (response.statusCode == 200) {
+      final tokenJson = jsonDecode(response.body);
+      return Token.fromJson(tokenJson);
+    } else if (response.statusCode == 401) {
+      throw Exception('Invalid login.');
+    } else {
+      throw Exception('Something wrong happened. Please try again later.');
+    }
   }
 
   @override
@@ -78,8 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(
                         left: 20.0, top: 12.0, right: 20.0),
                     child: QTextField(
-                      label: "Email Address",
-                      textController: emailController,
+                      label: "Username",
+                      textController: usernameController,
                     ),
                   ),
                   Padding(
@@ -136,7 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           label: "Login",
                           onPress: () {
                             if (verifyLogin()) {
-                              Navigator.pushNamed(context, '/home');
+                              login(usernameController.text, passwordController.text).then((response) {
+                                Navigator.pushNamed(context, '/home');
+                              });
                             }
                           }),
                     ),
