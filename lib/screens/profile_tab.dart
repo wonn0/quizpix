@@ -4,11 +4,13 @@ import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/stat_card.dart';
 
-class ProfileTab extends StatefulWidget {
-  const ProfileTab({super.key, required this.username, required this.title});
+import '../models/user.dart';
+import '../globals/globals.dart';
 
-  final String username;
-  final String title;
+class ProfileTab extends StatefulWidget {
+  const ProfileTab({super.key});
+
+  // final User user;
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();
@@ -23,6 +25,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -41,10 +44,11 @@ class _ProfileTabState extends State<ProfileTab> {
                       Container(
                         height: 180.0,
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
                             alignment: Alignment.topCenter,
-                            image: AssetImage('assets/images/user1.jpg'),
+                            image: AssetImage(localDetails.profilePicture ??
+                                'assets/images/df-bg.jpg'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -56,16 +60,11 @@ class _ProfileTabState extends State<ProfileTab> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EditProfile(
-                                    usernameController: usernameController,
-                                    usertitleController: usertitleController,
-                                    passwordController: passwordController,
-                                    newpasswordController:
-                                        newpasswordController,
-                                    conpasswordController:
-                                        conpasswordController),
+                                builder: (context) =>
+                                    // EditProfile(user: localDetails),
+                                    const EditProfile(),
                               ),
-                            );
+                            ).then((_) => setState(() {}));
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(30.0, 30.0),
@@ -105,7 +104,7 @@ class _ProfileTabState extends State<ProfileTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.username,
+                                localDetails.username,
                                 style: const TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.w700,
@@ -113,7 +112,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 ),
                               ),
                               Text(
-                                widget.title,
+                                localDetails.title,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Color(0x996d5271),
@@ -142,9 +141,9 @@ class _ProfileTabState extends State<ProfileTab> {
                 const Spacer(flex: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    StatCard(type: 'quiz', value: 5),
-                    StatCard(type: 'score', value: 144),
+                  children: [
+                    StatCard(type: 'quiz', value: localDetails.quizzesMade),
+                    StatCard(type: 'score', value: localDetails.totalScore),
                   ],
                 ),
                 const Spacer(flex: 2),
@@ -158,6 +157,19 @@ class _ProfileTabState extends State<ProfileTab> {
                   child: QButtonOutline(
                       label: "Sign Out",
                       onPress: () {
+                        localDetails = User(
+                          //reset user and remove login info
+                          null,
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          false,
+                          0,
+                          0,
+                          "",
+                        );
                         Navigator.pushNamed(context, '/');
                       }),
                 ),

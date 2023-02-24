@@ -5,20 +5,14 @@ import 'package:quizpix/widgets/q_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile(
-      {super.key,
-      required this.usernameController,
-      required this.usertitleController,
-      required this.passwordController,
-      required this.newpasswordController,
-      required this.conpasswordController});
+import '../models/user.dart';
+import '../helpers/user.dart';
+import '../globals/globals.dart';
 
-  final TextEditingController usernameController;
-  final TextEditingController usertitleController;
-  final TextEditingController passwordController;
-  final TextEditingController newpasswordController;
-  final TextEditingController conpasswordController;
+class EditProfile extends StatefulWidget {
+  const EditProfile({
+    super.key,
+  });
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -29,10 +23,17 @@ class _EditProfileState extends State<EditProfile> {
   final picker = ImagePicker();
   String? errorCode;
 
+  TextEditingController usertitleController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController newpasswordController = TextEditingController();
+  TextEditingController conpasswordController = TextEditingController();
+
   String showErrorText(String errorCode) {
     switch (errorCode) {
       case "noPassword":
         return "Please fill 'Password' field to change password";
+      case "wrongPassword":
+        return "The password you typed in does not match the user's current password.";
       case "noNewPassword":
         return "Please fill 'New Password' field to change password";
       case "noConPassword":
@@ -45,26 +46,27 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   bool verifyEditProfile() {
-    if (widget.passwordController.text.isNotEmpty ||
-        widget.newpasswordController.text.isNotEmpty ||
-        widget.conpasswordController.text.isNotEmpty) {
-      if (widget.passwordController.text.isEmpty) {
+    if (passwordController.text.isNotEmpty ||
+        newpasswordController.text.isNotEmpty ||
+        conpasswordController.text.isNotEmpty) {
+      if (passwordController.text.isEmpty) {
         setState(() {
           errorCode = "noPassword";
         });
         return false;
-      } else if (widget.newpasswordController.text.isEmpty) {
+      } else if (passwordController.text != localDetails.password) {
+        errorCode = "wrongPassword";
+      } else if (newpasswordController.text.isEmpty) {
         setState(() {
           errorCode = "noNewPassword";
         });
         return false;
-      } else if (widget.conpasswordController.text.isEmpty) {
+      } else if (conpasswordController.text.isEmpty) {
         setState(() {
           errorCode = "noConPassword";
         });
         return false;
-      } else if (widget.newpasswordController.text !=
-          widget.conpasswordController.text) {
+      } else if (newpasswordController.text != conpasswordController.text) {
         setState(() {
           errorCode = "wrongNewPass";
         });
@@ -77,6 +79,7 @@ class _EditProfileState extends State<EditProfile> {
   Future getImage() async {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
+    print(_image?.path);
     setState(() {
       if (pickedFile != null) {
         _image = pickedFile;
@@ -84,6 +87,13 @@ class _EditProfileState extends State<EditProfile> {
         //print('No image selected');
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //pre populate text field
+    usertitleController.text = localDetails.title;
   }
 
   @override
@@ -112,11 +122,6 @@ class _EditProfileState extends State<EditProfile> {
                         color: Color(0xff6d5271),
                       ),
                       onPressed: () {
-                        widget.usernameController.text = "";
-                        widget.usertitleController.text = "";
-                        widget.passwordController.text = "";
-                        widget.newpasswordController.text = "";
-                        widget.conpasswordController.text = "";
                         Navigator.pop(context);
                       },
                     ),
@@ -204,18 +209,10 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, top: 20.0, right: 20.0),
-                    child: QTextField(
-                      label: "Username",
-                      textController: widget.usernameController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
                         left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "User Title",
-                      textController: widget.usertitleController,
+                      textController: usertitleController,
                     ),
                   ),
                   Padding(
@@ -223,7 +220,7 @@ class _EditProfileState extends State<EditProfile> {
                         left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "Password",
-                      textController: widget.passwordController,
+                      textController: passwordController,
                     ),
                   ),
                   Padding(
@@ -231,7 +228,7 @@ class _EditProfileState extends State<EditProfile> {
                         left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "New Password",
-                      textController: widget.newpasswordController,
+                      textController: newpasswordController,
                     ),
                   ),
                   Padding(
@@ -239,7 +236,7 @@ class _EditProfileState extends State<EditProfile> {
                         left: 20.0, top: 8.0, right: 20.0),
                     child: QTextField(
                       label: "Confirm Password",
-                      textController: widget.conpasswordController,
+                      textController: conpasswordController,
                     ),
                   ),
                 ]),
@@ -271,7 +268,26 @@ class _EditProfileState extends State<EditProfile> {
                           label: "Update Profile",
                           onPress: () {
                             if (verifyEditProfile()) {
-                              // Navigator.pop(context);
+                              String password =
+                                  passwordController.text.isNotEmpty
+                                      ? newpasswordController.text
+                                      : "";
+                              // String imagePath = _image.path;
+                              User temp = User(
+                                localDetails.url,
+                                localDetails.username,
+                                password,
+                                localDetails.email,
+                                usertitleController.text,
+                                _image?.path,
+                                true,
+                                localDetails.quizzesMade,
+                                localDetails.totalScore,
+                                "regular",
+                              );
+                              updateUser(temp).then((response) {
+                                Navigator.pop(context);
+                              });
                             }
                           }),
                     ),
