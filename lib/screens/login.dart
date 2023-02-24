@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer; //debugger
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +11,8 @@ import 'package:http/http.dart' as http;
 
 import '../env.sample.dart';
 import '../models/token.dart';
+import '../globals/globals.dart';
+import '../helpers/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,22 +21,23 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-Future<Token> login(String username, String password) async {
-  final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'username': username,
-        'password': password,
-      }));
-  if (response.statusCode == 201) {
-    final tokenJson = jsonDecode(response.body);
-    return Token.fromJson(tokenJson);
-  } else {
-    throw Exception('Failed to create user.');
-  }
-}
+// Future<Token> login(String username, String password) async {
+//   final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, dynamic>{
+//         'username': username,
+//         'password': password,
+//       }));
+//   if (response.statusCode == 201) {
+//     final tokenJson = jsonDecode(response.body);
+//     token = tokenJson.access;
+//     return Token.fromJson(tokenJson);
+//   } else {
+//     throw Exception('Failed to create user.');
+//   }
+// }
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController usernameController = TextEditingController();
@@ -46,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     return true;
   }
-    
+
   Future<Token> login(String username, String password) async {
     final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token/'),
         headers: <String, String>{
@@ -58,6 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
         }));
     if (response.statusCode == 200) {
       final tokenJson = jsonDecode(response.body);
+      //set current user to username and store globally
+      localDetails = await getUser(username);
+      // print(localDetails.toString());
       return Token.fromJson(tokenJson);
     } else if (response.statusCode == 401) {
       throw Exception('Invalid login.');
@@ -144,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           label: "Login",
                           onPress: () {
                             if (verifyLogin()) {
-                              login(usernameController.text, passwordController.text).then((response) {
+                              login(usernameController.text,
+                                      passwordController.text)
+                                  .then((response) {
                                 Navigator.pushNamed(context, '/home');
                               });
                             }

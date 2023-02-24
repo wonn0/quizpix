@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
         //icon
         iconTheme: const IconThemeData(size: 20.0),
       ),
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true, //only set to true when debugging
     );
   }
 }

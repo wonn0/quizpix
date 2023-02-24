@@ -1,5 +1,5 @@
 class User {
-  final int? id;
+  final String? url;
   final String username;
   final String password;
   final String email;
@@ -11,7 +11,7 @@ class User {
   final String status;
 
   User(
-      this.id,
+      this.url,
       this.username,
       this.password,
       this.email,
@@ -23,7 +23,7 @@ class User {
       this.status);
 
   User.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+      : url = json['url'],
         username = json['username'],
         password = json['password'],
         email = json['email'],
@@ -35,7 +35,7 @@ class User {
         status = json['status'];
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        'url': url,
         'username': username,
         'password': password,
         'email': email,
@@ -46,4 +46,22 @@ class User {
         'total_score': totalScore,
         'status': status,
       };
+
+  @override
+  String toString() {
+    return '''
+      User {
+        url: $url,
+        username: $username,
+        password: $password,
+        email: $email,
+        title: $title,
+        profilePicture: $profilePicture,
+        isActive: $isActive,
+        quizzesMade: $quizzesMade,
+        totalScore: $totalScore,
+        status: $status,
+      }
+    ''';
+  }
 }

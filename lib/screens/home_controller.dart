@@ -4,6 +4,8 @@ import 'package:quizpix/screens/home_tab.dart';
 import 'package:quizpix/screens/profile_tab.dart';
 import 'package:quizpix/screens/scan_tab.dart';
 
+import '../globals/globals.dart';
+
 class HomeController extends StatefulWidget {
   const HomeController({super.key});
 
@@ -14,8 +16,9 @@ class HomeController extends StatefulWidget {
 class _HomeControllerState extends State<HomeController> {
   int currentIndex = 1;
 
-  static const List<Widget> homeOptions = <Widget>[
-    ProfileTab(username: "Thunder Rat", title: "Quiz Maker"),
+  static List<Widget> homeOptions = <Widget>[
+    // ProfileTab(user: localDetails),
+    ProfileTab(),
     ScanTab(),
     HomeTab(),
   ];
