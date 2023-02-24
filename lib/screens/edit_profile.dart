@@ -13,9 +13,6 @@ import '../globals/globals.dart';
 import 'package:quizpix/widgets/q_toast.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key,});
-
-class EditProfile extends StatefulWidget {
   const EditProfile({
     super.key,
   });
@@ -269,7 +266,8 @@ class _EditProfileState extends State<EditProfile> {
                                 "regular",
                               );
                               updateUser(temp).then((response) {
-                                showQToast("Successfully edited profile", false);
+                                showQToast(
+                                    "Successfully edited profile", false);
                                 Navigator.pop(context);
                               });
                             }
