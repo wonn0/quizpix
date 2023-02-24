@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizpix/widgets/custom_arc.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
@@ -8,6 +9,11 @@ import 'dart:io';
 import '../models/user.dart';
 import '../helpers/user.dart';
 import '../globals/globals.dart';
+
+import 'package:quizpix/widgets/q_toast.dart';
+
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key,});
 
 class EditProfile extends StatefulWidget {
   const EditProfile({
@@ -21,7 +27,6 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   XFile? _image;
   final picker = ImagePicker();
-  String? errorCode;
 
   TextEditingController usertitleController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -50,26 +55,19 @@ class _EditProfileState extends State<EditProfile> {
         newpasswordController.text.isNotEmpty ||
         conpasswordController.text.isNotEmpty) {
       if (passwordController.text.isEmpty) {
-        setState(() {
-          errorCode = "noPassword";
-        });
+        showQToast("Please input password to change it", true);
         return false;
       } else if (passwordController.text != localDetails.password) {
-        errorCode = "wrongPassword";
+        showQToast("Passwords do not match", true);
+        return false;
       } else if (newpasswordController.text.isEmpty) {
-        setState(() {
-          errorCode = "noNewPassword";
-        });
+        showQToast("New password is not defined", true);
         return false;
       } else if (conpasswordController.text.isEmpty) {
-        setState(() {
-          errorCode = "noConPassword";
-        });
+        showQToast("New password is unconfirmed", true);
         return false;
       } else if (newpasswordController.text != conpasswordController.text) {
-        setState(() {
-          errorCode = "wrongNewPass";
-        });
+        showQToast("New passwords don't match", true);
         return false;
       }
     }
@@ -247,23 +245,8 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: errorCode == null
-                          ? Container()
-                          : Text(
-                              showErrorText(errorCode!),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xffd0342c),
-                                letterSpacing: 0.2,
-                                wordSpacing: 0.5,
-                              ),
-                            ),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 4.0, right: 20.0, bottom: 32.0),
+                          left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
                       child: QButton(
                           label: "Update Profile",
                           onPress: () {
@@ -286,6 +269,7 @@ class _EditProfileState extends State<EditProfile> {
                                 "regular",
                               );
                               updateUser(temp).then((response) {
+                                showQToast("Successfully edited profile", false);
                                 Navigator.pop(context);
                               });
                             }

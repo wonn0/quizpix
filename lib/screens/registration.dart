@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:quizpix/widgets/q_toast.dart';
 
 import '../env.sample.dart';
 import '../models/user.dart';
@@ -20,47 +22,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController conpasswordController = TextEditingController();
-  String? errorCode;
-
-  String showErrorText(String errorCode) {
-    switch (errorCode) {
-      case "emptyField":
-        return "Please fill up all fields!";
-      case "invalidEmail":
-        return "Please use a valid email address";
-      case "wrongPass":
-        return "Passwords don't match";
-      default:
-        return "Please try again";
-    }
-  }
 
   bool verifyRegistration() {
     if (emailController.text.isEmpty ||
         usernameController.text.isEmpty ||
         passwordController.text.isEmpty ||
         conpasswordController.text.isEmpty) {
-      setState(() {
-        errorCode = "emptyField";
-      });
+      showQToast("Please fill up all fields", true);
       return false;
     } else if (!RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(emailController.text)) {
-      setState(() {
-        errorCode = "invalidEmail";
-      });
+      showQToast("Please use a valid email", true);
       return false;
     } else if (passwordController.text != conpasswordController.text) {
-      setState(() {
-        errorCode = "wrongPass";
-      });
+      showQToast("Passwords don't match", true);
       return false;
     }
     return true;
   }
 
   Future<User> createUser(User user) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
     final response = await http.post(Uri.parse('${Env.URL_PREFIX}/users/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -80,6 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final userJson = jsonDecode(response.body);
       return User.fromJson(userJson);
     } else {
+      showQToast("Failed to create account", true);
       throw Exception('Failed to create user.');
     }
   }
@@ -198,23 +189,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: errorCode == null
-                          ? Container()
-                          : Text(
-                              showErrorText(errorCode!),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xffd0342c),
-                                letterSpacing: 0.2,
-                                wordSpacing: 0.5,
-                              ),
-                            ),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 4.0, right: 20.0, bottom: 32.0),
+                          left: 20.0, top: 20.0, right: 20.0, bottom: 32.0),
                       child: QButton(
                           label: "Complete Registration",
                           onPress: () {
@@ -232,6 +208,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   'regular');
                               createUser(user).then((response) {
                                 // print(response.statusCode);
+                                showQToast(
+                                    "Successfully created account", false);
                                 Navigator.pushNamed(context, '/');
                               });
                             }

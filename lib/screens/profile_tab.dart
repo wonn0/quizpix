@@ -17,11 +17,6 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController usertitleController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController newpasswordController = TextEditingController();
-  final TextEditingController conpasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

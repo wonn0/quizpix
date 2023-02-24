@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer' as developer; //debugger
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
+import 'package:quizpix/widgets/q_toast.dart';
 import 'package:http/http.dart' as http;
 
 import '../env.sample.dart';
@@ -40,24 +42,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? errorCode;
-
-  String showErrorText(String errorCode) {
-    switch (errorCode) {
-      case "emptyField":
-        return "Please fill up all fields!";
-      case "invalidEmail":
-        return "Please use a valid email address";
-      default:
-        return "Please try again";
-    }
-  }
 
   bool verifyLogin() {
     if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
-      setState(() {
-        errorCode = "emptyField";
-      });
+      showQToast("Please fill up all fields", true);
       return false;
     }
     return true;
@@ -157,23 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: errorCode == null
-                          ? Container()
-                          : Text(
-                              showErrorText(errorCode!),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xffd0342c),
-                                letterSpacing: 0.2,
-                                wordSpacing: 0.5,
-                              ),
-                            ),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 4.0, right: 20.0, bottom: 20.0),
+                          left: 20.0, top: 20.0, right: 20.0, bottom: 20.0),
                       child: QButton(
                           label: "Login",
                           onPress: () {
