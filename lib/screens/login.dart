@@ -52,6 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<Token> login(String username, String password) async {
+    late NavigatorState dialogContext;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        dialogContext = Navigator.of(context);
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
     final response = await http.post(Uri.parse('${Env.URL_PREFIX}/api/token/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -67,8 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
       // print(localDetails.toString());
       return Token.fromJson(tokenJson);
     } else if (response.statusCode == 401) {
+      dialogContext.pop();
+      showQToast("Invalid username or password", true);
       throw Exception('Invalid login.');
     } else {
+      dialogContext.pop();
+      showQToast("Something wrong happened. Please try again later.", true);
       throw Exception('Something wrong happened. Please try again later.');
     }
   }

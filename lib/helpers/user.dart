@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../env.sample.dart';
@@ -18,7 +19,18 @@ Future<User> getUser(String username) async {
   }
 }
 
-Future<User> updateUser(User user) async {
+Future<User> updateUser(BuildContext context, User user) async {
+  late NavigatorState dialogContext;
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      dialogContext = Navigator.of(context);
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
   print(jsonEncode(<String, dynamic>{
     "url": user.url!,
     'username': user.username,
@@ -50,8 +62,10 @@ Future<User> updateUser(User user) async {
   if (response.statusCode == 200) {
     final userJson = jsonDecode(response.body);
     localDetails = await getUser(localDetails.username);
+    dialogContext.pop();
     return User.fromJson(userJson);
   } else {
+    dialogContext.pop();
     throw Exception('Failed to update user.');
   }
 }
