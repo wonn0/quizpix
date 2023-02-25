@@ -55,8 +55,6 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     setState(() {});
-    print(localDetails.profilePicture == null ||
-        localDetails.profilePicture == '');
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -166,32 +164,6 @@ class _ProfileTabState extends State<ProfileTab> {
                           ),
                         ),
                       ),
-                      const Spacer(flex: 1),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          StatCard(
-                              type: 'quiz', value: localDetails.quizzesMade),
-                          StatCard(
-                              type: 'score', value: localDetails.totalScore),
-                        ],
-                      ),
-                      const Spacer(flex: 2),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: ProCard(),
-                      ),
-                      const Spacer(flex: 2),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: QButtonOutline(
-                          label: "Sign Out",
-                          onPress: () {
-                            displayConfirmDialog(context);
-                          },
-                        ),
-                      ),
-                      const Spacer(flex: 2),
                     ],
                   ),
                 ),
@@ -227,20 +199,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   child: QButtonOutline(
                       label: "Sign Out",
                       onPress: () {
-                        localDetails = User(
-                          //reset user and remove login info
-                          null,
-                          "",
-                          "",
-                          "",
-                          "",
-                          "",
-                          false,
-                          0,
-                          0,
-                          "",
-                        );
-                        Navigator.pushNamed(context, '/');
+                        displayConfirmDialog(context);
                       }),
                 ),
                 const Spacer(flex: 2),
