@@ -30,32 +30,12 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController newpasswordController = TextEditingController();
   TextEditingController conpasswordController = TextEditingController();
 
-  String showErrorText(String errorCode) {
-    switch (errorCode) {
-      case "noPassword":
-        return "Please fill 'Password' field to change password";
-      case "wrongPassword":
-        return "The password you typed in does not match the user's current password.";
-      case "noNewPassword":
-        return "Please fill 'New Password' field to change password";
-      case "noConPassword":
-        return "Please fill 'Confirm Password' field to change password";
-      case "wrongNewPass":
-        return "New passwords don't match";
-      default:
-        return "Please try again";
-    }
-  }
-
   bool verifyEditProfile() {
     if (passwordController.text.isNotEmpty ||
         newpasswordController.text.isNotEmpty ||
         conpasswordController.text.isNotEmpty) {
       if (passwordController.text.isEmpty) {
         showQToast("Please input password to change it", true);
-        return false;
-      } else if (passwordController.text != localDetails.password) {
-        showQToast("Passwords do not match", true);
         return false;
       } else if (newpasswordController.text.isEmpty) {
         showQToast("New password is not defined", true);
@@ -82,6 +62,17 @@ class _EditProfileState extends State<EditProfile> {
         //print('No image selected');
       }
     });
+  }
+
+  void showLoading() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
   @override
@@ -265,7 +256,8 @@ class _EditProfileState extends State<EditProfile> {
                                 localDetails.totalScore,
                                 "regular",
                               );
-                              updateUser(temp).then((response) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              updateUser(context, temp).then((response) {
                                 showQToast(
                                     "Successfully edited profile", false);
                                 Navigator.pop(context);

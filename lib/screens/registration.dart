@@ -43,9 +43,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<User> createUser(User user) async {
+    late NavigatorState dialogContext;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
+        dialogContext = Navigator.of(context);
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -70,6 +73,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final userJson = jsonDecode(response.body);
       return User.fromJson(userJson);
     } else {
+      dialogContext.pop();
       showQToast("Failed to create account", true);
       throw Exception('Failed to create user.');
     }
