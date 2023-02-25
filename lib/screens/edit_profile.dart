@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quizpix/widgets/confirm_dialog.dart';
 import 'package:quizpix/widgets/custom_arc.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
@@ -77,12 +77,55 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-  void showLoading() {
-    showDialog(
+  void confirmEditProfile(NavigatorState confirmContext) {
+    confirmContext.pop();
+    String password =
+        newpasswordController.text.isNotEmpty
+            ? newpasswordController.text
+            : "";
+    String? img =
+        _image == null ? null : _image!.path;
+    User temp = User(
+      localDetails.url,
+      localDetails.username,
+      password,
+      localDetails.email,
+      usertitleController.text,
+      img,
+      true,
+      localDetails.quizzesMade,
+      localDetails.totalScore,
+      "regular",
+    );
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (img == null) {
+      updateUserDetails(context, temp)
+          .then((response) {
+        showQToast(
+            "Successfully edited profile", false);
+        Navigator.pop(context);
+      });
+    } else {
+      updateUserProfile(context, temp)
+          .then((response) {
+        showQToast(
+            "Successfully edited profile", false);
+        Navigator.pop(context);
+      });
+    }
+}
+
+  Future<dynamic> displayConfirmDialog(BuildContext context) async {
+    late NavigatorState confirmContext;
+    return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
+        confirmContext = Navigator.of(context);
+        return ConfirmDialog(
+          confirm: confirmEditProfile,
+          confirmContext: confirmContext,
+          action: "Edit Profile",
         );
       },
     );
@@ -271,40 +314,8 @@ class _EditProfileState extends State<EditProfile> {
                           label: "Update Profile",
                           onPress: () {
                             if (verifyEditProfile()) {
-                              String password =
-                                  newpasswordController.text.isNotEmpty
-                                      ? newpasswordController.text
-                                      : "";
-                              String? img =
-                                  _image == null ? null : _image!.path;
-                              User temp = User(
-                                localDetails.url,
-                                localDetails.username,
-                                password,
-                                localDetails.email,
-                                usertitleController.text,
-                                img,
-                                true,
-                                localDetails.quizzesMade,
-                                localDetails.totalScore,
-                                "regular",
-                              );
+                              displayConfirmDialog(context);
                               FocusManager.instance.primaryFocus?.unfocus();
-                              if (img == null) {
-                                updateUserDetails(context, temp)
-                                    .then((response) {
-                                  showQToast(
-                                      "Successfully edited profile", false);
-                                  Navigator.pop(context);
-                                });
-                              } else {
-                                updateUserProfile(context, temp)
-                                    .then((response) {
-                                  showQToast(
-                                      "Successfully edited profile", false);
-                                  Navigator.pop(context);
-                                });
-                              }
                             }
                           }),
                     ),

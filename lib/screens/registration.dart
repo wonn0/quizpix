@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quizpix/widgets/confirm_dialog.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_text_field.dart';
 import 'package:http/http.dart' as http;
@@ -118,6 +118,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       dialogContext.pop();
       throw Exception('Failed to update user.');
     }
+  }
+
+  void confirmRegistration(NavigatorState confirmContext) {
+    confirmContext.pop();
+    User user = User(null, usernameController.text, passwordController.text,
+        emailController.text, 'QuizPix Player', null, true, 0, 0, 'regular');
+    createUser(user).then(
+      (response) {
+        // print(response.statusCode);
+        showQToast("Successfully created account", false);
+        FocusManager.instance.primaryFocus?.unfocus();
+        Navigator.pushNamed(context, '/');
+      },
+    );
+  }
+
+  Future<dynamic> displayConfirmDialog(BuildContext context) async {
+    late NavigatorState confirmContext;
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        confirmContext = Navigator.of(context);
+        return ConfirmDialog(
+          confirm: confirmRegistration,
+          confirmContext: confirmContext,
+          action: "Registration",
+        );
+      },
+    );
   }
 
   @override
@@ -240,23 +270,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           label: "Complete Registration",
                           onPress: () {
                             if (verifyRegistration()) {
-                              User user = User(
-                                  null,
-                                  usernameController.text,
-                                  passwordController.text,
-                                  emailController.text,
-                                  'QuizPix Player',
-                                  '',
-                                  true,
-                                  0,
-                                  0,
-                                  'regular');
-                              createUser(user).then((response) {
-                                // print(response.statusCode);
-                                showQToast(
-                                    "Successfully created account", false);
-                                Navigator.pushNamed(context, '/');
-                              });
+                              displayConfirmDialog(context);
+                              FocusManager.instance.primaryFocus?.unfocus();
                             }
                           }),
                     ),
