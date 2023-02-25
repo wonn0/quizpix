@@ -55,6 +55,8 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     setState(() {});
+    print(localDetails.profilePicture == null ||
+        localDetails.profilePicture == '');
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -63,114 +65,104 @@ class _ProfileTabState extends State<ProfileTab> {
             decoration: const BoxDecoration(
               color: Color(0xfffafafa),
             ),
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 200.0,
+                  width: double.infinity,
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        height: 200.0,
-                        width: double.infinity,
-                        child: Stack(
-                          children: [
-                            Container(
+                      localDetails.profilePicture == null ||
+                              localDetails.profilePicture == ''
+                          ? Container(
+                              height: 180.0,
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  alignment: Alignment.topCenter,
+                                  image: AssetImage('assets/images/df-bg.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : Container(
                               height: 180.0,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   alignment: Alignment.topCenter,
-                                  image: AssetImage(
-                                      localDetails.profilePicture ??
-                                          'assets/images/df-bg.jpg'),
+                                  image: NetworkImage(
+                                      localDetails.profilePicture!),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          // EditProfile(user: localDetails),
-                                          const EditProfile(),
-                                    ),
-                                  ).then((_) => setState(() {}));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(30.0, 30.0),
-                                  backgroundColor: const Color(0xffd3d3d3),
-                                  shape: const CircleBorder(),
-                                ),
-                                child: const Icon(
-                                  Icons.edit_outlined,
-                                  size: 16.0,
-                                  color: Color(0xff909090),
-                                ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    // EditProfile(user: localDetails),
+                                    const EditProfile(),
                               ),
-                            ),
-                            Container(
-                              height: 80.0,
-                              width: double.infinity,
-                              margin:
-                                  const EdgeInsets.only(left: 40.0, top: 120.0),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(80),
-                                  bottomLeft: Radius.circular(80),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade300,
-                                    offset: const Offset(0.0, 4.0),
-                                    spreadRadius: 1,
-                                    blurRadius: 12,
-                                  ),
-                                ],
-                                color: const Color(0xfffafafa),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 32.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      localDetails.username,
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xfff69036),
-                                      ),
-                                    ),
-                                    Text(
-                                      localDetails.title,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0x996d5271),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                            ).then((_) => setState(() {}));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(30.0, 30.0),
+                            backgroundColor: const Color(0xffd3d3d3),
+                            shape: const CircleBorder(),
+                          ),
+                          child: const Icon(
+                            Icons.edit_outlined,
+                            size: 16.0,
+                            color: Color(0xff909090),
+                          ),
                         ),
                       ),
-                      const Spacer(flex: 2),
                       Container(
-                        alignment: Alignment.topLeft,
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: const Text(
-                          "Statistics",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xfff69036),
+                        height: 80.0,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(left: 40.0, top: 120.0),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(80),
+                            bottomLeft: Radius.circular(80),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade300,
+                              offset: const Offset(0.0, 4.0),
+                              spreadRadius: 1,
+                              blurRadius: 12,
+                            ),
+                          ],
+                          color: const Color(0xfffafafa),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 32.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                localDetails.username,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xfff69036),
+                                ),
+                              ),
+                              Text(
+                                localDetails.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0x996d5271),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -203,6 +195,55 @@ class _ProfileTabState extends State<ProfileTab> {
                     ],
                   ),
                 ),
+                const Spacer(flex: 2),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: const Text(
+                    "Statistics",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xfff69036),
+                    ),
+                  ),
+                ),
+                const Spacer(flex: 1),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    StatCard(type: 'quiz', value: localDetails.quizzesMade),
+                    StatCard(type: 'score', value: localDetails.totalScore),
+                  ],
+                ),
+                const Spacer(flex: 2),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: ProCard(),
+                ),
+                const Spacer(flex: 2),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: QButtonOutline(
+                      label: "Sign Out",
+                      onPress: () {
+                        localDetails = User(
+                          //reset user and remove login info
+                          null,
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          false,
+                          0,
+                          0,
+                          "",
+                        );
+                        Navigator.pushNamed(context, '/');
+                      }),
+                ),
+                const Spacer(flex: 2),
               ],
             ),
           ),

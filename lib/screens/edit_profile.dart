@@ -26,18 +26,32 @@ class _EditProfileState extends State<EditProfile> {
   final picker = ImagePicker();
 
   TextEditingController usertitleController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
   TextEditingController newpasswordController = TextEditingController();
   TextEditingController conpasswordController = TextEditingController();
 
   bool verifyEditProfile() {
-    if (passwordController.text.isNotEmpty ||
-        newpasswordController.text.isNotEmpty ||
+    // if (passwordController.text.isNotEmpty ||
+    //     newpasswordController.text.isNotEmpty ||
+    //     conpasswordController.text.isNotEmpty) {
+    //   if (passwordController.text.isEmpty) {
+    //     showQToast("Please input password to change it", true);
+    //     return false;
+    //   } else if (newpasswordController.text.isEmpty) {
+    //     showQToast("New password is not defined", true);
+    //     return false;
+    //   } else if (conpasswordController.text.isEmpty) {
+    //     showQToast("New password is unconfirmed", true);
+    //     return false;
+    //   } else if (newpasswordController.text != conpasswordController.text) {
+    //     showQToast("New passwords don't match", true);
+    //     return false;
+    //   }
+    // }
+    // return true;
+    if (newpasswordController.text.isNotEmpty ||
         conpasswordController.text.isNotEmpty) {
-      if (passwordController.text.isEmpty) {
-        showQToast("Please input password to change it", true);
-        return false;
-      } else if (newpasswordController.text.isEmpty) {
+      if (newpasswordController.text.isEmpty) {
         showQToast("New password is not defined", true);
         return false;
       } else if (conpasswordController.text.isEmpty) {
@@ -54,7 +68,6 @@ class _EditProfileState extends State<EditProfile> {
   Future getImage() async {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
-    print(_image?.path);
     setState(() {
       if (pickedFile != null) {
         _image = pickedFile;
@@ -67,26 +80,40 @@ class _EditProfileState extends State<EditProfile> {
   void confirmEditProfile(NavigatorState confirmContext) {
     confirmContext.pop();
     String password =
-        passwordController.text.isNotEmpty ? newpasswordController.text : "";
-    // String imagePath = _image.path;
+        newpasswordController.text.isNotEmpty
+            ? newpasswordController.text
+            : "";
+    String? img =
+        _image == null ? null : _image!.path;
     User temp = User(
       localDetails.url,
       localDetails.username,
       password,
       localDetails.email,
       usertitleController.text,
-      _image?.path,
+      img,
       true,
       localDetails.quizzesMade,
       localDetails.totalScore,
       "regular",
     );
     FocusManager.instance.primaryFocus?.unfocus();
-    updateUser(context, temp).then((response) {
-      showQToast("Successfully edited profile", false);
-      Navigator.pop(context);
-    });
-  }
+    if (img == null) {
+      updateUserDetails(context, temp)
+          .then((response) {
+        showQToast(
+            "Successfully edited profile", false);
+        Navigator.pop(context);
+      });
+    } else {
+      updateUserProfile(context, temp)
+          .then((response) {
+        showQToast(
+            "Successfully edited profile", false);
+        Navigator.pop(context);
+      });
+    }
+}
 
   Future<dynamic> displayConfirmDialog(BuildContext context) async {
     late NavigatorState confirmContext;
@@ -169,26 +196,8 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Stack(
                     children: [
-                      _image == null
+                      _image != null
                           ? Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.shade300,
-                                      blurRadius: 8,
-                                      offset: const Offset(8, 8),
-                                    ),
-                                  ]),
-                              child: const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/user1.jpg'),
-                                radius: 100.0,
-                              ),
-                            )
-                          : Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -204,7 +213,44 @@ class _EditProfileState extends State<EditProfile> {
                                 backgroundImage: FileImage(File(_image!.path)),
                                 radius: 100.0,
                               ),
-                            ),
+                            )
+                          : localDetails.profilePicture == null
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade300,
+                                          blurRadius: 8,
+                                          offset: const Offset(8, 8),
+                                        ),
+                                      ]),
+                                  child: const CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('assets/images/df-pp.jpg'),
+                                    radius: 100.0,
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade300,
+                                          blurRadius: 8,
+                                          offset: const Offset(8, 8),
+                                        ),
+                                      ]),
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        localDetails.profilePicture!),
+                                    radius: 100.0,
+                                  ),
+                                ),
                       InkWell(
                         onTap: () {
                           getImage();
@@ -230,14 +276,14 @@ class _EditProfileState extends State<EditProfile> {
                       textController: usertitleController,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 8.0, right: 20.0),
-                    child: QTextField(
-                      label: "Password",
-                      textController: passwordController,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       left: 20.0, top: 8.0, right: 20.0),
+                  //   child: QTextField(
+                  //     label: "Password",
+                  //     textController: passwordController,
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 20.0, top: 8.0, right: 20.0),

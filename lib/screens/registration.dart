@@ -43,6 +43,59 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<User> createUser(User user) async {
+    // late NavigatorState dialogContext;
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (BuildContext context) {
+    //     dialogContext = Navigator.of(context);
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
+    // final response = await http.post(Uri.parse('${Env.URL_PREFIX}/users/'),
+    //     headers: <String, String>{
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //     body: jsonEncode(<String, dynamic>{
+    //       'username': user.username,
+    //       'password': user.password,
+    //       'email': user.email,
+    //       'title': user.title,
+    //       'profile_picture': '',
+    //       'is_active': true,
+    //       'quizzes_made': 0,
+    //       'total_score': 0,
+    //       'status': 'regular',
+    //     }));
+    // if (response.statusCode == 201) {
+    //   final userJson = jsonDecode(response.body);
+    //   return User.fromJson(userJson);
+    // } else {
+    //   dialogContext.pop();
+    //   showQToast("Failed to create account", true);
+    //   throw Exception('Failed to create user.');
+    // }
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${Env.URL_PREFIX}/users/'),
+    );
+
+    request.fields['username'] = user.username;
+    request.fields['password'] = user.password;
+    request.fields['email'] = user.email;
+    request.fields['title'] = user.title;
+    request.fields['profile_picture'] = '';
+    request.fields['is_active'] = 'true';
+    request.fields['quizzes_made'] = user.quizzesMade.toString();
+    request.fields['total_score'] = user.totalScore.toString();
+    request.fields['status'] = 'regular';
+
+    request.headers.addAll(<String, String>{
+      'Content-Type': 'multipart/form-data',
+    });
+
     late NavigatorState dialogContext;
     showDialog(
       context: context,
@@ -54,28 +107,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         );
       },
     );
-    final response = await http.post(Uri.parse('${Env.URL_PREFIX}/users/'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'username': user.username,
-          'password': user.password,
-          'email': user.email,
-          'title': user.title,
-          'profile_picture': null,
-          'is_active': true,
-          'quizzes_made': 0,
-          'total_score': 0,
-          'status': 'regular',
-        }));
+
+    final response = await http.Response.fromStream(await request.send());
+    print(jsonDecode(response.body));
     if (response.statusCode == 201) {
       final userJson = jsonDecode(response.body);
+      dialogContext.pop();
       return User.fromJson(userJson);
     } else {
       dialogContext.pop();
-      showQToast("Failed to create account", true);
-      throw Exception('Failed to create user.');
+      throw Exception('Failed to update user.');
     }
   }
 
