@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:quizpix/widgets/q_toast.dart';
 
 import '../env.sample.dart';
 import '../models/user.dart';
@@ -66,6 +67,7 @@ Future<User> updateUser(BuildContext context, User user) async {
     return User.fromJson(userJson);
   } else {
     dialogContext.pop();
+    showQToast("Please try again later", true);
     throw Exception('Failed to update user.');
   }
 }

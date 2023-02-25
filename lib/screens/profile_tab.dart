@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/screens/edit_profile.dart';
+import 'package:quizpix/widgets/confirm_dialog.dart';
 import 'package:quizpix/widgets/pro_card.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 import 'package:quizpix/widgets/stat_card.dart';
@@ -17,6 +18,40 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  void confirmSignOut(NavigatorState confirmContext) {
+    confirmContext.pop();
+    localDetails = User(
+      //reset user and remove login info
+      null,
+      "",
+      "",
+      "",
+      "",
+      "",
+      false,
+      0,
+      0,
+      "",
+    );
+    Navigator.pushNamed(context, '/');
+  }
+
+  Future<dynamic> displayConfirmDialog(BuildContext context) async {
+    late NavigatorState confirmContext;
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        confirmContext = Navigator.of(context);
+        return ConfirmDialog(
+          confirm: confirmSignOut,
+          confirmContext: confirmContext,
+          action: "Sign Out",
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {});
@@ -158,23 +193,11 @@ class _ProfileTabState extends State<ProfileTab> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                         child: QButtonOutline(
-                            label: "Sign Out",
-                            onPress: () {
-                              localDetails = User(
-                                //reset user and remove login info
-                                null,
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                false,
-                                0,
-                                0,
-                                "",
-                              );
-                              Navigator.pushNamed(context, '/');
-                            }),
+                          label: "Sign Out",
+                          onPress: () {
+                            displayConfirmDialog(context);
+                          },
+                        ),
                       ),
                       const Spacer(flex: 2),
                     ],
