@@ -501,6 +501,8 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () {
               if (validateInput()) {
                 Question newQuestion = Question(
+                  "",
+                  "",
                   type!,
                   widget.questionController.text.trim(),
                   getNewAnswer(),
@@ -777,6 +779,8 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () {
               if (validateInput()) {
                 Question newQuestion = Question(
+                  "",
+                  "",
                   type!,
                   widget.questionController.text.trim(),
                   answerInd == 1 ? 'true' : 'false',
@@ -1017,6 +1021,8 @@ class _EditDialogState extends State<EditDialog> {
           onPressed: () {
             if (validateInput()) {
               Question newQuestion = Question(
+                "",
+                "",
                 type!,
                 widget.questionController.text.trim(),
                 widget.answerController.text.trim(),
