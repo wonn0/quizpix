@@ -9,7 +9,7 @@ class Quiz {
   Quiz.fromJson(Map<String, dynamic> json)
       : url = json['url'],
         user = json['user'],
-        image = json['imgae'],
+        image = json['image'],
         title = json['title'];
 
   Map<String, dynamic> toJson() => {
