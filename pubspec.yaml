@@ -40,6 +40,12 @@ dependencies:
   clipboard: ^0.1.2+8
   http: ^0.13.3
   fluttertoast: ^8.1.1
+  file_picker: ^4.4.0
+  path_provider: ^2.0.11
+  read_pdf_text: ^0.2.1
+  pdf_text: ^0.5.0
+  open_file: ^3.2.1
+  flutter_full_pdf_viewer: ^1.0.6
 
   # Firebase Database
   cloud_firestore: ^4.2.0
