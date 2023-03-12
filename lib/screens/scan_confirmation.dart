@@ -22,6 +22,14 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
     scantextController = TextEditingController(text: widget.text);
   }
 
+  // for debugging string
+  void printLongString(String text) {
+    final RegExp pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern
+        .allMatches(text)
+        .forEach((RegExpMatch match) => print(match.group(0)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +121,8 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                             child: QButton(
                                 label: "Generate",
                                 onPress: () {
+                                  printLongString(scantextController!.text
+                                      .replaceAll('"', '\''));
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
                                           const QuizGenerated()));
