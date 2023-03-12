@@ -1,6 +1,6 @@
 class Question {
-  final String url;
-  final String quiz;
+  final String? url;
+  final String? quiz;
   final int type;
   final String question;
   final String answer;
