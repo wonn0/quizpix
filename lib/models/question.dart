@@ -1,7 +1,7 @@
 class Question {
   final String? url;
   final String? quiz;
-  final int type;
+  final String type;
   final String question;
   final String answer;
   final List<String>? choices;

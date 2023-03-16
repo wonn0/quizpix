@@ -15,7 +15,7 @@ class EditQuestionItem extends StatefulWidget {
   });
 
   final int index;
-  final int type;
+  final String type;
   final String question;
   final String answer;
   final List<String> choices;
@@ -26,7 +26,7 @@ class EditQuestionItem extends StatefulWidget {
 }
 
 class _EditQuestionItemState extends State<EditQuestionItem> {
-  int type = 1;
+  String type = 'multiple_choice';
   final TextEditingController questionController = TextEditingController();
   final TextEditingController answerController = TextEditingController();
   final TextEditingController choiceAController = TextEditingController();
@@ -49,7 +49,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
     }
   }
 
-  void updateType(int newType) {
+  void updateType(String newType) {
     setState(() {
       type = newType;
     });
@@ -135,7 +135,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
 
   @override
   Widget build(BuildContext context) {
-    if (type == 1) {
+    if (type == 'multiple_choice') {
       return Row(
         children: [
           Expanded(
@@ -220,7 +220,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
       );
     }
 
-    if (type == 2) {
+    if (type == 'true_or_false') {
       return Row(
         children: [
           Expanded(
