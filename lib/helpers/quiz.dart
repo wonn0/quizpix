@@ -10,7 +10,7 @@ import '../env.sample.dart';
 import '../globals/globals.dart';
 import '../models/quiz.dart';
 
-Future<Quiz> createQuiz(BuildContext context, Quiz quiz) async {
+Future<Quiz> createQuiz() async {
   var request = http.MultipartRequest(
     'POST',
     Uri.parse('${Env.URL_PREFIX}/quizzes/'),
@@ -18,37 +18,37 @@ Future<Quiz> createQuiz(BuildContext context, Quiz quiz) async {
 
   request.fields['user'] = localDetails.url!;
   request.fields['image'] = '';
-  request.fields['title'] = quiz.title;
+  request.fields['title'] = 'My Quiz';
 
   request.headers.addAll(<String, String>{
     'Content-Type': 'multipart/form-data',
   });
 
-  late NavigatorState dialogContext;
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      dialogContext = Navigator.of(context);
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    },
-  );
+  // late NavigatorState dialogContext;
+  // showDialog(
+  //   context: context,
+  //   barrierDismissible: false,
+  //   builder: (BuildContext context) {
+  //     dialogContext = Navigator.of(context);
+  //     return const Center(
+  //       child: CircularProgressIndicator(),
+  //     );
+  //   },
+  // );
 
   final response = await http.Response.fromStream(await request.send());
   print(jsonDecode(response.body));
   if (response.statusCode == 201) {
     final quizJson = jsonDecode(response.body);
-    dialogContext.pop();
+    // dialogContext.pop();
     return Quiz.fromJson(quizJson);
   } else {
-    dialogContext.pop();
+    // dialogContext.pop();
     throw Exception('Failed to update quiz.');
   }
 }
 
-Future<List> generateQuiz(BuildContext context, String text) async {
+Future<Map<String, dynamic>> getQuestions(BuildContext context, String text) async {
   late NavigatorState dialogContext;
   showDialog(
     context: context,
@@ -65,14 +65,17 @@ Future<List> generateQuiz(BuildContext context, String text) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        text: text,
+        "text": text,
       }));
-  if (response.statusCode == 201) {
+      print(response.headers);
+      print(response.body);
+  if (response.statusCode == 200) {
     final generatedQuestions = jsonDecode(response.body);
     return generatedQuestions;
   } else {
     dialogContext.pop();
-    showQToast("Failed to create quiz", true);
+    print("Failed to create quiz with status code ${response.statusCode}");
+    showQToast("Failed to create quiz with status code ${response.statusCode}", true);
     throw Exception('Failed to create quiz.');
   }
 }

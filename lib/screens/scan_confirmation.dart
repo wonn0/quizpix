@@ -3,6 +3,11 @@ import 'package:quizpix/screens/quiz_generated.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
 
+import '../helpers/quiz.dart';
+import '../helpers/question.dart';
+import '../models/quiz.dart';
+import '../models/question.dart';
+
 class ScanConfirmation extends StatefulWidget {
   const ScanConfirmation({super.key, this.title, this.text});
 
@@ -28,6 +33,32 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
     pattern
         .allMatches(text)
         .forEach((RegExpMatch match) => print(match.group(0)));
+  }
+
+  Future<Quiz> generateQuiz(BuildContext context, String text) async {
+    late NavigatorState dialogContext;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        dialogContext = Navigator.of(context);
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    Map<String, dynamic> quiz = await getQuestions(context, text);
+    List<dynamic> questions = quiz['quiz'];
+    //create the quiz object and store in database
+    Quiz quizDetails = await createQuiz();
+    //iterate over each question in the list and add it to the quiz we just made
+    for (var question in questions) {
+      Question temp = Question(null, quizDetails.url, question.type,
+          question.question, question.answer, question?.choices);
+      createQuestion(temp);
+    }
+
+    return quizDetails;
   }
 
   @override
@@ -121,11 +152,17 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                             child: QButton(
                                 label: "Generate",
                                 onPress: () {
-                                  printLongString(scantextController!.text
-                                      .replaceAll('"', '\''));
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const QuizGenerated()));
+                                  // printLongString(scantextController!.text
+                                  //     .replaceAll('"', '\''));
+                                  print(scantextController!.text);
+                                  // getQuestions(
+                                  //         context, scantextController!.text)
+                                  //     .then((response) {
+
+                                  // });
+                                  generateQuiz(
+                                          context, scantextController!.text)
+                                      .then((response) {});
                                 }),
                           ),
                         ],
