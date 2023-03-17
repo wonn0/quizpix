@@ -16,7 +16,7 @@ class QuestionItem extends StatelessWidget {
   final String type;
   final String question;
   final String answer;
-  final List<String>? choices;
+  final List<dynamic>? choices;
   final String? selAnswer;
 
   Color getColor(

@@ -21,6 +21,13 @@ Future<Question> createQuestion(Question question) async {
   //     );
   //   },
   // );
+  print(jsonEncode(<String, dynamic>{
+    'quiz': question.quiz,
+    'type': question.type,
+    'question': question.question,
+    'answer': question.answer,
+    'choices': question.choices,
+  }));
   final response = await http.post(Uri.parse('${Env.URL_PREFIX}/questions/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -32,6 +39,7 @@ Future<Question> createQuestion(Question question) async {
         'answer': question.answer,
         'choices': question.choices,
       }));
+  print(response.body);
   if (response.statusCode == 201) {
     final questionJson = jsonDecode(response.body);
     print(questionJson);

@@ -53,9 +53,16 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
     Quiz quizDetails = await createQuiz();
     //iterate over each question in the list and add it to the quiz we just made
     for (var question in questions) {
-      Question temp = Question(null, quizDetails.url, question.type,
-          question.question, question.answer, question?.choices);
-      createQuestion(temp);
+      Question temp = Question(
+        null,
+        quizDetails.url,
+        question['type'],
+        question['question'],
+        question['answer'],
+        // (question['choices'] as List<dynamic>).cast<String>(),
+        question['choices'],
+      );
+      await createQuestion(temp);
     }
 
     return quizDetails;
@@ -162,7 +169,12 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                                   // });
                                   generateQuiz(
                                           context, scantextController!.text)
-                                      .then((response) {});
+                                      .then((response) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const QuizGenerated()));
+                                  });
                                 }),
                           ),
                         ],

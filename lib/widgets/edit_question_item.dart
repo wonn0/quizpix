@@ -18,7 +18,7 @@ class EditQuestionItem extends StatefulWidget {
   final String type;
   final String question;
   final String answer;
-  final List<String> choices;
+  final List<dynamic> choices;
   final Function(Question?, int) updateTemp;
 
   @override
