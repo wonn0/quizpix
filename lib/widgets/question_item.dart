@@ -13,14 +13,15 @@ class QuestionItem extends StatelessWidget {
   });
 
   final int index;
-  final int type;
+  final String type;
   final String question;
   final String answer;
-  final List<String>? choices;
+  final List<dynamic>? choices;
   final String? selAnswer;
 
-  Color getColor(int type, String? choice, String answer, String? selAnswer) {
-    if (type == 1 || type == 2) {
+  Color getColor(
+      String type, String? choice, String answer, String? selAnswer) {
+    if (type == 'multiple_choice' || type == 'true_or_false') {
       if (selAnswer == null) {
         if (choice == answer) {
           return const Color(0xfff69036);
@@ -62,7 +63,7 @@ class QuestionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (type == 1) {
+    if (type == 'multiple_choice') {
       return Row(
         children: [
           Expanded(
@@ -91,8 +92,8 @@ class QuestionItem extends StatelessWidget {
                               .textTheme
                               .bodyLarge!
                               .merge(TextStyle(
-                                color: getColor(
-                                    1, choices![index], answer, selAnswer),
+                                color: getColor('multiple_choice',
+                                    choices![index], answer, selAnswer),
                               )),
                           '${choicesMap[index + 1]}. ${choices![index]}');
                     },
@@ -105,7 +106,7 @@ class QuestionItem extends StatelessWidget {
       );
     }
 
-    if (type == 2) {
+    if (type == 'true_or_false') {
       return Row(
         children: [
           Expanded(
@@ -123,12 +124,14 @@ class QuestionItem extends StatelessWidget {
                   '${index + 1}. $question'),
               Text(
                   style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
-                        color: getColor(2, 'true', answer, selAnswer),
+                        color: getColor(
+                            'true_or_false', 'true', answer, selAnswer),
                       )),
                   'a. True'),
               Text(
                   style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
-                        color: getColor(2, 'false', answer, selAnswer),
+                        color: getColor(
+                            'true_or_false', 'false', answer, selAnswer),
                       )),
                   'b. False'),
             ]),
@@ -158,7 +161,8 @@ class QuestionItem extends StatelessWidget {
                             .textTheme
                             .bodyLarge!
                             .merge(TextStyle(
-                              color: getColor(3, null, answer, selAnswer),
+                              color: getColor(
+                                  'identification', null, answer, selAnswer),
                             )),
                         'Answer: ${selAnswer ?? answer}'),
                     getCorrectAnswer(context),

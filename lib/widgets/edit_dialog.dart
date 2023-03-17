@@ -19,12 +19,12 @@ class EditDialog extends StatefulWidget {
       required this.choiceDController});
 
   final int index;
-  final int type;
+  final String type;
   final String question;
   final String answer;
-  final List<String> choices;
+  final List<dynamic> choices;
   final Function(Question, int) updateTemp;
-  final Function(int) updateType;
+  final Function(String) updateType;
   final TextEditingController questionController;
   final TextEditingController answerController;
   final TextEditingController choiceAController;
@@ -37,7 +37,7 @@ class EditDialog extends StatefulWidget {
 }
 
 class _EditDialogState extends State<EditDialog> {
-  int? type = 1;
+  String type = 'multiple_choice';
   int? answerInd = 0;
 
   @override
@@ -47,20 +47,20 @@ class _EditDialogState extends State<EditDialog> {
     type = widget.type;
     widget.questionController.text = widget.question;
     widget.answerController.text = widget.answer;
-    if (widget.type == 1) {
+    if (widget.type == 'multiple_choice') {
       answerInd =
           widget.choices.indexWhere((choice) => choice == widget.answer);
       widget.choiceAController.text = widget.choices[0];
       widget.choiceBController.text = widget.choices[1];
       widget.choiceCController.text = widget.choices[2];
       widget.choiceDController.text = widget.choices[3];
-    } else if (widget.type == 2) {
+    } else if (widget.type == 'true_or_false') {
       answerInd = widget.answer == 'false' ? 0 : 1;
     }
   }
 
   bool validateInput() {
-    if (type == 1) {
+    if (type == 'multiple_choice') {
       if ((widget.type == type) &&
           (widget.questionController.text.trim() == widget.question) &&
           (widget.choiceAController.text.trim() == widget.choices[0]) &&
@@ -92,7 +92,7 @@ class _EditDialogState extends State<EditDialog> {
               widget.choiceDController.text.trim())) {
         return false;
       }
-    } else if (type == 2) {
+    } else if (type == 'true_or_false') {
       int initAnswerInd = widget.answer == 'true' ? 1 : 0;
       if (widget.questionController.text.trim().isEmpty ||
           (widget.questionController.text.trim() == widget.question &&
@@ -119,7 +119,7 @@ class _EditDialogState extends State<EditDialog> {
   }
 
   String getNewAnswer() {
-    if (type == 1) {
+    if (type == 'multiple_choice') {
       switch (answerInd) {
         case 0:
           return widget.choiceAController.text.trim();
@@ -138,7 +138,7 @@ class _EditDialogState extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if (type == 1) {
+    if (type == 'multiple_choice') {
       return AlertDialog(
         titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
         contentPadding: const EdgeInsets.only(
@@ -178,8 +178,8 @@ class _EditDialogState extends State<EditDialog> {
                   children: [
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 1,
+                        Radio<String>(
+                            value: 'multiple_choice',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -191,7 +191,7 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
@@ -204,8 +204,8 @@ class _EditDialogState extends State<EditDialog> {
                     ),
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 2,
+                        Radio<String>(
+                            value: 'true_or_false',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -217,7 +217,7 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
@@ -230,8 +230,8 @@ class _EditDialogState extends State<EditDialog> {
                     ),
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 3,
+                        Radio<String>(
+                            value: 'identification',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -243,11 +243,11 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
-                        const Text('Classic',
+                        const Text('FITB',
                             style: TextStyle(
                               fontSize: 16.0,
                               color: Color(0xff6d5271),
@@ -503,7 +503,7 @@ class _EditDialogState extends State<EditDialog> {
                 Question newQuestion = Question(
                   "",
                   "",
-                  type!,
+                  type,
                   widget.questionController.text.trim(),
                   getNewAnswer(),
                   [
@@ -516,7 +516,7 @@ class _EditDialogState extends State<EditDialog> {
                 Navigator.of(context).pop();
                 widget.updateTemp(newQuestion, widget.index);
                 if (type != widget.type) {
-                  widget.updateType(type!);
+                  widget.updateType(type);
                 }
               }
             },
@@ -540,7 +540,7 @@ class _EditDialogState extends State<EditDialog> {
           ),
         ],
       );
-    } else if (type == 2) {
+    } else if (type == 'true_or_false') {
       return AlertDialog(
         titlePadding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
         contentPadding: const EdgeInsets.only(
@@ -580,8 +580,8 @@ class _EditDialogState extends State<EditDialog> {
                   children: [
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 1,
+                        Radio<String>(
+                            value: 'multiple_choice',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -593,7 +593,7 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
@@ -606,8 +606,8 @@ class _EditDialogState extends State<EditDialog> {
                     ),
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 2,
+                        Radio<String>(
+                            value: 'true_or_false',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -619,7 +619,7 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
@@ -632,8 +632,8 @@ class _EditDialogState extends State<EditDialog> {
                     ),
                     Row(
                       children: [
-                        Radio<int>(
-                            value: 3,
+                        Radio<String>(
+                            value: 'identification',
                             groupValue: type,
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => const Color(0xff6d5271)),
@@ -645,11 +645,11 @@ class _EditDialogState extends State<EditDialog> {
                                 horizontal: -4, vertical: -4),
                             onChanged: (value) {
                               setState(() {
-                                type = value;
+                                type = value!;
                               });
                             }),
                         const SizedBox(width: 8.0),
-                        const Text('Classic',
+                        const Text('FITB',
                             style: TextStyle(
                               fontSize: 16.0,
                               color: Color(0xff6d5271),
@@ -781,7 +781,7 @@ class _EditDialogState extends State<EditDialog> {
                 Question newQuestion = Question(
                   "",
                   "",
-                  type!,
+                  type,
                   widget.questionController.text.trim(),
                   answerInd == 1 ? 'true' : 'false',
                   [],
@@ -789,7 +789,7 @@ class _EditDialogState extends State<EditDialog> {
                 Navigator.of(context).pop();
                 widget.updateTemp(newQuestion, widget.index);
                 if (type != widget.type) {
-                  widget.updateType(type!);
+                  widget.updateType(type);
                 }
               }
             },
@@ -853,8 +853,8 @@ class _EditDialogState extends State<EditDialog> {
                 children: [
                   Row(
                     children: [
-                      Radio<int>(
-                          value: 1,
+                      Radio<String>(
+                          value: 'multiple_choice',
                           groupValue: type,
                           fillColor: MaterialStateColor.resolveWith(
                               (states) => const Color(0xff6d5271)),
@@ -866,7 +866,7 @@ class _EditDialogState extends State<EditDialog> {
                               const VisualDensity(horizontal: -4, vertical: -4),
                           onChanged: (value) {
                             setState(() {
-                              type = value;
+                              type = value!;
                             });
                           }),
                       const SizedBox(width: 8.0),
@@ -879,8 +879,8 @@ class _EditDialogState extends State<EditDialog> {
                   ),
                   Row(
                     children: [
-                      Radio<int>(
-                          value: 2,
+                      Radio<String>(
+                          value: 'true_or_false',
                           groupValue: type,
                           fillColor: MaterialStateColor.resolveWith(
                               (states) => const Color(0xff6d5271)),
@@ -892,7 +892,7 @@ class _EditDialogState extends State<EditDialog> {
                               const VisualDensity(horizontal: -4, vertical: -4),
                           onChanged: (value) {
                             setState(() {
-                              type = value;
+                              type = value!;
                             });
                           }),
                       const SizedBox(width: 8.0),
@@ -905,8 +905,8 @@ class _EditDialogState extends State<EditDialog> {
                   ),
                   Row(
                     children: [
-                      Radio<int>(
-                          value: 3,
+                      Radio<String>(
+                          value: 'identification',
                           groupValue: type,
                           fillColor: MaterialStateColor.resolveWith(
                               (states) => const Color(0xff6d5271)),
@@ -918,11 +918,11 @@ class _EditDialogState extends State<EditDialog> {
                               const VisualDensity(horizontal: -4, vertical: -4),
                           onChanged: (value) {
                             setState(() {
-                              type = value;
+                              type = value!;
                             });
                           }),
                       const SizedBox(width: 8.0),
-                      const Text('Classic',
+                      const Text('FITB',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Color(0xff6d5271),
@@ -1023,7 +1023,7 @@ class _EditDialogState extends State<EditDialog> {
               Question newQuestion = Question(
                 "",
                 "",
-                type!,
+                type,
                 widget.questionController.text.trim(),
                 widget.answerController.text.trim(),
                 [],
@@ -1031,7 +1031,7 @@ class _EditDialogState extends State<EditDialog> {
               Navigator.of(context).pop();
               widget.updateTemp(newQuestion, widget.index);
               if (type != widget.type) {
-                widget.updateType(type!);
+                widget.updateType(type);
               }
             }
           },
