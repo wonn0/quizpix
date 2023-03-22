@@ -4,7 +4,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    1,
+    'multiple_choice',
     'What is the color of the Sky?',
     'Blue',
     ['Green', 'Blue', 'Red', 'Yellow'],
@@ -12,7 +12,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    2,
+    'true_or_false',
     'The sky is blue.',
     'true',
     [],
@@ -20,7 +20,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    3,
+    'identification',
     'What color is the sky?',
     'Blue',
     [],
@@ -28,7 +28,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    1,
+    'multiple_choice',
     'What is the color of the Sky?',
     'Blue',
     ['Green', 'Blue', 'Red', 'Yellow'],
@@ -36,7 +36,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    1,
+    'multiple_choice',
     'What is the color of the Sky?',
     'Blue',
     ['Green', 'Blue', 'Red', 'Yellow'],
@@ -44,7 +44,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    2,
+    'true_or_false',
     'The sky is blue.',
     'true',
     [],
@@ -52,7 +52,7 @@ List<Question> questions = [
   const Question(
     "",
     "",
-    3,
+    'identification',
     'What color is the sky?',
     'Blue',
     [],

@@ -35,7 +35,7 @@ class _EditQuestionsState extends State<EditQuestions> {
         builder: (BuildContext context) {
           return EditDialog(
             index: tempQuestions.length,
-            type: 1,
+            type: 'multiple_choice',
             question: "",
             answer: "",
             choices: const ['', '', '', ''],
@@ -46,7 +46,7 @@ class _EditQuestionsState extends State<EditQuestions> {
             choiceCController: choiceCController,
             choiceDController: choiceDController,
             updateTemp: updateTemp,
-            updateType: (int x) {},
+            updateType: (String x) {},
           );
         });
   }

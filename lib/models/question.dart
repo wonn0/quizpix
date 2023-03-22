@@ -1,10 +1,10 @@
 class Question {
-  final String url;
-  final String quiz;
-  final int type;
+  final String? url;
+  final String? quiz;
+  final String type;
   final String question;
   final String answer;
-  final List<String>? choices;
+  final List<dynamic>? choices;
 
   const Question(
       this.url, this.quiz, this.type, this.question, this.answer, this.choices);

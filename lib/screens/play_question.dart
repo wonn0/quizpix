@@ -20,10 +20,10 @@ class PlayQuestion extends StatefulWidget {
   final int index;
   final int score;
   final int total;
-  final int type;
+  final String type;
   final String question;
   final String answer;
-  final List<String> choices;
+  final List<dynamic> choices;
   final Function(String, String) onAnswer;
 
   @override
@@ -63,7 +63,7 @@ class _PlayQuestionState extends State<PlayQuestion> {
   }
 
   Widget getAnswerArea() {
-    if (widget.type == 1) {
+    if (widget.type == 'multiple_choice') {
       return Expanded(
         flex: 1,
         child: Container(
@@ -124,7 +124,7 @@ class _PlayQuestionState extends State<PlayQuestion> {
           ),
         ),
       );
-    } else if (widget.type == 2) {
+    } else if (widget.type == 'true_or_false') {
       return Expanded(
         flex: 1,
         child: Container(
