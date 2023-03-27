@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/globals/globals.dart';
+import 'package:quizpix/helpers/user.dart';
 import 'package:quizpix/screens/quiz_generated.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
@@ -7,6 +9,7 @@ import '../helpers/quiz.dart';
 import '../helpers/question.dart';
 import '../models/quiz.dart';
 import '../models/question.dart';
+import '../models/user.dart';
 
 class ScanConfirmation extends StatefulWidget {
   const ScanConfirmation({super.key, this.title, this.text});
@@ -64,7 +67,20 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
       );
       await createQuestion(temp);
     }
-
+    User temp = User(
+        localDetails.url,
+        localDetails.username,
+        localDetails.password,
+        localDetails.email,
+        localDetails.title,
+        localDetails.profilePicture,
+        true,
+        localDetails.quizzesMade + 1,
+        localDetails.totalScore,
+        localDetails.status);
+        //update user details
+    // await updateQuizzesMade();
+    quizzes = await getUserQuizzes();
     return quizDetails;
   }
 

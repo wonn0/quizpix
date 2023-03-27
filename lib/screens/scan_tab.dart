@@ -141,7 +141,9 @@ class _ScanTabState extends State<ScanTab> {
                           size: 50.0,
                           color: Color(0xfff69036),
                         ),
-                        onPress: () {},
+                        onPress: () {
+                          pickFile();
+                        },
                         isLeft: true),
                     const Spacer(flex: 1),
                     ScanButton(
@@ -194,68 +196,6 @@ class _ScanTabState extends State<ScanTab> {
                   ],
                 ),
               ),
-              ScanButton(
-                  label: "Text",
-                  icon: const Icon(
-                    Icons.text_snippet_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    pickFile();
-                  },
-                  isLeft: true),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Input",
-                  icon: const Icon(
-                    Icons.edit_note_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ScanConfirmation(
-                            title: "Input your reading material")));
-                  },
-                  isLeft: false),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Image",
-                  icon: const Icon(
-                    Icons.image_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    getImages();
-                  },
-                  isLeft: true),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Camera",
-                  icon: const Icon(
-                    Icons.camera_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    getCamera();
-                  },
-                  isLeft: false),
-              const Spacer(flex: 1),
-              _load == true
-                  ? Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: _image != null
-                          ? Image.file(
-                              File(_image.path),
-                              fit: BoxFit.fitWidth,
-                            )
-                          : Container(),
-                    )
-                  : Container()
             ],
           ),
         ),
