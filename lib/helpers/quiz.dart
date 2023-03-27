@@ -95,16 +95,16 @@ Future<List<Quiz>> getSharedQuizzes() async {
 Future<Map<String, dynamic>> getQuestions(
     BuildContext context, String text) async {
   late NavigatorState dialogContext;
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      dialogContext = Navigator.of(context);
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    },
-  );
+  // showDialog(
+  //   context: context,
+  //   barrierDismissible: false,
+  //   builder: (BuildContext context) {
+  //     dialogContext = Navigator.of(context);
+  //     return const Center(
+  //       child: CircularProgressIndicator(),
+  //     );
+  //   },
+  // );
   final response = await http.post(Uri.parse(Env.URL_NLP),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -118,7 +118,7 @@ Future<Map<String, dynamic>> getQuestions(
     final generatedQuestions = jsonDecode(response.body);
     return generatedQuestions;
   } else {
-    dialogContext.pop();
+    // dialogContext.pop();
     print("Failed to create quiz with status code ${response.statusCode}");
     showQToast(
         "Failed to create quiz with status code ${response.statusCode}", true);

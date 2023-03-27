@@ -11,7 +11,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 
-
 main() async {
   runApp(const MaterialApp(home: ScanTab()));
 }
@@ -46,37 +45,38 @@ class _ScanTabState extends State<ScanTab> {
       ).then((result) async {
         if (result!.files.isNotEmpty) {
           // FOR TXT FILES
-            if (result.files.first.extension == 'txt') {
-              try {
-                Directory appDir = Directory.systemTemp;
-                print('This is a appDir {$appDir}');
+          if (result.files.first.extension == 'txt') {
+            try {
+              Directory appDir = Directory.systemTemp;
+              print('This is a appDir {$appDir}');
 
-                String fileContent;
-                if (Platform.isAndroid) {
-                  final file = File(result.files.first.path!);
-                  fileContent = await file.readAsString();
-                  print('Print successfull');
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScanConfirmation(text: fileContent)));
-                  print('Hello');
-                } else {
-                  fileContent = await File(result.files.first.path!).readAsString();
-                }
-
-                setState(() {
-                  _fileContent = fileContent;
-                });
-
-                // save the file in app's documents directory
-                final directory = await getApplicationDocumentsDirectory();
-                final fileName = result.files.first.path!.split('/').last;
-                final file = File('${directory.path}/$fileName');
-                await file.writeAsString(fileContent);
-              } catch (e) {
-                print('Error while picking the file: $e');
+              String fileContent;
+              if (Platform.isAndroid) {
+                final file = File(result.files.first.path!);
+                fileContent = await file.readAsString();
+                print('Print successfull');
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ScanConfirmation(text: fileContent)));
+                print('Hello');
+              } else {
+                fileContent =
+                    await File(result.files.first.path!).readAsString();
               }
+
+              setState(() {
+                _fileContent = fileContent;
+              });
+
+              // save the file in app's documents directory
+              final directory = await getApplicationDocumentsDirectory();
+              final fileName = result.files.first.path!.split('/').last;
+              final file = File('${directory.path}/$fileName');
+              await file.writeAsString(fileContent);
+            } catch (e) {
+              print('Error while picking the file: $e');
             }
+          }
           // FOR PDF FILES
           else if (result.files.first.extension == 'pdf') {
             Future<String> getPDFtext(String path) async {
