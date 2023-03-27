@@ -175,11 +175,16 @@ class _HomeTabState extends State<HomeTab> {
                               print(questions);
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                // MaterialPageRoute(
+                                //   builder: (context) => ViewQuiz(
+                                //     author: currItems[index].username,
+                                //     title: currItems[index].title,
+                                //     questions: questions,
+                                //   ),
+                                // ),
+                                 MaterialPageRoute(
                                   builder: (context) => ViewQuiz(
-                                    author: currItems[index].username,
-                                    title: currItems[index].title,
-                                    questions: questions,
+                                    quiz: currItems[index],
                                   ),
                                 ),
                               );

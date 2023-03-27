@@ -91,7 +91,6 @@ Future<List<Quiz>> getSharedQuizzes() async {
   }
 }
 
-
 Future<Map<String, dynamic>> getQuestions(
     BuildContext context, String text) async {
   late NavigatorState dialogContext;
@@ -123,5 +122,48 @@ Future<Map<String, dynamic>> getQuestions(
     showQToast(
         "Failed to create quiz with status code ${response.statusCode}", true);
     throw Exception('Failed to create quiz.');
+  }
+}
+
+Future<Quiz> updateQuiz(Quiz quiz) async {
+  // late NavigatorState dialogContext;
+  // showDialog(
+  //   context: context,
+  //   barrierDismissible: false,
+  //   builder: (BuildContext context) {
+  //     dialogContext = Navigator.of(context);
+  //     return const Center(
+  //       child: CircularProgressIndicator(),
+  //     );
+  //   },
+  // );
+  print(jsonEncode(<String, dynamic>{
+    'url': quiz.url,
+    'user': quiz.user,
+    'username': quiz.username,
+    'image': quiz.image,
+    'title': quiz.title,
+    'is_shared': quiz.isShared,
+  }));
+  final response = await http.put(Uri.parse(quiz.url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'url': quiz.url,
+        'user': quiz.user,
+        'username': quiz.username,
+        'image': quiz.image,
+        'title': quiz.title,
+        'is_shared': quiz.isShared,
+      }));
+  print(response.body);
+  if (response.statusCode == 200) {
+    final quizJson = jsonDecode(response.body);
+    print(quizJson);
+    return quizJson;
+  } else {
+    showQToast("Failed to update question", true);
+    throw Exception('Failed to update question.');
   }
 }

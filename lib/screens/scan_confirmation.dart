@@ -23,6 +23,7 @@ class ScanConfirmation extends StatefulWidget {
 
 class _ScanConfirmationState extends State<ScanConfirmation> {
   TextEditingController? scantextController;
+  Quiz result = Quiz('', '', '', '', '', false);
 
   @override
   void initState() {
@@ -78,9 +79,10 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
         localDetails.quizzesMade + 1,
         localDetails.totalScore,
         localDetails.status);
-        //update user details
+    //update user details
     // await updateQuizzesMade();
     quizzes = await getUserQuizzes();
+    result = quizDetails;
     return quizDetails;
   }
 
@@ -185,11 +187,11 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                                   // });
                                   generateQuiz(
                                           context, scantextController!.text)
-                                      .then((response) {
+                                      .then((response) async {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const QuizGenerated()));
+                                                QuizGenerated(quiz: result)));
                                   });
                                 }),
                           ),

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/models/question.dart';
 
-class EditDialog extends StatefulWidget {
-  const EditDialog(
+class AddDialog extends StatefulWidget {
+  const AddDialog(
       {super.key,
       required this.index,
       // required this.type,
       // required this.question,
       // required this.answer,
       // required this.choices,
-      required this.question,
-      required this.type,
+      required this.quiz,
       required this.updateTemp,
       required this.updateType,
       required this.questionController,
@@ -26,8 +25,7 @@ class EditDialog extends StatefulWidget {
   // final String question;
   // final String answer;
   // final List<dynamic> choices;
-  final Question question;
-  final String type;
+  final String quiz;
   final Function(Question, int) updateTemp;
   final Function(String) updateType;
   final TextEditingController questionController;
@@ -38,49 +36,20 @@ class EditDialog extends StatefulWidget {
   final TextEditingController choiceDController;
 
   @override
-  State<EditDialog> createState() => _EditDialogState();
+  State<AddDialog> createState() => _AddDialogState();
 }
 
-class _EditDialogState extends State<EditDialog> {
+class _AddDialogState extends State<AddDialog> {
   String type = 'multiple_choice';
   int? answerInd = 0;
 
   @override
   void initState() {
     super.initState();
-
-    type = widget.question.type;
-    widget.questionController.text = widget.question.question;
-    widget.answerController.text = widget.question.answer;
-    if (widget.question.type == 'multiple_choice') {
-      answerInd = widget.question.choices!
-          .indexWhere((choice) => choice == widget.question.answer);
-      widget.choiceAController.text = widget.question.choices![0];
-      widget.choiceBController.text = widget.question.choices![1];
-      widget.choiceCController.text = widget.question.choices![2];
-      widget.choiceDController.text = widget.question.choices![3];
-    } else if (widget.question.type == 'true_or_false') {
-      answerInd = widget.question.answer == 'false' ? 0 : 1;
-    }
   }
 
   bool validateInput() {
     if (type == 'multiple_choice') {
-      if ((widget.question.type == type) &&
-          (widget.questionController.text.trim() == widget.question.question) &&
-          (widget.choiceAController.text.trim() ==
-              widget.question.choices![0]) &&
-          (widget.choiceBController.text.trim() ==
-              widget.question.choices![1]) &&
-          (widget.choiceCController.text.trim() ==
-              widget.question.choices![2]) &&
-          (widget.choiceDController.text.trim() ==
-              widget.question.choices![3]) &&
-          (answerInd ==
-              widget.question.choices!
-                  .indexWhere((choice) => choice == widget.question.answer))) {
-        return false;
-      }
       if (widget.questionController.text.trim().isEmpty ||
           widget.choiceAController.text.trim().isEmpty ||
           widget.choiceBController.text.trim().isEmpty ||
@@ -154,9 +123,9 @@ class _EditDialogState extends State<EditDialog> {
         contentPadding: const EdgeInsets.only(
             left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
         actionsPadding: const EdgeInsets.only(right: 20.0, bottom: 8.0),
-        title: Text(
-          widget.type == 'add' ? 'New Question' : 'Edit Question',
-          style: const TextStyle(
+        title: const Text(
+          'Edit Question',
+          style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 30,
             color: Color(0xfff69036),
@@ -511,8 +480,8 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () {
               if (validateInput()) {
                 Question newQuestion = Question(
-                  widget.question.url,
-                  widget.question.quiz,
+                  '',
+                  widget.quiz,
                   type,
                   widget.questionController.text.trim(),
                   getNewAnswer(),
@@ -523,23 +492,13 @@ class _EditDialogState extends State<EditDialog> {
                     widget.choiceDController.text.trim()
                   ],
                 );
-                if (widget.type == 'add') {
-                  createQuestion(newQuestion).then((response) {
-                    Navigator.of(context).pop();
-                    widget.updateTemp(newQuestion, widget.index);
-                    if (type != widget.question.type) {
-                      widget.updateType(type);
-                    }
-                  });
-                } else {
-                  updateQuestion(newQuestion).then((response) {
-                    Navigator.of(context).pop();
-                    widget.updateTemp(newQuestion, widget.index);
-                    if (type != widget.question.type) {
-                      widget.updateType(type);
-                    }
-                  });
-                }
+                createQuestion(newQuestion).then((response) {
+                  Navigator.of(context).pop();
+                  widget.updateTemp(newQuestion, widget.index);
+                  // if (type != widget.question.type) {
+                  //   widget.updateType(type);
+                  // }
+                });
               }
             },
             style: ElevatedButton.styleFrom(
@@ -568,9 +527,9 @@ class _EditDialogState extends State<EditDialog> {
         contentPadding: const EdgeInsets.only(
             left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
         actionsPadding: const EdgeInsets.only(right: 20.0, bottom: 8.0),
-        title: Text(
-          widget.type == 'add' ? 'New Question' : 'Edit Question',
-          style: const TextStyle(
+        title: const Text(
+          'Edit Question',
+          style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 30,
             color: Color(0xfff69036),
@@ -808,23 +767,13 @@ class _EditDialogState extends State<EditDialog> {
                   answerInd == 1 ? 'true' : 'false',
                   [],
                 );
-                if (widget.type == 'add') {
-                  createQuestion(newQuestion).then((response) {
-                    Navigator.of(context).pop();
-                    widget.updateTemp(newQuestion, widget.index);
-                    if (type != widget.question.type) {
-                      widget.updateType(type);
-                    }
-                  });
-                } else {
-                  updateQuestion(newQuestion).then((response) {
-                    Navigator.of(context).pop();
-                    widget.updateTemp(newQuestion, widget.index);
-                    if (type != widget.question.type) {
-                      widget.updateType(type);
-                    }
-                  });
-                }
+                updateQuestion(newQuestion).then((response) {
+                  Navigator.of(context).pop();
+                  widget.updateTemp(newQuestion, widget.index);
+                  if (type != widget.question.type) {
+                    widget.updateType(type);
+                  }
+                });
               }
             },
             style: ElevatedButton.styleFrom(
@@ -853,9 +802,9 @@ class _EditDialogState extends State<EditDialog> {
       contentPadding: const EdgeInsets.only(
           left: 20.0, top: 20.0, right: 20.0, bottom: 8.0),
       actionsPadding: const EdgeInsets.only(right: 20.0, bottom: 8.0),
-      title: Text(
-        widget.type == 'add' ? 'New Question' : 'Edit Question',
-        style: const TextStyle(
+      title: const Text(
+        'Edit Question',
+        style: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 30,
           color: Color(0xfff69036),
@@ -1062,23 +1011,13 @@ class _EditDialogState extends State<EditDialog> {
                 widget.answerController.text.trim(),
                 [],
               );
-              if (widget.type == 'add') {
-                createQuestion(newQuestion).then((response) {
-                  Navigator.of(context).pop();
-                  widget.updateTemp(newQuestion, widget.index);
-                  if (type != widget.question.type) {
-                    widget.updateType(type);
-                  }
-                });
-              } else {
-                updateQuestion(newQuestion).then((response) {
-                  Navigator.of(context).pop();
-                  widget.updateTemp(newQuestion, widget.index);
-                  if (type != widget.question.type) {
-                    widget.updateType(type);
-                  }
-                });
-              }
+              updateQuestion(newQuestion).then((response) {
+                Navigator.of(context).pop();
+                widget.updateTemp(newQuestion, widget.index);
+                if (type != widget.question.type) {
+                  widget.updateType(type);
+                }
+              });
             }
           },
           style: ElevatedButton.styleFrom(

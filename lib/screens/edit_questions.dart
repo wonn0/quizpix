@@ -4,9 +4,10 @@ import 'package:quizpix/widgets/edit_dialog.dart';
 import 'package:quizpix/widgets/edit_question_item.dart';
 
 class EditQuestions extends StatefulWidget {
-  const EditQuestions({super.key, required this.questions});
+  const EditQuestions({super.key, required this.questions, required this.onPop});
 
   final List<Question> questions;
+  final VoidCallback onPop;
 
   @override
   State<EditQuestions> createState() => _EditQuestionsState();
@@ -35,10 +36,12 @@ class _EditQuestionsState extends State<EditQuestions> {
         builder: (BuildContext context) {
           return EditDialog(
             index: tempQuestions.length,
-            type: 'multiple_choice',
-            question: "",
-            answer: "",
-            choices: const ['', '', '', ''],
+            // type: 'multiple_choice',
+            // question: "",
+            // answer: "",
+            // choices: const ['', '', '', ''],
+            question: Question('', tempQuestions[0].quiz, 'multiple_choice', '', '', ['','','','']),
+            type: 'add',
             questionController: questionController,
             answerController: answerController,
             choiceAController: choiceAController,
@@ -111,7 +114,10 @@ class _EditQuestionsState extends State<EditQuestions> {
                               color: Color(0xfff69036),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            widget.onPop();
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                     ],
@@ -139,10 +145,11 @@ class _EditQuestionsState extends State<EditQuestions> {
                         itemBuilder: (context, index) {
                           return EditQuestionItem(
                             index: index,
-                            type: tempQuestions[index].type,
-                            question: tempQuestions[index].question,
-                            answer: tempQuestions[index].answer,
-                            choices: tempQuestions[index].choices!,
+                            // type: tempQuestions[index].type,
+                            // question: tempQuestions[index].question,
+                            // answer: tempQuestions[index].answer,
+                            // choices: tempQuestions[index].choices!,
+                            question: tempQuestions[index],
                             updateTemp: updateTemp,
                           );
                         },
@@ -213,7 +220,10 @@ class _EditQuestionsState extends State<EditQuestions> {
                             color: Color(0xfff69036),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.onPop();
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                   ],

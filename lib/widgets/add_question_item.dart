@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/constants/choices.dart';
-import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/widgets/edit_dialog.dart';
 import 'package:quizpix/models/question.dart';
 
-class EditQuestionItem extends StatefulWidget {
-  const EditQuestionItem({
+class AddQuestionItem extends StatefulWidget {
+  const AddQuestionItem({
     super.key,
     required this.index,
+    required this.type,
     required this.question,
+    required this.answer,
+    required this.choices,
     required this.updateTemp,
   });
 
   final int index;
-  final Question question;
+  final String type;
+  final String question;
+  final String answer;
+  final List<dynamic> choices;
   final Function(Question?, int) updateTemp;
 
   @override
-  State<EditQuestionItem> createState() => _EditQuestionItemState();
+  State<AddQuestionItem> createState() => _AddQuestionItemState();
 }
 
-class _EditQuestionItemState extends State<EditQuestionItem> {
+class _AddQuestionItemState extends State<AddQuestionItem> {
   String type = 'multiple_choice';
   final TextEditingController questionController = TextEditingController();
   final TextEditingController answerController = TextEditingController();
@@ -33,14 +38,14 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
   void initState() {
     super.initState();
 
-    type = widget.question.type;
+    type = widget.type;
   }
 
   @override
-  void didUpdateWidget(EditQuestionItem oldWidget) {
+  void didUpdateWidget(AddQuestionItem oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.question.type != oldWidget.question.type) {
-      type = widget.question.type;
+    if (widget.type != oldWidget.type) {
+      type = widget.type;
     }
   }
 
@@ -57,8 +62,10 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
         builder: (BuildContext context) {
           return EditDialog(
             index: widget.index,
+            type: type,
             question: widget.question,
-            type: 'edit',
+            answer: widget.answer,
+            choices: widget.choices,
             questionController: questionController,
             answerController: answerController,
             choiceAController: choiceAController,
@@ -99,9 +106,8 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
             ),
             actions: [
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   widget.updateTemp(null, index);
-                  await deleteQuestion(widget.question);
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
@@ -149,7 +155,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                               .merge(const TextStyle(
                                 color: Color(0xff909090),
                               )),
-                          '${widget.index + 1}. ${widget.question.question}'),
+                          '${widget.index + 1}. ${widget.question}'),
                       Row(
                         children: [
                           IconButton(
@@ -185,7 +191,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                   Expanded(
                       child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.question.choices!.length,
+                    itemCount: widget.choices.length,
                     itemBuilder: (context, index) {
                       return Text(
                           style: Theme.of(context)
@@ -194,7 +200,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                               .merge(const TextStyle(
                                 color: Color(0xff909090),
                               )),
-                          '${choicesMap[index + 1]}. ${widget.question.choices![index]}');
+                          '${choicesMap[index + 1]}. ${widget.choices[index]}');
                     },
                   )),
 
@@ -205,7 +211,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                           .merge(const TextStyle(
                             color: Color(0xfff69036),
                           )),
-                      'Answer: ${choicesMap[widget.question.choices!.indexWhere((choice) => choice == widget.question.answer) + 1]}. ${widget.question.answer}'),
+                      'Answer: ${choicesMap[widget.choices.indexWhere((choice) => choice == widget.answer) + 1]}. ${widget.answer}'),
                 ],
               ),
             ),
@@ -232,7 +238,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                           .merge(const TextStyle(
                             color: Color(0xff909090),
                           )),
-                      '${widget.index + 1}. ${widget.question.question}'),
+                      '${widget.index + 1}. ${widget.question}'),
                   Row(
                     children: [
                       IconButton(
@@ -286,7 +292,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                       .merge(const TextStyle(
                         color: Color(0xfff69036),
                       )),
-                  'Answer: ${widget.question.answer == 'true' ? 'a. True' : 'b. False'}'),
+                  'Answer: ${widget.answer == 'true' ? 'a. True' : 'b. False'}'),
             ]),
           ))
         ],
@@ -311,7 +317,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                                 .merge(const TextStyle(
                                   color: Color(0xff909090),
                                 )),
-                            '${widget.index + 1}. ${widget.question.question}'),
+                            '${widget.index + 1}. ${widget.question}'),
                         Row(
                           children: [
                             IconButton(
@@ -349,7 +355,7 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                             .merge(const TextStyle(
                               color: Color(0xfff69036),
                             )),
-                        'Answer: ${widget.question.answer}'),
+                        'Answer: ${widget.answer}'),
                   ],
                 )))
       ],

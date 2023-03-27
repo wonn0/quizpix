@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/q_button.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
 import 'package:quizpix/samples/questions.dart';
+import 'package:quizpix/models/quiz.dart';
+import 'package:quizpix/models/question.dart';
 
 class QuizGenerated extends StatefulWidget {
-  const QuizGenerated({super.key});
+  const QuizGenerated({Key? key, required this.quiz}) : super(key: key);
+
+  final Quiz quiz;
 
   @override
   State<QuizGenerated> createState() => _QuizGeneratedState();
 }
 
 class _QuizGeneratedState extends State<QuizGenerated> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +73,8 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                     onPress: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ViewQuiz(
-                              author: items[0].author,
-                              title: items[0].title,
-                              questions: questions)));
+                                quiz: widget.quiz,
+                              )));
                     },
                     label: 'View Quiz',
                     icon: const Icon(Icons.visibility_outlined),

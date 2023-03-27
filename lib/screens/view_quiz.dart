@@ -1,27 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/globals/globals.dart';
+import 'package:quizpix/helpers/question.dart';
+import 'package:quizpix/helpers/quiz.dart';
 import 'package:quizpix/screens/edit_questions.dart';
 import 'package:quizpix/screens/game_controller.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
 import 'package:quizpix/widgets/question_list.dart';
 import 'package:quizpix/models/question.dart';
+import 'package:quizpix/models/quiz.dart';
 
 class ViewQuiz extends StatefulWidget {
   const ViewQuiz(
-      {super.key,
-      required this.author,
-      required this.title,
-      required this.questions});
+      // {super.key,
+      // required this.author,
+      // required this.title,
+      // required this.questions});
+      {
+    super.key,
+    required this.quiz,
+  });
 
-  final String author;
-  final String title;
-  final List<Question> questions;
+  // final String author;
+  // final String title;
+  // final List<Question> questions;
+  final Quiz quiz;
 
   @override
   State<ViewQuiz> createState() => _ViewQuizState();
 }
 
 class _ViewQuizState extends State<ViewQuiz> {
+  List<Question>? questions;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchQuestions();
+    });
+  }
+
+  void fetchQuestions() async {
+    try {
+      List<Question> result = await getQuizQuestions(widget.quiz);
+      setState(() {
+        questions = result;
+      });
+    } catch (e) {
+      print('Error fetching questions: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +97,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    widget.title,
+                    widget.quiz.title,
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -78,7 +108,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    "Quiz Maker: ${widget.author}",
+                    "Quiz Maker: ${widget.quiz.username}",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xff6d5271),
@@ -94,7 +124,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => GameController(
-                            questions: widget.questions,
+                            questions: questions!,
                           ),
                         ),
                       );
@@ -111,7 +141,31 @@ class _ViewQuizState extends State<ViewQuiz> {
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: QButton(
                     label: "Share Quiz",
-                    onPress: () {},
+                    onPress: () async {
+                      // if (localDetails.status == 'pro') {
+                      //   Quiz temp = Quiz(
+                      //     widget.quiz.url,
+                      //     widget.quiz.user,
+                      //     widget.quiz.username,
+                      //     widget.quiz.image,
+                      //     widget.quiz.title,
+                      //     true,
+                      //   );
+                      //   await updateQuiz(temp);
+                      //   //toast "quiz is now shared!"
+                      // } else {
+                      //   //toast "needs to be pro to access"
+                      // }
+                      Quiz temp = Quiz(
+                        widget.quiz.url,
+                        widget.quiz.user,
+                        widget.quiz.username,
+                        widget.quiz.image,
+                        widget.quiz.title,
+                        true,
+                      );
+                      await updateQuiz(temp);
+                    },
                     icon: const Icon(
                       Icons.share,
                       size: 30.0,
@@ -148,7 +202,8 @@ class _ViewQuizState extends State<ViewQuiz> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditQuestions(
-                                      questions: widget.questions),
+                                      questions: questions!,
+                                      onPop: fetchQuestions),
                                 ),
                               );
                             },
@@ -177,9 +232,9 @@ class _ViewQuizState extends State<ViewQuiz> {
                           Radius.circular(16.0),
                         ),
                       ),
-                      child: QuestionList(
-                        questions: widget.questions,
-                      )),
+                      child: questions == null
+                          ? const CircularProgressIndicator()
+                          : QuestionList(questions: questions!)),
                 ),
               ],
             ),
