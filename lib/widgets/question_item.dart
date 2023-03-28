@@ -68,7 +68,6 @@ class QuestionItem extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: 110.0,
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,22 +81,36 @@ class QuestionItem extends StatelessWidget {
                           )),
                       '${index + 1}. $question'),
                   //choices
-                  Expanded(
-                      child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: choices!.length,
-                    itemBuilder: (context, index) {
-                      return Text(
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .merge(TextStyle(
-                                color: getColor('multiple_choice',
-                                    choices![index], answer, selAnswer),
-                              )),
-                          '${choicesMap[index + 1]}. ${choices![index]}');
-                    },
-                  )),
+                  for (var item in choices!) ...[
+                    Text(
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .merge(TextStyle(
+                              color: getColor(
+                                  'multiple_choice',
+                                  choices![choices!.indexOf(item)],
+                                  answer,
+                                  selAnswer),
+                            )),
+                        '${choicesMap[choices!.indexOf(item) + 1]}. ${choices![choices!.indexOf(item)]}')
+                  ],
+                  // Expanded(
+                  //     child: ListView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   itemCount: choices!.length,
+                  //   itemBuilder: (context, index) {
+                  //     return Text(
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .bodyLarge!
+                  //             .merge(TextStyle(
+                  //               color: getColor('multiple_choice',
+                  //                   choices![index], answer, selAnswer),
+                  //             )),
+                  //         '${choicesMap[index + 1]}. ${choices![index]}');
+                  //   },
+                  // )),
                 ],
               ),
             ),

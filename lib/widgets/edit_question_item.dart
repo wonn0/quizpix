@@ -3,6 +3,7 @@ import 'package:quizpix/constants/choices.dart';
 import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/widgets/edit_dialog.dart';
 import 'package:quizpix/models/question.dart';
+import 'package:collection/collection.dart';
 
 class EditQuestionItem extends StatefulWidget {
   const EditQuestionItem({
@@ -134,22 +135,24 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
         children: [
           Expanded(
             child: Container(
-              height: 130.0,
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .merge(const TextStyle(
-                                color: Color(0xff909090),
-                              )),
-                          '${widget.index + 1}. ${widget.question.question}'),
+                      Flexible(
+                        child: Text(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .merge(const TextStyle(
+                                  color: Color(0xff909090),
+                                )),
+                            '${widget.index + 1}. ${widget.question.question}'),
+                      ),
                       Row(
                         children: [
                           IconButton(
@@ -182,21 +185,16 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                   ),
 
                   //choices
-                  Expanded(
-                      child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.question.choices!.length,
-                    itemBuilder: (context, index) {
-                      return Text(
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .merge(const TextStyle(
-                                color: Color(0xff909090),
-                              )),
-                          '${choicesMap[index + 1]}. ${widget.question.choices![index]}');
-                    },
-                  )),
+                  for (var item in widget.question.choices!) ...[
+                    Text(
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .merge(const TextStyle(
+                              color: Color(0xff909090),
+                            )),
+                        '${choicesMap[widget.question.choices!.indexOf(item) + 1]}. ${widget.question.choices![widget.question.choices!.indexOf(item)]}')
+                  ],
 
                   Text(
                       style: Theme.of(context)
@@ -225,14 +223,16 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .merge(const TextStyle(
-                            color: Color(0xff909090),
-                          )),
-                      '${widget.index + 1}. ${widget.question.question}'),
+                  Flexible(
+                    child: Text(
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .merge(const TextStyle(
+                              color: Color(0xff909090),
+                            )),
+                        '${widget.index + 1}. ${widget.question.question}'),
+                  ),
                   Row(
                     children: [
                       IconButton(
@@ -304,14 +304,16 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .merge(const TextStyle(
-                                  color: Color(0xff909090),
-                                )),
-                            '${widget.index + 1}. ${widget.question.question}'),
+                        Flexible(
+                          child: Text(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .merge(const TextStyle(
+                                    color: Color(0xff909090),
+                                  )),
+                              '${widget.index + 1}. ${widget.question.question}'),
+                        ),
                         Row(
                           children: [
                             IconButton(

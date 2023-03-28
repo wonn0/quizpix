@@ -4,6 +4,7 @@ import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/helpers/quiz.dart';
 import 'package:quizpix/screens/edit_questions.dart';
 import 'package:quizpix/screens/game_controller.dart';
+import 'package:quizpix/widgets/edit_quiz_dialog.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
 import 'package:quizpix/widgets/question_list.dart';
@@ -52,6 +53,18 @@ class _ViewQuizState extends State<ViewQuiz> {
     }
   }
 
+  Future<dynamic> displayEditQuizDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return EditQuizDialog(
+            image: Image.asset('assets/images/book1.jpg'),
+            title: widget.quiz.title,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,21 +79,36 @@ class _ViewQuizState extends State<ViewQuiz> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 16.0, right: 0.0, bottom: 0.0),
-                    constraints: const BoxConstraints(),
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      size: 30.0,
-                      color: Color(0xff6d5271),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 16.0, right: 0.0, bottom: 0.0),
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 30.0,
+                        color: Color(0xff6d5271),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                    IconButton(
+                      padding: const EdgeInsets.only(
+                          left: 0.0, top: 16.0, right: 20.0, bottom: 0.0),
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(
+                        Icons.edit,
+                        size: 30.0,
+                        color: Color(0xff6d5271),
+                      ),
+                      onPressed: () {
+                        displayEditQuizDialog(context);
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20.0),
                 Container(
@@ -233,7 +261,19 @@ class _ViewQuizState extends State<ViewQuiz> {
                         ),
                       ),
                       child: questions == null
-                          ? const CircularProgressIndicator()
+                          ? Row(
+                              children: const [
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      height: 40.0,
+                                      width: 40.0,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           : QuestionList(questions: questions!)),
                 ),
               ],
