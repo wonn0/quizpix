@@ -233,7 +233,19 @@ class _ViewQuizState extends State<ViewQuiz> {
                         ),
                       ),
                       child: questions == null
-                          ? const CircularProgressIndicator()
+                          ? Row(
+                              children: const [
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      height: 40.0,
+                                      width: 40.0,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           : QuestionList(questions: questions!)),
                 ),
               ],
