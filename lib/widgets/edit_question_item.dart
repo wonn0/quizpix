@@ -195,21 +195,6 @@ class _EditQuestionItemState extends State<EditQuestionItem> {
                             )),
                         '${choicesMap[widget.question.choices!.indexOf(item) + 1]}. ${widget.question.choices![widget.question.choices!.indexOf(item)]}')
                   ],
-                  // Expanded(
-                  //     child: ListView.builder(
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   itemCount: widget.question.choices!.length,
-                  //   itemBuilder: (context, index) {
-                  //     return Text(
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .bodyLarge!
-                  //             .merge(const TextStyle(
-                  //               color: Color(0xff909090),
-                  //             )),
-                  //         '${choicesMap[index + 1]}. ${widget.question.choices![index]}');
-                  //   },
-                  // )),
 
                   Text(
                       style: Theme.of(context)
