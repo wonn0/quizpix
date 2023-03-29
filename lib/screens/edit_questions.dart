@@ -200,6 +200,7 @@ class _EditQuestionsState extends State<EditQuestions> {
                         color: Color(0xff6d5271),
                       ),
                       onPressed: () {
+                        widget.onPop();
                         Navigator.pop(context);
                       },
                     ),

@@ -17,15 +17,15 @@ class ViewQuiz extends StatefulWidget {
       // required this.author,
       // required this.title,
       // required this.questions});
-      {
-    super.key,
-    required this.quiz,
-  });
+      {super.key,
+      required this.quiz,
+      required this.onPop});
 
   // final String author;
   // final String title;
   // final List<Question> questions;
   final Quiz quiz;
+  final VoidCallback onPop;
 
   @override
   State<ViewQuiz> createState() => _ViewQuizState();
@@ -33,10 +33,14 @@ class ViewQuiz extends StatefulWidget {
 
 class _ViewQuizState extends State<ViewQuiz> {
   List<Question>? questions;
+  String tempTitle = '';
+  String? tempImg = '';
 
   @override
   void initState() {
     super.initState();
+    tempTitle = widget.quiz.title;
+    tempImg = widget.quiz.image;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchQuestions();
     });
@@ -54,19 +58,33 @@ class _ViewQuizState extends State<ViewQuiz> {
   }
 
   Future<dynamic> displayEditQuizDialog(BuildContext context) async {
+    Quiz temp = Quiz(
+      widget.quiz.url,
+      widget.quiz.user,
+      widget.quiz.username,
+      tempImg,
+      tempTitle,
+      true,
+    );
     return showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return EditQuizDialog(
-            image: Image.asset('assets/images/book1.jpg'),
-            title: widget.quiz.title,
+            onPop: () async {
+              Quiz temp = await getQuiz(widget.quiz);
+              tempTitle = temp.title;
+              tempImg = temp.image;
+              setState(() {});
+            },
+            quiz: temp,
           );
         });
   }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -92,6 +110,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                         color: Color(0xff6d5271),
                       ),
                       onPressed: () {
+                        widget.onPop();
                         Navigator.pop(context);
                       },
                     ),
@@ -119,13 +138,15 @@ class _ViewQuizState extends State<ViewQuiz> {
                     color: const Color(0xffd9d9d9),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Image.asset('assets/images/book1.jpg'),
+                  child: tempImg != null
+                      ? Image.network(tempImg!)
+                      : Image.asset('assets/images/book.png'),
                 ),
                 const SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    widget.quiz.title,
+                    tempTitle,
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -188,8 +209,8 @@ class _ViewQuizState extends State<ViewQuiz> {
                         widget.quiz.url,
                         widget.quiz.user,
                         widget.quiz.username,
-                        widget.quiz.image,
-                        widget.quiz.title,
+                        tempImg,
+                        tempTitle,
                         true,
                       );
                       await updateQuiz(temp);
@@ -231,7 +252,10 @@ class _ViewQuizState extends State<ViewQuiz> {
                                 MaterialPageRoute(
                                   builder: (context) => EditQuestions(
                                       questions: questions!,
-                                      onPop: fetchQuestions),
+                                      onPop: () async {
+                                        fetchQuestions();
+                                        setState(() {});
+                                      }),
                                 ),
                               );
                             },

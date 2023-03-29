@@ -74,6 +74,7 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ViewQuiz(
                                 quiz: widget.quiz,
+                                onPop: () {}
                               )));
                     },
                     label: 'View Quiz',

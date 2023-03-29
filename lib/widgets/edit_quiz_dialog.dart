@@ -2,12 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:quizpix/helpers/quiz.dart';
+import 'package:quizpix/models/quiz.dart';
 
 class EditQuizDialog extends StatefulWidget {
-  const EditQuizDialog({super.key, required this.image, required this.title});
+  // const EditQuizDialog({super.key, required this.image, required this.title});
+  const EditQuizDialog({super.key, required this.quiz, required this.onPop});
 
-  final Image image;
-  final String title;
+  // final Image image;
+  // final String title;
+  final Quiz quiz;
+  final VoidCallback onPop;
 
   @override
   State<EditQuizDialog> createState() => _EditQuizDialogState();
@@ -21,7 +26,7 @@ class _EditQuizDialogState extends State<EditQuizDialog> {
   @override
   void initState() {
     super.initState();
-    titleController.text = widget.title;
+    titleController.text = widget.quiz.title;
   }
 
   Future getImage() async {
@@ -68,22 +73,23 @@ class _EditQuizDialogState extends State<EditQuizDialog> {
               ),
             ),
             Container(
-              height: 160.0,
-              width: 160.0,
-              padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color(0xffd9d9d9),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
+                height: 160.0,
+                width: 160.0,
+                padding: const EdgeInsets.all(8.0),
+                decoration: const BoxDecoration(
+                  color: Color(0xffd9d9d9),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                  ),
                 ),
-              ),
-              child: _image != null
-                  ? Image(
-                      image: FileImage(File(_image!.path)),
-                    )
-                  : widget.image,
-            ),
+                child: _image != null
+                    ? Image(
+                        image: FileImage(File(_image!.path)),
+                      )
+                    : widget.quiz.image != null
+                        ? Image.network(widget.quiz.image!)
+                        : Image.asset('assets/images/book.png')),
             InkWell(
               onTap: () {
                 getImage();
@@ -154,7 +160,28 @@ class _EditQuizDialogState extends State<EditQuizDialog> {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            print('Save button pressed');
+            print('TitleController.text: ${titleController.text}');
+            print('_image: $_image');
+
+            String title = titleController.text;
+            String? img = _image?.path;
+
+            Quiz temp = Quiz(widget.quiz.url, widget.quiz.user,
+                widget.quiz.username, img, title, widget.quiz.isShared);
+            if (img == null) {
+              updateQuiz(temp).then((response) {
+                widget.onPop();
+                Navigator.pop(context);
+              });
+            } else {
+              updateQuizProfile(temp).then((response) {
+                widget.onPop();
+                Navigator.pop(context);
+              });
+            }
+          },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(32, 32),
             backgroundColor: const Color(0xfff69036),

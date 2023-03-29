@@ -72,6 +72,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -168,24 +169,23 @@ class _HomeTabState extends State<HomeTab> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           child: QuizItem(
+                            image: currItems[index].image,
                             author: currItems[index].username,
                             title: currItems[index].title,
                             onPress: () async {
-                              questions = await getQuizQuestions(currItems[index]);
+                              questions =
+                                  await getQuizQuestions(currItems[index]);
                               print(questions);
                               Navigator.push(
                                 context,
-                                // MaterialPageRoute(
-                                //   builder: (context) => ViewQuiz(
-                                //     author: currItems[index].username,
-                                //     title: currItems[index].title,
-                                //     questions: questions,
-                                //   ),
-                                // ),
-                                 MaterialPageRoute(
+                                MaterialPageRoute(
                                   builder: (context) => ViewQuiz(
-                                    quiz: currItems[index],
-                                  ),
+                                      quiz: currItems[index],
+                                      onPop: () async {
+                                        quizzes = await getUserQuizzes();
+                                        currItems = quizzes;
+                                        setState(() {});
+                                      }),
                                 ),
                               );
                             },

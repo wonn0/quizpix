@@ -25,18 +25,6 @@ Future<Quiz> createQuiz() async {
     'Content-Type': 'multipart/form-data',
   });
 
-  // late NavigatorState dialogContext;
-  // showDialog(
-  //   context: context,
-  //   barrierDismissible: false,
-  //   builder: (BuildContext context) {
-  //     dialogContext = Navigator.of(context);
-  //     return const Center(
-  //       child: CircularProgressIndicator(),
-  //     );
-  //   },
-  // );
-
   final response = await http.Response.fromStream(await request.send());
   print(jsonDecode(response.body));
   if (response.statusCode == 201) {
@@ -94,16 +82,6 @@ Future<List<Quiz>> getSharedQuizzes() async {
 Future<Map<String, dynamic>> getQuestions(
     BuildContext context, String text) async {
   late NavigatorState dialogContext;
-  // showDialog(
-  //   context: context,
-  //   barrierDismissible: false,
-  //   builder: (BuildContext context) {
-  //     dialogContext = Navigator.of(context);
-  //     return const Center(
-  //       child: CircularProgressIndicator(),
-  //     );
-  //   },
-  // );
   final response = await http.post(Uri.parse(Env.URL_NLP),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -126,22 +104,10 @@ Future<Map<String, dynamic>> getQuestions(
 }
 
 Future<Quiz> updateQuiz(Quiz quiz) async {
-  // late NavigatorState dialogContext;
-  // showDialog(
-  //   context: context,
-  //   barrierDismissible: false,
-  //   builder: (BuildContext context) {
-  //     dialogContext = Navigator.of(context);
-  //     return const Center(
-  //       child: CircularProgressIndicator(),
-  //     );
-  //   },
-  // );
   print(jsonEncode(<String, dynamic>{
     'url': quiz.url,
     'user': quiz.user,
     'username': quiz.username,
-    'image': quiz.image,
     'title': quiz.title,
     'is_shared': quiz.isShared,
   }));
@@ -153,7 +119,6 @@ Future<Quiz> updateQuiz(Quiz quiz) async {
         'url': quiz.url,
         'user': quiz.user,
         'username': quiz.username,
-        'image': quiz.image,
         'title': quiz.title,
         'is_shared': quiz.isShared,
       }));
@@ -161,9 +126,59 @@ Future<Quiz> updateQuiz(Quiz quiz) async {
   if (response.statusCode == 200) {
     final quizJson = jsonDecode(response.body);
     print(quizJson);
-    return quizJson;
+    return Quiz.fromJson(quizJson);
   } else {
     showQToast("Failed to update question", true);
     throw Exception('Failed to update question.');
+  }
+}
+
+Future<Quiz> updateQuizProfile(Quiz quiz) async {
+  var request = http.MultipartRequest(
+    'PATCH',
+    Uri.parse(quiz.url),
+  );
+
+  request.fields['url'] = quiz.url;
+  request.fields['user'] = quiz.user;
+  request.fields['username'] = quiz.username;
+  request.fields['title'] = quiz.title;
+  request.fields['is_shared'] = quiz.isShared.toString();
+
+  if (quiz.image != '') {
+    request.files.add(http.MultipartFile(
+      'image',
+      File(quiz.image!).readAsBytes().asStream(),
+      File(quiz.image!).lengthSync(),
+      filename: quiz.image!.split('/').last,
+    ));
+  } else {
+    // Set profile picture to existing one if user doesn't upload a new one
+    // request.fields['profile_picture'] = 'null';
+  }
+
+  request.headers.addAll(<String, String>{
+    'Content-Type': 'multipart/form-data',
+  });
+
+  final response = await http.Response.fromStream(await request.send());
+  print(jsonDecode(response.body));
+  if (response.statusCode == 200) {
+    final quizJson = jsonDecode(response.body);
+    return Quiz.fromJson(quizJson);
+  } else {
+    throw Exception('Failed to update quiz.');
+  }
+}
+
+Future<Quiz> getQuiz(Quiz quiz) async {
+  final response = await http.get(
+    Uri.parse(quiz.url),
+  );
+  if (response.statusCode == 200) {
+    final tokenJson = jsonDecode(response.body);
+    return Quiz.fromJson(tokenJson);
+  } else {
+    throw Exception('Failed to load quiz details.');
   }
 }
