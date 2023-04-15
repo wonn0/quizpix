@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class QuizItem extends StatefulWidget {
   const QuizItem(
       {super.key,
+      required this.image,
       required this.author,
       required this.title,
       required this.onPress});
 
   final String author;
   final String title;
+  final String? image;
   final Function() onPress;
 
   @override
@@ -51,8 +53,8 @@ class _QuizItemState extends State<QuizItem> {
                             height: double.infinity,
                             width: 40.0,
                             padding: const EdgeInsets.all(4.0),
-                            child: Image.asset(
-                                fit: BoxFit.contain, 'assets/images/book1.jpg'),
+                            child: widget.image != null ? Image.network(fit: BoxFit.contain, widget.image!) : Image.asset(
+                                fit: BoxFit.contain, 'assets/images/book.png'),
                           ),
                           Expanded(
                             flex: 1,

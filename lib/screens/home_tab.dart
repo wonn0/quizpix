@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/globals/globals.dart';
+import 'package:quizpix/helpers/question.dart';
+import 'package:quizpix/helpers/quiz.dart';
+import 'package:quizpix/models/quiz.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 //widgets
 import 'package:quizpix/widgets/home_button.dart';
@@ -6,10 +10,11 @@ import 'package:quizpix/widgets/q_dropdown_button.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/search_bar.dart';
 //samples
-import 'package:quizpix/samples/items.dart';
-import 'package:quizpix/samples/questions.dart';
+// import 'package:quizpix/samples/items.dart';
+// import 'package:quizpix/samples/questions.dart';
 //models
 import 'package:quizpix/models/item.dart';
+import 'package:quizpix/models/question.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -21,17 +26,18 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   bool isActiveFree = true;
   bool isActivePremium = false;
+  List<Question> questions = [];
 
-  List<Item> currItems = items;
+  List<Quiz> currItems = quizzes;
   TextEditingController searchController = TextEditingController();
 
   void filterItems() {
-    List<Item> results = [];
+    List<Quiz> results = [];
     if (searchController.text.isEmpty) {
-      results = items;
+      results = quizzes;
     } else {
       // Inside todosList, it will check for the todoText and check if it contains the enteredKeyword, then convert it to List since results is a List type
-      results = items
+      results = quizzes
           .where((item) => item.title
               .toLowerCase()
               .contains(searchController.text.toLowerCase()))
@@ -40,6 +46,20 @@ class _HomeTabState extends State<HomeTab> {
 
     setState(() {
       currItems = results;
+    });
+  }
+
+  Future<void> getFreeQuizzes() async {
+    List<Quiz> newQuizzes = await getUserQuizzes();
+    setState(() {
+      currItems = newQuizzes;
+    });
+  }
+
+  Future<void> getPremiumQuizzes() async {
+    List<Quiz> newQuizzes = await getSharedQuizzes();
+    setState(() {
+      currItems = newQuizzes;
     });
   }
 
@@ -52,6 +72,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -76,6 +97,7 @@ class _HomeTabState extends State<HomeTab> {
                             isFree: true,
                             isActive: isActiveFree,
                             onPress: () {
+                              getFreeQuizzes();
                               setState(() {
                                 isActiveFree = true;
                                 isActivePremium = false;
@@ -86,6 +108,7 @@ class _HomeTabState extends State<HomeTab> {
                             isFree: false,
                             isActive: isActivePremium,
                             onPress: () {
+                              getPremiumQuizzes();
                               setState(() {
                                 isActiveFree = false;
                                 isActivePremium = true;
@@ -146,17 +169,23 @@ class _HomeTabState extends State<HomeTab> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           child: QuizItem(
-                            author: currItems[index].author,
+                            image: currItems[index].image,
+                            author: currItems[index].username,
                             title: currItems[index].title,
-                            onPress: () {
+                            onPress: () async {
+                              questions =
+                                  await getQuizQuestions(currItems[index]);
+                              print(questions);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ViewQuiz(
-                                    author: currItems[index].author,
-                                    title: currItems[index].title,
-                                    questions: questions,
-                                  ),
+                                      quiz: currItems[index],
+                                      onPop: () async {
+                                        quizzes = await getUserQuizzes();
+                                        currItems = quizzes;
+                                        setState(() {});
+                                      }),
                                 ),
                               );
                             },

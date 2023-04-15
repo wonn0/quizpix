@@ -11,7 +11,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 
-
 main() async {
   runApp(const MaterialApp(home: ScanTab()));
 }
@@ -46,37 +45,38 @@ class _ScanTabState extends State<ScanTab> {
       ).then((result) async {
         if (result!.files.isNotEmpty) {
           // FOR TXT FILES
-            if (result.files.first.extension == 'txt') {
-              try {
-                Directory appDir = Directory.systemTemp;
-                print('This is a appDir {$appDir}');
+          if (result.files.first.extension == 'txt') {
+            try {
+              Directory appDir = Directory.systemTemp;
+              print('This is a appDir {$appDir}');
 
-                String fileContent;
-                if (Platform.isAndroid) {
-                  final file = File(result.files.first.path!);
-                  fileContent = await file.readAsString();
-                  print('Print successfull');
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScanConfirmation(text: fileContent)));
-                  print('Hello');
-                } else {
-                  fileContent = await File(result.files.first.path!).readAsString();
-                }
-
-                setState(() {
-                  _fileContent = fileContent;
-                });
-
-                // save the file in app's documents directory
-                final directory = await getApplicationDocumentsDirectory();
-                final fileName = result.files.first.path!.split('/').last;
-                final file = File('${directory.path}/$fileName');
-                await file.writeAsString(fileContent);
-              } catch (e) {
-                print('Error while picking the file: $e');
+              String fileContent;
+              if (Platform.isAndroid) {
+                final file = File(result.files.first.path!);
+                fileContent = await file.readAsString();
+                print('Print successfull');
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ScanConfirmation(text: fileContent)));
+                print('Hello');
+              } else {
+                fileContent =
+                    await File(result.files.first.path!).readAsString();
               }
+
+              setState(() {
+                _fileContent = fileContent;
+              });
+
+              // save the file in app's documents directory
+              final directory = await getApplicationDocumentsDirectory();
+              final fileName = result.files.first.path!.split('/').last;
+              final file = File('${directory.path}/$fileName');
+              await file.writeAsString(fileContent);
+            } catch (e) {
+              print('Error while picking the file: $e');
             }
+          }
           // FOR PDF FILES
           else if (result.files.first.extension == 'pdf') {
             Future<String> getPDFtext(String path) async {
@@ -141,7 +141,9 @@ class _ScanTabState extends State<ScanTab> {
                           size: 50.0,
                           color: Color(0xfff69036),
                         ),
-                        onPress: () {},
+                        onPress: () {
+                          pickFile();
+                        },
                         isLeft: true),
                     const Spacer(flex: 1),
                     ScanButton(
@@ -194,68 +196,6 @@ class _ScanTabState extends State<ScanTab> {
                   ],
                 ),
               ),
-              ScanButton(
-                  label: "Text",
-                  icon: const Icon(
-                    Icons.text_snippet_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    pickFile();
-                  },
-                  isLeft: true),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Input",
-                  icon: const Icon(
-                    Icons.edit_note_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ScanConfirmation(
-                            title: "Input your reading material")));
-                  },
-                  isLeft: false),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Image",
-                  icon: const Icon(
-                    Icons.image_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    getImages();
-                  },
-                  isLeft: true),
-              const Spacer(flex: 1),
-              ScanButton(
-                  label: "Camera",
-                  icon: const Icon(
-                    Icons.camera_outlined,
-                    size: 50.0,
-                    color: Color(0xfff69036),
-                  ),
-                  onPress: () {
-                    getCamera();
-                  },
-                  isLeft: false),
-              const Spacer(flex: 1),
-              _load == true
-                  ? Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: _image != null
-                          ? Image.file(
-                              File(_image.path),
-                              fit: BoxFit.fitWidth,
-                            )
-                          : Container(),
-                    )
-                  : Container()
             ],
           ),
         ),

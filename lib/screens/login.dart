@@ -12,6 +12,7 @@ import '../env.sample.dart';
 import '../models/token.dart';
 import '../globals/globals.dart';
 import '../helpers/user.dart';
+import '../helpers/quiz.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -74,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final tokenJson = jsonDecode(response.body);
       //set current user to username and store globally
       localDetails = await getUser(username);
+      quizzes = await getUserQuizzes();
       // print(localDetails.toString());
       return Token.fromJson(tokenJson);
     } else if (response.statusCode == 401) {

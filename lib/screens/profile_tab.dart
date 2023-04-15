@@ -33,6 +33,7 @@ class _ProfileTabState extends State<ProfileTab> {
       0,
       "",
     );
+    quizzes = [];
     Navigator.pushNamed(context, '/');
   }
 

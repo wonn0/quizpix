@@ -60,6 +60,32 @@ Future<User> updateUserDetails(BuildContext context, User user) async {
   }
 }
 
+Future<User> updateQuizzesMade() async {
+  final response = await http.patch(Uri.parse(localDetails.url!),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "url": localDetails.url!,
+        'username': localDetails.username,
+        'password': "",
+        'email': localDetails.email,
+        'title': localDetails.title,
+        'is_active': true,
+        'quizzes_made': localDetails.quizzesMade + 1,
+        'total_score': localDetails.totalScore,
+        'status': 'regular',
+      }));
+  if (response.statusCode == 200) {
+    final userJson = jsonDecode(response.body);
+    localDetails = await getUser(localDetails.username);
+    return User.fromJson(userJson);
+  } else {
+    showQToast("Please try again later", true);
+    throw Exception('Failed to update user.');
+  }
+}
+
 //for updating profile picture; use updateUserDetails if you're not going to pass an image file
 Future<User> updateUserProfile(BuildContext context, User user) async {
   var request = http.MultipartRequest(
