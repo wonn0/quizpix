@@ -64,7 +64,7 @@ class _PlayQuestionState extends State<PlayQuestion> {
     BuildContext context,
     Function(String, String) onAnswer,
   ) async {
-    return showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AnswerDialog(
@@ -74,6 +74,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
         );
       },
     );
+    setState(() {
+      isAttacking = true;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        isAttacking = false;
+      });
+    });
   }
 
   Widget getAnswerArea() {
@@ -229,14 +237,6 @@ class _PlayQuestionState extends State<PlayQuestion> {
               isAnswer: true,
               label: "Answer",
               onPress: () {
-                setState(() {
-                  isAttacking = true;
-                });
-                Future.delayed(const Duration(seconds: 1), () {
-                  setState(() {
-                    isAttacking = false;
-                  });
-                });
                 displayAnswerDialog(context, widget.onAnswer);
               },
             ),
