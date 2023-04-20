@@ -96,6 +96,7 @@ class _EditProfileState extends State<EditProfile> {
       localDetails.quizzesMade,
       localDetails.totalScore,
       "regular",
+      localDetails.items
     );
     FocusManager.instance.primaryFocus?.unfocus();
     if (img == null) {

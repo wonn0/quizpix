@@ -9,6 +9,7 @@ class User {
   final int quizzesMade;
   final int totalScore;
   final String status;
+  final List<dynamic> items;
 
   User(
       this.url,
@@ -20,7 +21,9 @@ class User {
       this.isActive,
       this.quizzesMade,
       this.totalScore,
-      this.status);
+      this.status,
+      this.items
+      );
 
   User.fromJson(Map<String, dynamic> json)
       : url = json['url'],
@@ -32,7 +35,8 @@ class User {
         isActive = json['is_active'],
         quizzesMade = json['quizzes_made'],
         totalScore = json['total_score'],
-        status = json['status'];
+        status = json['status'],
+        items = json['items'];
 
   Map<String, dynamic> toJson() => {
         'url': url,
@@ -45,6 +49,7 @@ class User {
         'quizzes_made': quizzesMade,
         'total_score': totalScore,
         'status': status,
+        'items': items,
       };
 
   @override
@@ -61,6 +66,7 @@ class User {
         quizzesMade: $quizzesMade,
         totalScore: $totalScore,
         status: $status,
+        items: $items,
       }
     ''';
   }

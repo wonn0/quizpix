@@ -17,6 +17,7 @@ User localDetails = User(
   0,
   0,
   "",
+  [0,0,0]
 );
 
 List<Quiz> quizzes = [];
