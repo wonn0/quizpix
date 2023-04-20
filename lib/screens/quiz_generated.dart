@@ -64,7 +64,7 @@ class _QuizGeneratedState extends State<QuizGenerated> {
               ),
               const Spacer(flex: 1),
               const Image(
-                image: AssetImage('assets/images/user1.jpg'),
+                image: AssetImage('assets/images/quiz-ready.png'),
               ),
               const Spacer(flex: 1),
               Column(
