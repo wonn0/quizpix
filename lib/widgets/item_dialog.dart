@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ItemDialog extends StatelessWidget {
-  const ItemDialog(
-      {super.key,
-      required this.boQuantity,
-      required this.reQuantity,
-      required this.frQuantity});
+  const ItemDialog({
+    super.key,
+    required this.boQuantity,
+    required this.reQuantity,
+    required this.frQuantity,
+    required this.onBonus,
+    required this.onRedo,
+    required this.onPass,
+    required this.correctAnswer,
+  });
 
   final int boQuantity;
   final int reQuantity;
   final int frQuantity;
+  final Function() onBonus;
+  final Function() onRedo;
+  final Function(String) onPass;
+  final String correctAnswer;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +65,11 @@ class ItemDialog extends StatelessWidget {
                 ),
                 const Spacer(flex: 1),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (boQuantity > 0) {
+                      onBonus();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(32, 32),
                     backgroundColor: const Color(0xfff69036),
@@ -95,7 +108,11 @@ class ItemDialog extends StatelessWidget {
                 ),
                 const Spacer(flex: 1),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (reQuantity > 0) {
+                      onRedo();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(32, 32),
                     backgroundColor: const Color(0xfff69036),
@@ -133,7 +150,11 @@ class ItemDialog extends StatelessWidget {
                 ),
                 const SizedBox(width: 20.0),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (frQuantity > 0) {
+                      onPass(correctAnswer);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(32, 32),
                     backgroundColor: const Color(0xfff69036),
