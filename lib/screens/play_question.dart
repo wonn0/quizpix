@@ -14,7 +14,11 @@ class PlayQuestion extends StatefulWidget {
     required this.question,
     required this.answer,
     required this.choices,
+    required this.items,
     required this.onAnswer,
+    required this.onBonus,
+    required this.onRedo,
+    required this.onPass,
   });
 
   final int index;
@@ -24,7 +28,11 @@ class PlayQuestion extends StatefulWidget {
   final String question;
   final String answer;
   final List<dynamic> choices;
+  final List<int> items;
   final Function(String, String) onAnswer;
+  final Function() onBonus;
+  final Function() onRedo;
+  final Function(String) onPass;
 
   @override
   State<PlayQuestion> createState() => _PlayQuestionState();
@@ -37,10 +45,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const ItemDialog(
-          boQuantity: 1,
-          reQuantity: 1,
-          frQuantity: 1,
+        return ItemDialog(
+          boQuantity: widget.items[0],
+          reQuantity: widget.items[1],
+          frQuantity: widget.items[2],
+          onBonus: widget.onBonus,
+          onRedo: widget.onRedo,
+          onPass: widget.onPass,
+          correctAnswer: widget.answer,
         );
       },
     );
@@ -293,8 +305,10 @@ class _PlayQuestionState extends State<PlayQuestion> {
                           Column(
                             children: [
                               HealthBar(
-                                healthFactor: (widget.index - widget.score) /
-                                    widget.total,
+                                healthFactor: widget.score >= widget.index + 1
+                                    ? 0
+                                    : (widget.index - widget.score) /
+                                        widget.total,
                               ),
                               const SizedBox(height: 20.0),
                               SizedBox(
@@ -308,7 +322,9 @@ class _PlayQuestionState extends State<PlayQuestion> {
                           Column(
                             children: [
                               HealthBar(
-                                healthFactor: widget.score / widget.total,
+                                healthFactor: widget.score >= widget.total
+                                    ? 1
+                                    : widget.score / widget.total,
                               ),
                               const SizedBox(height: 20.0),
                               SizedBox(

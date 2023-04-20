@@ -22,6 +22,7 @@ class _GameControllerState extends State<GameController> {
   bool isDone = false;
   final List<Question> randQuestions = <Question>[];
   final List<String> answers = <String>[];
+  List<int> items = <int>[999, 999, 999];
   final double passPercent = 0.6;
 
   @override
@@ -32,27 +33,103 @@ class _GameControllerState extends State<GameController> {
     randQuestions.shuffle();
   }
 
-  void handleAnswer(String userAnswer, String correctAnswer) {
-    if (userAnswer.trim().toLowerCase() == correctAnswer.trim().toLowerCase()) {
-      setState(() {
-        if (currentIndex + 1 != widget.questions.length) {
-          currentIndex += 1;
-        } else {
-          isDone = true;
-        }
-        currentScore += 1;
-        answers.add(userAnswer);
-      });
+  void handleBonus() {
+    setState(() {
+      currentScore += 1;
+      List<int> newItems = List.from(items);
+      newItems[0] = newItems[0] - 1;
+      items = List.from(newItems);
+    });
+    Navigator.of(context).pop();
+  }
+
+  void handleRedo() {
+    setState(() {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+      }
+      List<int> newItems = List.from(items);
+      newItems[1] = newItems[1] - 1;
+      items = List.from(newItems);
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  void handlePass(String correctAnswer) {
+    setState(() {
+      currentScore += 1;
+      currentIndex += 1;
+      List<int> newItems = List.from(items);
+      newItems[2] = newItems[2] - 1;
+      items = List.from(newItems);
+      answers.add(correctAnswer);
+    });
+    if (currentIndex >= widget.questions.length) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ResultScreen(
+            isWin: currentScore >= widget.questions.length * passPercent
+                ? true
+                : false,
+            total: widget.questions.length,
+            score: currentScore,
+            questions: widget.questions,
+            randQuestions: randQuestions,
+            answers: answers,
+          ),
+        ),
+      );
     } else {
-      setState(() {
-        if (currentIndex + 1 != widget.questions.length) {
-          currentIndex += 1;
-        } else {
-          isDone = true;
-        }
-        answers.add(userAnswer);
-      });
+      Navigator.of(context).pop();
     }
+  }
+
+  void handleAnswer(String userAnswer, String correctAnswer) {
+    setState(() {
+      if (currentIndex + 1 <= answers.length) {
+        answers[currentIndex] = userAnswer;
+        currentIndex += 1;
+      } else if (currentIndex + 1 != widget.questions.length) {
+        currentIndex += 1;
+        answers.add(userAnswer);
+      } else {
+        isDone = true;
+        answers.add(userAnswer);
+      }
+      if (userAnswer.trim().toLowerCase() ==
+          correctAnswer.trim().toLowerCase()) {
+        currentScore += 1;
+      }
+    });
+    // if (userAnswer.trim().toLowerCase() == correctAnswer.trim().toLowerCase()) {
+    //   setState(() {
+    //     if (currentIndex + 1 <= answers.length) {
+    //       answers[currentIndex] = userAnswer;
+    //       currentIndex += 1;
+    //     } else if (currentIndex + 1 != widget.questions.length) {
+    //       currentIndex += 1;
+    //       answers.add(userAnswer);
+    //     } else {
+    //       isDone = true;
+    //       answers.add(userAnswer);
+    //     }
+    //     currentScore += 1;
+    //   });
+    // } else {
+    //   setState(() {
+    //     if (currentIndex + 1 <= answers.length) {
+    //       answers[currentIndex] = userAnswer;
+    //       currentIndex += 1;
+    //     } else if (currentIndex + 1 != widget.questions.length) {
+    //       currentIndex += 1;
+    //       answers.add(userAnswer);
+    //     } else {
+    //       isDone = true;
+    //       answers.add(userAnswer);
+    //     }
+    //   });
+    // }
     if (isDone) {
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -81,7 +158,11 @@ class _GameControllerState extends State<GameController> {
       question: randQuestions[currentIndex].question,
       answer: randQuestions[currentIndex].answer,
       choices: randQuestions[currentIndex].choices!,
+      items: items,
       onAnswer: handleAnswer,
+      onBonus: handleBonus,
+      onRedo: handleRedo,
+      onPass: handlePass,
     );
   }
 }
