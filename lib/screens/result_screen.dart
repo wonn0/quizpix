@@ -51,8 +51,8 @@ class _ResultScreenState extends State<ResultScreen> {
               Image(
                 fit: BoxFit.fitHeight,
                 image: AssetImage(widget.isWin == true
-                    ? 'assets/images/8601.jpg'
-                    : 'assets/images/6397869.jpg'),
+                    ? 'assets/images/win.png'
+                    : 'assets/images/lost.png'),
               ),
               Container(
                   alignment: Alignment.topRight,

@@ -28,7 +28,7 @@ class _HomeTabState extends State<HomeTab> {
   bool isActivePremium = false;
   List<Question> questions = [];
 
-  List<Quiz> currItems = quizzes;
+  List<Quiz>? currItems = quizzes;
   TextEditingController searchController = TextEditingController();
 
   void filterItems() {
@@ -50,6 +50,9 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Future<void> getFreeQuizzes() async {
+    setState(() {
+      currItems = null;
+    });
     List<Quiz> newQuizzes = await getUserQuizzes();
     setState(() {
       currItems = newQuizzes;
@@ -57,6 +60,9 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Future<void> getPremiumQuizzes() async {
+    setState(() {
+      currItems = null;
+    });
     List<Quiz> newQuizzes = await getSharedQuizzes();
     setState(() {
       currItems = newQuizzes;
@@ -160,38 +166,48 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                   const SizedBox(width: 12.0),
-                  Expanded(
-                      child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: currItems.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
-                          child: QuizItem(
-                            image: currItems[index].image,
-                            author: currItems[index].username,
-                            title: currItems[index].title,
-                            onPress: () async {
-                              questions =
-                                  await getQuizQuestions(currItems[index]);
-                              print(questions);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewQuiz(
-                                      quiz: currItems[index],
-                                      onPop: () async {
-                                        quizzes = await getUserQuizzes();
-                                        currItems = quizzes;
-                                        setState(() {});
-                                      }),
-                                ),
-                              );
-                            },
-                          ));
-                    },
-                  )),
+                  currItems == null
+                      ? const Expanded(
+                          child: Center(
+                            child: SizedBox(
+                              height: 40.0,
+                              width: 40.0,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: currItems!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 8.0),
+                                child: QuizItem(
+                                  image: currItems![index].image,
+                                  author: currItems![index].username,
+                                  title: currItems![index].title,
+                                  onPress: () async {
+                                    questions = await getQuizQuestions(
+                                        currItems![index]);
+                                    print(questions);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewQuiz(
+                                            quiz: currItems![index],
+                                            onPop: () async {
+                                              quizzes = await getUserQuizzes();
+                                              currItems = quizzes;
+                                              setState(() {});
+                                            }),
+                                      ),
+                                    );
+                                  },
+                                ));
+                          },
+                        )),
                 ],
               ))
             ],

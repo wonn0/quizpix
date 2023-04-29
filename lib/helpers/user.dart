@@ -47,6 +47,7 @@ Future<User> updateUserDetails(BuildContext context, User user) async {
         'quizzes_made': user.quizzesMade,
         'total_score': user.totalScore,
         'status': 'regular',
+        'items': user.items,
       }));
   if (response.statusCode == 200) {
     final userJson = jsonDecode(response.body);
@@ -75,6 +76,7 @@ Future<User> updateQuizzesMade() async {
         'quizzes_made': localDetails.quizzesMade + 1,
         'total_score': localDetails.totalScore,
         'status': 'regular',
+        'items': localDetails.items,
       }));
   if (response.statusCode == 200) {
     final userJson = jsonDecode(response.body);
@@ -101,6 +103,9 @@ Future<User> updateUserProfile(BuildContext context, User user) async {
   request.fields['quizzes_made'] = user.quizzesMade.toString();
   request.fields['total_score'] = user.totalScore.toString();
   request.fields['status'] = 'regular';
+  for (int i = 0; i < user.items.length; i++) {
+    request.fields['items[$i]'] = user.items[i].toString();
+  }
 
   if (user.profilePicture != '') {
     request.files.add(http.MultipartFile(

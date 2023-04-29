@@ -43,40 +43,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<User> createUser(User user) async {
-    // late NavigatorState dialogContext;
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (BuildContext context) {
-    //     dialogContext = Navigator.of(context);
-    //     return const Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   },
-    // );
-    // final response = await http.post(Uri.parse('${Env.URL_PREFIX}/users/'),
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: jsonEncode(<String, dynamic>{
-    //       'username': user.username,
-    //       'password': user.password,
-    //       'email': user.email,
-    //       'title': user.title,
-    //       'profile_picture': '',
-    //       'is_active': true,
-    //       'quizzes_made': 0,
-    //       'total_score': 0,
-    //       'status': 'regular',
-    //     }));
-    // if (response.statusCode == 201) {
-    //   final userJson = jsonDecode(response.body);
-    //   return User.fromJson(userJson);
-    // } else {
-    //   dialogContext.pop();
-    //   showQToast("Failed to create account", true);
-    //   throw Exception('Failed to create user.');
-    // }
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('${Env.URL_PREFIX}/users/'),
@@ -91,11 +57,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     request.fields['quizzes_made'] = user.quizzesMade.toString();
     request.fields['total_score'] = user.totalScore.toString();
     request.fields['status'] = 'regular';
-
+    // request.fields['items'] = user.items.toString();
+    // request.fields['items'] = jsonEncode(user.items);
+    // Add items as separate key-value pairs
+      for (int i = 0; i < user.items.length; i++) {
+        request.fields['items[$i]'] = user.items[i].toString();
+      }
     request.headers.addAll(<String, String>{
       'Content-Type': 'multipart/form-data',
     });
-
     late NavigatorState dialogContext;
     showDialog(
       context: context,
@@ -122,8 +92,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void confirmRegistration(NavigatorState confirmContext) {
     confirmContext.pop();
-    User user = User(null, usernameController.text, passwordController.text,
-        emailController.text, 'QuizPix Player', null, true, 0, 0, 'regular');
+    User user = User(
+        null,
+        usernameController.text,
+        passwordController.text,
+        emailController.text,
+        'QuizPix Player',
+        null,
+        true,
+        0,
+        0,
+        'regular',
+        [0, 0, 0]);
+        print(user.toJson());
     createUser(user).then(
       (response) {
         // print(response.statusCode);
