@@ -7,6 +7,7 @@ import 'package:quizpix/screens/view_quiz.dart';
 //widgets
 import 'package:quizpix/widgets/home_button.dart';
 import 'package:quizpix/widgets/q_dropdown_button.dart';
+import 'package:quizpix/widgets/q_toast.dart';
 import 'package:quizpix/widgets/quiz_item.dart';
 import 'package:quizpix/widgets/search_bar.dart';
 //samples
@@ -108,11 +109,15 @@ class _HomeTabState extends State<HomeTab> {
                             isFree: false,
                             isActive: isActivePremium,
                             onPress: () {
-                              getPremiumQuizzes();
-                              setState(() {
-                                isActiveFree = false;
-                                isActivePremium = true;
-                              });
+                              if (localDetails.status == 'regular') {
+                                showQToast("You must be a PRO user to access this feature.", true);
+                              } else {
+                                getPremiumQuizzes();
+                                setState(() {
+                                  isActiveFree = false;
+                                  isActivePremium = true;
+                                });
+                              }
                             }),
                       ],
                     ),

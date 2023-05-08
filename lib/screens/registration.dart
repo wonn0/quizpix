@@ -66,6 +66,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     request.headers.addAll(<String, String>{
       'Content-Type': 'multipart/form-data',
     });
+
+    print(request.fields);
+
     late NavigatorState dialogContext;
     showDialog(
       context: context,
