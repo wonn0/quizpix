@@ -196,7 +196,7 @@ class _ViewQuizState extends State<ViewQuiz> {
                     onPress: () async {
                       print(localDetails.status);
                       if (localDetails.status == 'pro') {
-                          Quiz temp = Quiz(
+                        Quiz temp = Quiz(
                           widget.quiz.url,
                           widget.quiz.user,
                           widget.quiz.username,
@@ -205,11 +205,15 @@ class _ViewQuizState extends State<ViewQuiz> {
                           !tempIsShared,
                         );
                         await updateQuiz(temp);
+                        setState(() {
+                          tempIsShared = !tempIsShared;
+                        });
                         showQToast("Quiz updated.", false);
                       } else {
-                        showQToast("You must be a PRO user to access this feature.", true);
+                        showQToast(
+                            "You must be a PRO user to access this feature.",
+                            true);
                       }
-                      
                     },
                     icon: const Icon(
                       Icons.share,
