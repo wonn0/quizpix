@@ -41,6 +41,8 @@ class PlayQuestion extends StatefulWidget {
 class _PlayQuestionState extends State<PlayQuestion> {
   final TextEditingController answerController = TextEditingController();
 
+  bool isAttacking = false;
+
   Future<dynamic> displayItemDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -62,7 +64,7 @@ class _PlayQuestionState extends State<PlayQuestion> {
     BuildContext context,
     Function(String, String) onAnswer,
   ) async {
-    return showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AnswerDialog(
@@ -72,6 +74,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
         );
       },
     );
+    setState(() {
+      isAttacking = true;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        isAttacking = false;
+      });
+    });
   }
 
   Widget getAnswerArea() {
@@ -94,6 +104,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
                       isMC: true,
                       label: "A. ${widget.choices[0]}",
                       onPress: () {
+                        setState(() {
+                          isAttacking = true;
+                        });
+                        Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            isAttacking = false;
+                          });
+                        });
                         widget.onAnswer(widget.choices[0], widget.answer);
                       },
                     ),
@@ -102,6 +120,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
                       isMC: true,
                       label: "C. ${widget.choices[2]}",
                       onPress: () {
+                        setState(() {
+                          isAttacking = true;
+                        });
+                        Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            isAttacking = false;
+                          });
+                        });
                         widget.onAnswer(widget.choices[2], widget.answer);
                       },
                     ),
@@ -118,6 +144,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
                       isMC: true,
                       label: "B. ${widget.choices[1]}",
                       onPress: () {
+                        setState(() {
+                          isAttacking = true;
+                        });
+                        Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            isAttacking = false;
+                          });
+                        });
                         widget.onAnswer(widget.choices[1], widget.answer);
                       },
                     ),
@@ -126,6 +160,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
                       isMC: true,
                       label: "D. ${widget.choices[3]}",
                       onPress: () {
+                        setState(() {
+                          isAttacking = true;
+                        });
+                        Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            isAttacking = false;
+                          });
+                        });
                         widget.onAnswer(widget.choices[3], widget.answer);
                       },
                     ),
@@ -150,6 +192,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
               GameButton(
                 label: "True",
                 onPress: () {
+                  setState(() {
+                    isAttacking = true;
+                  });
+                  Future.delayed(const Duration(seconds: 1), () {
+                    setState(() {
+                      isAttacking = false;
+                    });
+                  });
                   widget.onAnswer("true", widget.answer);
                 },
               ),
@@ -157,6 +207,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
               GameButton(
                 label: "False",
                 onPress: () {
+                  setState(() {
+                    isAttacking = true;
+                  });
+                  Future.delayed(const Duration(seconds: 1), () {
+                    setState(() {
+                      isAttacking = false;
+                    });
+                  });
                   widget.onAnswer("false", widget.answer);
                 },
               ),
@@ -186,6 +244,14 @@ class _PlayQuestionState extends State<PlayQuestion> {
             GameButton(
               label: "Skip",
               onPress: () {
+                setState(() {
+                  isAttacking = true;
+                });
+                Future.delayed(const Duration(seconds: 1), () {
+                  setState(() {
+                    isAttacking = false;
+                  });
+                });
                 widget.onAnswer("", widget.answer);
               },
             ),
@@ -312,9 +378,11 @@ class _PlayQuestionState extends State<PlayQuestion> {
                               ),
                               const SizedBox(height: 20.0),
                               SizedBox(
-                                height: 56.0,
+                                height: 110.0,
                                 child: Image.asset(
-                                    'assets/images/player/player_attack1_00.png',
+                                    isAttacking
+                                        ? 'assets/images/player/player_attack.gif'
+                                        : 'assets/images/player/player_idle.gif',
                                     fit: BoxFit.fitHeight),
                               ),
                             ],
@@ -328,9 +396,11 @@ class _PlayQuestionState extends State<PlayQuestion> {
                               ),
                               const SizedBox(height: 20.0),
                               SizedBox(
-                                height: 116.0,
+                                height: 126.0,
                                 child: Image.asset(
-                                  'assets/images/enemy/enemy_idle_00.png',
+                                  isAttacking
+                                      ? 'assets/images/enemy/enemy_attack.gif'
+                                      : 'assets/images/enemy/enemy_idle.gif',
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
