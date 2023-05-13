@@ -7,6 +7,7 @@ import 'package:quizpix/screens/game_controller.dart';
 import 'package:quizpix/widgets/edit_quiz_dialog.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_icon_button.dart';
+import 'package:quizpix/widgets/q_toast.dart';
 import 'package:quizpix/widgets/question_list.dart';
 import 'package:quizpix/models/question.dart';
 import 'package:quizpix/models/quiz.dart';
@@ -35,12 +36,14 @@ class _ViewQuizState extends State<ViewQuiz> {
   List<Question>? questions;
   String tempTitle = '';
   String? tempImg = '';
+  bool tempIsShared = false;
 
   @override
   void initState() {
     super.initState();
     tempTitle = widget.quiz.title;
     tempImg = widget.quiz.image;
+    tempIsShared = widget.quiz.isShared;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchQuestions();
     });
@@ -64,7 +67,7 @@ class _ViewQuizState extends State<ViewQuiz> {
       widget.quiz.username,
       tempImg,
       tempTitle,
-      true,
+      tempIsShared,
     );
     return showDialog(
         context: context,
@@ -189,31 +192,28 @@ class _ViewQuizState extends State<ViewQuiz> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: QButton(
-                    label: "Share Quiz",
+                    label: tempIsShared ? "Unshare Quiz" : "Share Quiz",
                     onPress: () async {
-                      // if (localDetails.status == 'pro') {
-                      //   Quiz temp = Quiz(
-                      //     widget.quiz.url,
-                      //     widget.quiz.user,
-                      //     widget.quiz.username,
-                      //     widget.quiz.image,
-                      //     widget.quiz.title,
-                      //     true,
-                      //   );
-                      //   await updateQuiz(temp);
-                      //   //toast "quiz is now shared!"
-                      // } else {
-                      //   //toast "needs to be pro to access"
-                      // }
-                      Quiz temp = Quiz(
-                        widget.quiz.url,
-                        widget.quiz.user,
-                        widget.quiz.username,
-                        tempImg,
-                        tempTitle,
-                        true,
-                      );
-                      await updateQuiz(temp);
+                      print(localDetails.status);
+                      if (localDetails.status == 'pro') {
+                        Quiz temp = Quiz(
+                          widget.quiz.url,
+                          widget.quiz.user,
+                          widget.quiz.username,
+                          tempImg,
+                          tempTitle,
+                          !tempIsShared,
+                        );
+                        await updateQuiz(temp);
+                        setState(() {
+                          tempIsShared = !tempIsShared;
+                        });
+                        showQToast("Quiz updated.", false);
+                      } else {
+                        showQToast(
+                            "You must be a PRO user to access this feature.",
+                            true);
+                      }
                     },
                     icon: const Icon(
                       Icons.share,
