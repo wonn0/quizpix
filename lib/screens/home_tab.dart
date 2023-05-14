@@ -116,7 +116,9 @@ class _HomeTabState extends State<HomeTab> {
                             isActive: isActivePremium,
                             onPress: () {
                               if (localDetails.status == 'regular') {
-                                showQToast("You must be a PRO user to access this feature.", true);
+                                showQToast(
+                                    "You must be a PRO user to access this feature.",
+                                    true);
                               } else {
                                 getPremiumQuizzes();
                                 setState(() {
@@ -203,7 +205,13 @@ class _HomeTabState extends State<HomeTab> {
                                         builder: (context) => ViewQuiz(
                                             quiz: currItems![index],
                                             onPop: () async {
-                                              quizzes = await getUserQuizzes();
+                                              if (isActivePremium) {
+                                                quizzes =
+                                                    await getSharedQuizzes();
+                                              } else {
+                                                quizzes =
+                                                    await getUserQuizzes();
+                                              }
                                               currItems = quizzes;
                                               setState(() {});
                                             }),

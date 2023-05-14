@@ -174,19 +174,21 @@ class _ViewQuizState extends State<ViewQuiz> {
                         Navigator.pop(context);
                       },
                     ),
-                    IconButton(
-                      padding: const EdgeInsets.only(
-                          left: 0.0, top: 16.0, right: 20.0, bottom: 0.0),
-                      constraints: const BoxConstraints(),
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 30.0,
-                        color: Color(0xff6d5271),
-                      ),
-                      onPressed: () {
-                        displayEditQuizDialog(context);
-                      },
-                    ),
+                    widget.quiz.user == localDetails.url
+                        ? IconButton(
+                            padding: const EdgeInsets.only(
+                                left: 0.0, top: 16.0, right: 20.0, bottom: 0.0),
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(
+                              Icons.edit,
+                              size: 30.0,
+                              color: Color(0xff6d5271),
+                            ),
+                            onPressed: () {
+                              displayEditQuizDialog(context);
+                            },
+                          )
+                        : const SizedBox.shrink(),
                   ],
                 ),
                 const SizedBox(height: 20.0),
@@ -245,40 +247,48 @@ class _ViewQuizState extends State<ViewQuiz> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: QButton(
-                    label: tempIsShared ? "Unshare Quiz" : "Share Quiz",
-                    onPress: () async {
-                      print(localDetails.status);
-                      if (localDetails.status == 'pro') {
-                        Quiz temp = Quiz(
-                          widget.quiz.url,
-                          widget.quiz.user,
-                          widget.quiz.username,
-                          tempImg,
-                          tempTitle,
-                          !tempIsShared,
-                        );
-                        await updateQuiz(temp);
-                        setState(() {
-                          tempIsShared = !tempIsShared;
-                        });
-                        showQToast("Quiz updated.", false);
-                      } else {
-                        showQToast(
-                            "You must be a PRO user to access this feature.",
-                            true);
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.share,
-                      size: 30.0,
-                      color: Color(0xffffffff),
-                    ),
-                  ),
-                ),
+                widget.quiz.user == localDetails.url
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 12.0),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 20.0, right: 20.0),
+                            child: QButton(
+                              label:
+                                  tempIsShared ? "Unshare Quiz" : "Share Quiz",
+                              onPress: () async {
+                                print(localDetails.status);
+                                if (localDetails.status == 'pro') {
+                                  Quiz temp = Quiz(
+                                    widget.quiz.url,
+                                    widget.quiz.user,
+                                    widget.quiz.username,
+                                    tempImg,
+                                    tempTitle,
+                                    !tempIsShared,
+                                  );
+                                  await updateQuiz(temp);
+                                  setState(() {
+                                    tempIsShared = !tempIsShared;
+                                  });
+                                  showQToast("Quiz updated.", false);
+                                } else {
+                                  showQToast(
+                                      "You must be a PRO user to access this feature.",
+                                      true);
+                                }
+                              },
+                              icon: const Icon(
+                                Icons.share,
+                                size: 30.0,
+                                color: Color(0xffffffff),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : const SizedBox.shrink(),
                 const SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -293,35 +303,37 @@ class _ViewQuizState extends State<ViewQuiz> {
                           color: Color(0xfff69036),
                         ),
                       ),
-                      Row(
-                        children: [
-                          QIconButton(
-                            onPress: () async {
-                              displayDeleteDialog(context);
-                            },
-                            icon: Icons.delete,
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          QIconButton(
-                            onPress: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditQuestions(
-                                      questions: questions!,
-                                      onPop: () async {
-                                        fetchQuestions();
-                                        setState(() {});
-                                      }),
+                      widget.quiz.user == localDetails.url
+                          ? Row(
+                              children: [
+                                QIconButton(
+                                  onPress: () async {
+                                    displayDeleteDialog(context);
+                                  },
+                                  icon: Icons.delete,
                                 ),
-                              );
-                            },
-                            icon: Icons.edit,
-                          ),
-                        ],
-                      ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                QIconButton(
+                                  onPress: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditQuestions(
+                                            questions: questions!,
+                                            onPop: () async {
+                                              fetchQuestions();
+                                              setState(() {});
+                                            }),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icons.edit,
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
