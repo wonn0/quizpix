@@ -107,6 +107,17 @@ class _GameControllerState extends State<GameController> {
       }
     });
     if (isDone) {
+      late NavigatorState dialogContext;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          dialogContext = Navigator.of(context);
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
       User temp = User(
           localDetails.url,
           localDetails.username,
@@ -119,6 +130,7 @@ class _GameControllerState extends State<GameController> {
           localDetails.totalScore + currentScore,
           localDetails.status,
           localDetails.items);
+      print(temp.toString());
       //update user details
       await updateQuizzesMade(temp);
       Navigator.of(context).push(

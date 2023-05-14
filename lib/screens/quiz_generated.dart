@@ -60,19 +60,6 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                     ),
                   ),
                   SizedBox(width: 16.0),
-                  // ElevatedButton(
-                  //   onPressed: () {},
-                  //   style: ElevatedButton.styleFrom(
-                  //     minimumSize: const Size(80.0, 80.0),
-                  //     backgroundColor: const Color(0xfff69036),
-                  //     shape: const CircleBorder(),
-                  //   ),
-                  //   child: const Icon(
-                  //     Icons.share,
-                  //     size: 40.0,
-                  //     color: Color(0xffffffff),
-                  //   ),
-                  // ),
                 ],
               ),
               const Spacer(flex: 1),
