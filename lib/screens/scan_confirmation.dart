@@ -4,6 +4,7 @@ import 'package:quizpix/helpers/user.dart';
 import 'package:quizpix/screens/quiz_generated.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
+import 'package:quizpix/widgets/q_toast.dart';
 
 import '../helpers/quiz.dart';
 import '../helpers/question.dart';
@@ -176,25 +177,29 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
                           const SizedBox(width: 20.0),
                           Expanded(
                             child: QButton(
-                                label: "Generate",
-                                onPress: () {
-                                  // printLongString(scantextController!.text
-                                  //     .replaceAll('"', '\''));
-                                  print(scantextController!.text);
-                                  // getQuestions(
-                                  //         context, scantextController!.text)
-                                  //     .then((response) {
-
-                                  // });
+                              label: "Generate",
+                              onPress: () {
+                                String text = scantextController!.text.trim();
+                                int wordCount =
+                                    text.isEmpty ? 0 : text.split(" ").length;
+                                if (scantextController!.text.isEmpty ||
+                                    wordCount < 50) {
+                                  showQToast(
+                                      "Please enter at least 50 words.", true);
+                                } else {
                                   generateQuiz(
                                           context, scantextController!.text)
                                       .then((response) async {
                                     Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                QuizGenerated(quiz: result)));
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            QuizGenerated(quiz: result),
+                                      ),
+                                    );
                                   });
-                                }),
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
