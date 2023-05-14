@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:quizpix/models/question.dart';
+import 'package:quizpix/globals/globals.dart';
+import 'package:quizpix/helpers/user.dart';
 //screens
 import 'package:quizpix/screens/play_question.dart';
 import 'package:quizpix/screens/result_screen.dart';
+
+import '../models/user.dart';
+import '../models/question.dart';
 
 class GameController extends StatefulWidget {
   const GameController({
@@ -85,7 +89,7 @@ class _GameControllerState extends State<GameController> {
     }
   }
 
-  void handleAnswer(String userAnswer, String correctAnswer) {
+  Future<void> handleAnswer(String userAnswer, String correctAnswer) async {
     setState(() {
       if (currentIndex + 1 <= answers.length) {
         answers[currentIndex] = userAnswer;
@@ -102,35 +106,21 @@ class _GameControllerState extends State<GameController> {
         currentScore += 1;
       }
     });
-    // if (userAnswer.trim().toLowerCase() == correctAnswer.trim().toLowerCase()) {
-    //   setState(() {
-    //     if (currentIndex + 1 <= answers.length) {
-    //       answers[currentIndex] = userAnswer;
-    //       currentIndex += 1;
-    //     } else if (currentIndex + 1 != widget.questions.length) {
-    //       currentIndex += 1;
-    //       answers.add(userAnswer);
-    //     } else {
-    //       isDone = true;
-    //       answers.add(userAnswer);
-    //     }
-    //     currentScore += 1;
-    //   });
-    // } else {
-    //   setState(() {
-    //     if (currentIndex + 1 <= answers.length) {
-    //       answers[currentIndex] = userAnswer;
-    //       currentIndex += 1;
-    //     } else if (currentIndex + 1 != widget.questions.length) {
-    //       currentIndex += 1;
-    //       answers.add(userAnswer);
-    //     } else {
-    //       isDone = true;
-    //       answers.add(userAnswer);
-    //     }
-    //   });
-    // }
     if (isDone) {
+      User temp = User(
+          localDetails.url,
+          localDetails.username,
+          localDetails.password,
+          localDetails.email,
+          localDetails.title,
+          localDetails.profilePicture,
+          true,
+          localDetails.quizzesMade,
+          localDetails.totalScore + currentScore,
+          localDetails.status,
+          localDetails.items);
+      //update user details
+      await updateQuizzesMade(temp);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ResultScreen(

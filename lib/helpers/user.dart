@@ -61,22 +61,22 @@ Future<User> updateUserDetails(BuildContext context, User user) async {
   }
 }
 
-Future<User> updateQuizzesMade() async {
-  final response = await http.patch(Uri.parse(localDetails.url!),
+Future<User> updateQuizzesMade(User user) async {
+  final response = await http.patch(Uri.parse(user.url!),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "url": localDetails.url!,
-        'username': localDetails.username,
-        'password': "",
-        'email': localDetails.email,
-        'title': localDetails.title,
+        "url": user.url!,
+        'username': user.username,
+        // 'password': "",
+        'email': user.email,
+        'title': user.title,
         'is_active': true,
-        'quizzes_made': localDetails.quizzesMade + 1,
-        'total_score': localDetails.totalScore,
-        'status': 'regular',
-        'items': localDetails.items,
+        'quizzes_made': user.quizzesMade,
+        'total_score': user.totalScore,
+        'status': user.status,
+        'items': user.items,
       }));
   if (response.statusCode == 200) {
     final userJson = jsonDecode(response.body);
