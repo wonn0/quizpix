@@ -6,18 +6,9 @@ import '../models/quiz.dart';
 
 Token token = Token("", "");
 
-User localDetails = User(
-  null,
-  "",
-  "",
-  "",
-  "",
-  "",
-  false,
-  0,
-  0,
-  "",
-  [0,0,0]
-);
+bool isActiveFree = true;
+bool isActivePremium = false;
+
+User localDetails = User(null, "", "", "", "", "", false, 0, 0, "", [0, 0, 0]);
 
 List<Quiz> quizzes = [];

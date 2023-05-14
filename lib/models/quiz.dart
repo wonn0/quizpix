@@ -6,7 +6,8 @@ class Quiz {
   final String title;
   final bool isShared;
 
-  const Quiz(this.url, this.user, this.username, this.image, this.title, this.isShared);
+  const Quiz(this.url, this.user, this.username, this.image, this.title,
+      this.isShared);
 
   Quiz.fromJson(Map<String, dynamic> json)
       : url = json['url'],
@@ -24,4 +25,18 @@ class Quiz {
         'title': title,
         'is_shared': isShared,
       };
+
+  @override
+  String toString() {
+    return '''
+      Quiz {
+        url: $url,
+        user: $user,
+        username: $username,
+        image: $image,
+        title: $title,
+        isShared: $isShared,
+      }
+    ''';
+  }
 }

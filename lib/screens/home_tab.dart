@@ -25,8 +25,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  bool isActiveFree = true;
-  bool isActivePremium = false;
   List<Question> questions = [];
 
   List<Quiz>? currItems = quizzes;
@@ -58,6 +56,7 @@ class _HomeTabState extends State<HomeTab> {
     setState(() {
       currItems = newQuizzes;
     });
+    quizzes = currItems!;
   }
 
   Future<void> getPremiumQuizzes() async {
@@ -68,17 +67,18 @@ class _HomeTabState extends State<HomeTab> {
     setState(() {
       currItems = newQuizzes;
     });
+    quizzes = currItems!;
   }
 
   @override
   void initState() {
     super.initState();
-
     searchController.addListener(filterItems);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(quizzes.toString());
     setState(() {});
     return Scaffold(
       backgroundColor: Colors.black,
@@ -208,12 +208,17 @@ class _HomeTabState extends State<HomeTab> {
                                               if (isActivePremium) {
                                                 quizzes =
                                                     await getSharedQuizzes();
+                                                isActiveFree = false;
+                                                isActivePremium = true;
                                               } else {
                                                 quizzes =
                                                     await getUserQuizzes();
+                                                isActiveFree = true;
+                                                isActivePremium = false;
                                               }
-                                              currItems = quizzes;
-                                              setState(() {});
+                                              setState(() {
+                                                currItems = quizzes;
+                                              });
                                             }),
                                       ),
                                     );
