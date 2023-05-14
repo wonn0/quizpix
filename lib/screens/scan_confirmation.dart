@@ -81,7 +81,7 @@ class _ScanConfirmationState extends State<ScanConfirmation> {
         localDetails.status,
         localDetails.items);
     //update user details
-    // await updateQuizzesMade();
+    await updateQuizzesMade(temp);
     quizzes = await getUserQuizzes();
     result = quizDetails;
     return quizDetails;

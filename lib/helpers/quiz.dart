@@ -182,3 +182,14 @@ Future<Quiz> getQuiz(Quiz quiz) async {
     throw Exception('Failed to load quiz details.');
   }
 }
+
+Future<void> deleteQuiz(String uri) async {
+  final response = await http.delete(Uri.parse(uri), headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+  });
+  if (response.statusCode == 204) {
+    print(response.statusCode);
+  } else {
+    throw Exception('Failed to load quiz details.');
+  }
+}

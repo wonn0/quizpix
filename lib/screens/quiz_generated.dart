@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:quizpix/globals/globals.dart';
+import 'package:quizpix/helpers/quiz.dart';
 import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/q_button.dart';
+import 'package:quizpix/screens/game_controller.dart';
 //samples
 import 'package:quizpix/samples/items.dart';
 import 'package:quizpix/samples/questions.dart';
@@ -18,6 +21,16 @@ class QuizGenerated extends StatefulWidget {
 }
 
 class _QuizGeneratedState extends State<QuizGenerated> {
+  Future<List<Question>> fetchQuestions() async {
+    try {
+      List<Question> result = await getQuizQuestions(widget.quiz);
+
+      return result;
+    } catch (e) {
+      print('Error fetching questions: $e');
+      throw Exception('Failed to get questions');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +47,8 @@ class _QuizGeneratedState extends State<QuizGenerated> {
             children: [
               const Spacer(flex: 1),
               Row(
-                children: [
-                  const Expanded(
+                children: const [
+                  Expanded(
                     flex: 2,
                     child: Text(
                       "Your Quiz is ready!",
@@ -46,20 +59,20 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16.0),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(80.0, 80.0),
-                      backgroundColor: const Color(0xfff69036),
-                      shape: const CircleBorder(),
-                    ),
-                    child: const Icon(
-                      Icons.share,
-                      size: 40.0,
-                      color: Color(0xffffffff),
-                    ),
-                  ),
+                  SizedBox(width: 16.0),
+                  // ElevatedButton(
+                  //   onPressed: () {},
+                  //   style: ElevatedButton.styleFrom(
+                  //     minimumSize: const Size(80.0, 80.0),
+                  //     backgroundColor: const Color(0xfff69036),
+                  //     shape: const CircleBorder(),
+                  //   ),
+                  //   child: const Icon(
+                  //     Icons.share,
+                  //     size: 40.0,
+                  //     color: Color(0xffffffff),
+                  //   ),
+                  // ),
                 ],
               ),
               const Spacer(flex: 1),
@@ -73,16 +86,39 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                     onPress: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ViewQuiz(
-                                quiz: widget.quiz,
-                                onPop: () {}
-                              )));
+                              quiz: widget.quiz,
+                              onPop: () async {
+                                quizzes = await getUserQuizzes();
+                                setState(() {});
+                              })));
                     },
                     label: 'View Quiz',
                     icon: const Icon(Icons.visibility_outlined),
                   ),
                   const SizedBox(height: 16.0),
                   QButton(
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FutureBuilder(
+                            future: fetchQuestions(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return GameController(
+                                      questions: snapshot.data!);
+                                }
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
                     label: 'Play Quiz',
                     icon: const Icon(Icons.gamepad_outlined),
                   ),

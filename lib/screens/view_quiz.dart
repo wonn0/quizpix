@@ -85,6 +85,63 @@ class _ViewQuizState extends State<ViewQuiz> {
         });
   }
 
+  Future<dynamic> displayDeleteDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            titlePadding:
+                const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
+            actionsPadding:
+                const EdgeInsets.only(top: 8.0, right: 20.0, bottom: 8.0),
+            title: RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: Color(0xfff69036),
+                ),
+                children: [
+                  const TextSpan(text: 'Delete '),
+                  TextSpan(
+                      text: widget.quiz.title,
+                      style: const TextStyle(color: Color(0xff6d5271))),
+                  const TextSpan(text: '?'),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  await deleteQuiz(widget.quiz.url);
+                  widget.onPop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  backgroundColor: const Color(0xfff69036),
+                  elevation: 6.0,
+                ),
+                child: const Text('Delete', style: TextStyle(fontSize: 16.0)),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  backgroundColor: const Color(0xff6d5271),
+                  elevation: 6.0,
+                ),
+                child: const Text('Cancel', style: TextStyle(fontSize: 16.0)),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {});
@@ -239,8 +296,10 @@ class _ViewQuizState extends State<ViewQuiz> {
                       Row(
                         children: [
                           QIconButton(
-                            onPress: () {},
-                            icon: Icons.download,
+                            onPress: () async {
+                              displayDeleteDialog(context);
+                            },
+                            icon: Icons.delete,
                           ),
                           const SizedBox(
                             width: 8.0,
