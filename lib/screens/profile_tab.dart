@@ -21,20 +21,21 @@ class _ProfileTabState extends State<ProfileTab> {
   void confirmSignOut(NavigatorState confirmContext) {
     confirmContext.pop();
     localDetails = User(
-      //reset user and remove login info
-      null,
-      "",
-      "",
-      "",
-      "",
-      "",
-      false,
-      0,
-      0,
-      "",
-      [0,0,0]
-    );
+        //reset user and remove login info
+        null,
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        0,
+        0,
+        "",
+        [0, 0, 0]);
     quizzes = [];
+    isActiveFree = true;
+    isActivePremium = false;
     Navigator.pushNamed(context, '/');
   }
 
