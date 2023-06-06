@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quizpix/screens/scan_confirmation.dart';
 import 'package:quizpix/widgets/scan_button.dart';
@@ -201,37 +202,35 @@ class _ScanTabState extends State<ScanTab> {
     );
   }
 
-  // Future scanTextFromImages() async {
-  //   final navigator = Navigator.of(context);
+  Future scanTextFromImages() async {
+    final navigator = Navigator.of(context);
 
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return const Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     },
-  //   );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
 
-  //   for (final img in _images) {
-  //     final FirebaseVisionImage visionImage =
-  //         FirebaseVisionImage.fromFile(File(img.path));
-  //     final TextRecognizer textRecognizer =
-  //         FirebaseVision.instance.textRecognizer();
-  //     final VisionText visionText =
-  //         await textRecognizer.processImage(visionImage);
+    for (final img in _images) {
+      final inputImage = InputImage.fromFile(File(img.path));
+      final textRecognizer =
+          TextRecognizer(script: TextRecognitionScript.latin);
+      final RecognizedText recognizedText =
+          await textRecognizer.processImage(inputImage);
 
-  //     for (TextBlock block in visionText.blocks) {
-  //       for (TextLine line in block.lines) {
-  //         _text += '${line.text}\n';
-  //       }
-  //     }
-  //   }
+      for (TextBlock block in recognizedText.blocks) {
+        _text += '${block.text}\n';
+      }
+      textRecognizer.close();
+    }
 
-  //   navigator.pop();
-  //   navigator.push(
-  //       MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
-  // }
+    navigator.pop();
+    navigator.push(
+        MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
+  }
 
   Future getImages() async {
     final List<XFile> pickedFiles = await picker.pickMultiImage();
@@ -239,7 +238,7 @@ class _ScanTabState extends State<ScanTab> {
       if (pickedFiles.isNotEmpty) {
         _images = pickedFiles;
         _load = false;
-        // scanTextFromImages();
+        scanTextFromImages();
       } else {
         //print('No image selected');
       }
@@ -257,34 +256,31 @@ class _ScanTabState extends State<ScanTab> {
   //   }
   // }
 
-  // Future scanTextFromCamera() async {
-  //   final navigator = Navigator.of(context);
+  Future scanTextFromCamera() async {
+    final navigator = Navigator.of(context);
 
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return const Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     },
-  //   );
-  //   final FirebaseVisionImage visionImage =
-  //       FirebaseVisionImage.fromFile(File(_image.path));
-  //   final TextRecognizer textRecognizer =
-  //       FirebaseVision.instance.textRecognizer();
-  //   final VisionText visionText =
-  //       await textRecognizer.processImage(visionImage);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    final inputImage = InputImage.fromFile(File(_image.path));
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
 
-  //   for (TextBlock block in visionText.blocks) {
-  //     for (TextLine line in block.lines) {
-  //       _text += '${line.text!}\n';
-  //     }
-  //   }
+    for (TextBlock block in recognizedText.blocks) {
+      _text += '${block.text}\n';
+    }
+    textRecognizer.close();
 
-  //   navigator.pop();
-  //   navigator.push(
-  //       MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
-  // }
+    navigator.pop();
+    navigator.push(
+        MaterialPageRoute(builder: (context) => ScanConfirmation(text: _text)));
+  }
 
   Future getCamera() async {
     final XFile? pickedFile =
@@ -293,7 +289,7 @@ class _ScanTabState extends State<ScanTab> {
       if (pickedFile != null) {
         _image = pickedFile;
         _load = false;
-        // scanTextFromCamera();
+        scanTextFromCamera();
       } else {
         //print('No image selected');
       }
