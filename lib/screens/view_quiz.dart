@@ -13,18 +13,12 @@ import 'package:quizpix/models/question.dart';
 import 'package:quizpix/models/quiz.dart';
 
 class ViewQuiz extends StatefulWidget {
-  const ViewQuiz(
-      // {super.key,
-      // required this.author,
-      // required this.title,
-      // required this.questions});
-      {super.key,
-      required this.quiz,
-      required this.onPop});
+  const ViewQuiz({
+    super.key,
+    required this.quiz,
+    required this.onPop,
+  });
 
-  // final String author;
-  // final String title;
-  // final List<Question> questions;
   final Quiz quiz;
   final VoidCallback onPop;
 
@@ -58,6 +52,47 @@ class _ViewQuizState extends State<ViewQuiz> {
     } catch (e) {
       print('Error fetching questions: $e');
     }
+  }
+
+  void saveQuestions(List<Question> tempQuestions) async {
+    final navigator = Navigator.of(context);
+    final origQuestions = questions;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    try {
+      for (var i = 0; i < origQuestions!.length; i++) {
+        var tempInd = tempQuestions
+            .indexWhere((element) => element.url == origQuestions[i].url);
+        if (tempInd == -1) {
+          await deleteQuestion(origQuestions[i]);
+          continue;
+        } else if (tempQuestions[tempInd].toJson().toString() !=
+            origQuestions[i].toJson().toString()) {
+          await updateQuestion(tempQuestions[tempInd]);
+        }
+        tempQuestions.removeAt(tempInd);
+      }
+      for (var i = 0; i < tempQuestions.length; i++) {
+        await createQuestion(tempQuestions[i]);
+      }
+
+      List<Question> result = await getQuizQuestions(widget.quiz);
+      setState(() {
+        questions = result;
+      });
+    } catch (e) {
+      print('Error saving questions: $e');
+    }
+
+    navigator.pop();
   }
 
   Future<dynamic> displayEditQuizDialog(BuildContext context) async {
@@ -322,8 +357,11 @@ class _ViewQuizState extends State<ViewQuiz> {
                                       MaterialPageRoute(
                                         builder: (context) => EditQuestions(
                                             questions: questions!,
-                                            onPop: () async {
-                                              fetchQuestions();
+                                            onPop: (tempQuestions) async {
+                                              saveQuestions(
+                                                List.from(tempQuestions),
+                                              );
+                                              // fetchQuestions();
                                               setState(() {});
                                             }),
                                       ),
