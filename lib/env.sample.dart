@@ -6,6 +6,6 @@ class Env {
   // static String URL_PREFIX = "http://192.168.43.56:8000";
   // static String URL_PREFIX = "http://210.23.161.17:8000";
   // static String URL_PREFIX = "http://0.0.0.0:8000";
-  static String URL_PREFIX = "http://192.168.68.102:8000";
+  static String URL_PREFIX = "http://192.168.43.95:8000";
   // static String URL_PREFIX = "http://192.168.254.100:8000";
 }

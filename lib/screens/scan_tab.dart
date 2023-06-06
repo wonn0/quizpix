@@ -51,6 +51,14 @@ class _ScanTabState extends State<ScanTab> {
 
               String fileContent;
               if (Platform.isAndroid) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 final file = File(result.files.first.path!);
                 fileContent = await file.readAsString();
                 print('Print successfull');
@@ -59,6 +67,14 @@ class _ScanTabState extends State<ScanTab> {
                     builder: (context) => ScanConfirmation(text: fileContent)));
                 print('Hello');
               } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 fileContent =
                     await File(result.files.first.path!).readAsString();
               }
@@ -78,6 +94,14 @@ class _ScanTabState extends State<ScanTab> {
           }
           // FOR PDF FILES
           else if (result.files.first.extension == 'pdf') {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
             Future<String> getPDFtext(String path) async {
               String text = "";
               text = await ReadPdfText.getPDFtext(path);
