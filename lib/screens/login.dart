@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer' as developer; //debugger
+//debugger
 
 import 'package:flutter/material.dart';
 import 'package:quizpix/widgets/q_button.dart';
@@ -175,10 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
-                        children: const [
+                        children: [
                           Expanded(
                             child: Divider(
                               thickness: 1.0,

@@ -14,7 +14,6 @@ import 'package:quizpix/widgets/search_bar.dart';
 // import 'package:quizpix/samples/items.dart';
 // import 'package:quizpix/samples/questions.dart';
 //models
-import 'package:quizpix/models/item.dart';
 import 'package:quizpix/models/question.dart';
 
 class HomeTab extends StatefulWidget {
@@ -146,7 +145,7 @@ class _HomeTabState extends State<HomeTab> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8.0),
-                    child: SearchBar(controller: searchController),
+                    child: QSearchBar(controller: searchController),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(

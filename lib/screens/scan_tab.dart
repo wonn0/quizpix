@@ -9,7 +9,6 @@ import 'package:quizpix/widgets/scan_button.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 
 main() async {
   runApp(const MaterialApp(home: ScanTab()));

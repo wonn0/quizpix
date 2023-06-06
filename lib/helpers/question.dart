@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quizpix/widgets/q_toast.dart';
 
 import '../env.sample.dart';
-import '../globals/globals.dart';
 import '../models/question.dart';
 import '../models/quiz.dart';
 

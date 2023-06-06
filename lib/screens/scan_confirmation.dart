@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quizpix/globals/globals.dart';
-import 'package:quizpix/helpers/user.dart';
 import 'package:quizpix/screens/quiz_generated.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/widgets/q_button_outline.dart';
@@ -24,7 +23,7 @@ class ScanConfirmation extends StatefulWidget {
 
 class _ScanConfirmationState extends State<ScanConfirmation> {
   TextEditingController? scantextController;
-  Quiz result = Quiz('', '', '', '', '', false);
+  Quiz result = const Quiz('', '', '', '', '', false);
 
   @override
   void initState() {

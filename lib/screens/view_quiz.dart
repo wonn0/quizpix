@@ -356,8 +356,8 @@ class _ViewQuizState extends State<ViewQuiz> {
                         ),
                       ),
                       child: questions == null
-                          ? Row(
-                              children: const [
+                          ? const Row(
+                              children: [
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
