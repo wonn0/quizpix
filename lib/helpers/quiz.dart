@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:quizpix/models/question.dart';
 import 'package:quizpix/widgets/q_toast.dart';
 
 import '../env.sample.dart';

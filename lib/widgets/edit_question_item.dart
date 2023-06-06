@@ -3,7 +3,6 @@ import 'package:quizpix/constants/choices.dart';
 import 'package:quizpix/helpers/question.dart';
 import 'package:quizpix/widgets/edit_dialog.dart';
 import 'package:quizpix/models/question.dart';
-import 'package:collection/collection.dart';
 
 class EditQuestionItem extends StatefulWidget {
   const EditQuestionItem({

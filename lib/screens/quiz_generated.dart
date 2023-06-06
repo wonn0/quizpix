@@ -6,8 +6,6 @@ import 'package:quizpix/screens/view_quiz.dart';
 import 'package:quizpix/widgets/q_button.dart';
 import 'package:quizpix/screens/game_controller.dart';
 //samples
-import 'package:quizpix/samples/items.dart';
-import 'package:quizpix/samples/questions.dart';
 import 'package:quizpix/models/quiz.dart';
 import 'package:quizpix/models/question.dart';
 
@@ -46,8 +44,8 @@ class _QuizGeneratedState extends State<QuizGenerated> {
           child: Column(
             children: [
               const Spacer(flex: 1),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Expanded(
                     flex: 2,
                     child: Text(
@@ -99,7 +97,7 @@ class _QuizGeneratedState extends State<QuizGenerated> {
                                       questions: snapshot.data!);
                                 }
                               } else {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator();
                               }
                             },
                           ),
